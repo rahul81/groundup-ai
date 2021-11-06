@@ -1,0 +1,12 @@
+import { Box, Typography, Divider } from '@mui/material'
+import React from 'react'
+import '../../admin-view.scss'
+
+export default function MaterialManagement() {
+    return (
+        <Box className="crane-booking-management-view">
+            <Typography className="heading" variant="h5" component="h2">Material Management</Typography>
+            <Divider/>
+        </Box>
+    )
+}

@@ -1,0 +1,32 @@
+.main-component{
+    height: 100vh;
+    display: flex; 
+    padding-top: 40px;
+    flex: 1 1 auto;
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+.drawer-panel{
+    flex-shrink: 0;
+    margin-top: 30px;
+    &.MuiDrawer-paper {
+        box-sizing: border-box;
+    }
+    & .MuiList-padding {
+        padding-top: 30px;
+    }
+}
+.menu-item-text{
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+.submenu-item{
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-left: 3px solid lightgray;
+    &.active{
+        border-left: 3px solid #1976d2;
+    }
+}

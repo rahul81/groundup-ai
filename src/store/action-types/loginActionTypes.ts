@@ -1,0 +1,4 @@
+export enum LoginActionTypes{
+    LOGGED_IN_USER = "LOGGED_IN_USER",
+    LOGGED_IN_USER_FAILED = "LOGGED_IN_USER_FAILED"
+}

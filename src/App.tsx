@@ -1,25 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import {
+  Switch,
+  Route,
+} from "react-router-dom";
+import SignIn from './container/sign-in/SignIn';
+import Home from './container/home/Home';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
+import Settings from './container/settings/Settings';
+
+const theme = createTheme({
+  typography: {
+    h3:{
+      fontSize: '2rem',
+      fontWeight: 500
+    },
+    h4:{
+      fontSize: '1.5rem',
+      fontWeight: 500
+    },
+    h5:{
+      fontSize: '1.25rem',
+      fontWeight: 500
+    },
+    h6:{
+      fontSize: '1.1rem'
+    }
+  },
+  components:{
+    MuiAppBar:{
+      styleOverrides:{
+        root:{
+          backgroundColor: 'white',
+          color: '#00000099'
+        }
+      }
+    }
+  }
+});
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        <Route path={ROOT} exact>
+          <SignIn />
+        </Route>
+        <Route path={HOME}>
+          <Home/>
+        </Route>
+        <Route path={USER}>
+          <Settings/>
+        </Route>
+      </Switch>
     </div>
+    </ThemeProvider>
   );
 }
 
