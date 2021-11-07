@@ -11,15 +11,15 @@ export default function BookingView() {
 
     return (
         <Box className="page-container">
-            <Box sx={{ display: 'flex' }} mb={1}>
+            {!data && <Box sx={{ display: 'flex' }} mb={1}>
                 <Typography variant="h5" component="h2" className='heading-text'>
                     Crane Bookings
                 </Typography>
                 <Button variant="contained" startIcon={<AddIcon />}>
                     Request New
                 </Button>
-            </Box>
-            <Filters/>
+            </Box>}
+            {!data && <Filters/>}
             <Box>
                 {!data && <Box>
                     <GTable rowClicked={(data:any)=>setData(data)}/>
