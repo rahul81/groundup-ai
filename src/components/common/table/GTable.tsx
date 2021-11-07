@@ -71,10 +71,14 @@ interface Column {
     createData('Brazil', 'BR', 210147125, 8515767),
   ];
   
-export default function GTable() {
+interface GTableProps{
+  rowClicked?: (data:Data)=>void;
+}
+
+export default function GTable(props: GTableProps) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
+    
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -106,7 +110,7 @@ export default function GTable() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                         return (
-                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={()=>props.rowClicked && props.rowClicked(row)}>
                             {columns.map((column) => {
                             const value = row[column.id];
                             return (

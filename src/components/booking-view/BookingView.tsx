@@ -1,11 +1,14 @@
-import { Button, Typography } from '@mui/material'
+import { Button, Link, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { Box } from '@mui/system';
 import './booking-view.scss';
 import GTable from '../common/table/GTable';
 import Filters from './filters/Filters';
+import { useState } from 'react';
 
 export default function BookingView() {
+    const [data, setData] = useState<any>(null);
+
     return (
         <Box className="page-container">
             <Box sx={{ display: 'flex' }} mb={1}>
@@ -18,7 +21,21 @@ export default function BookingView() {
             </Box>
             <Filters/>
             <Box>
-                <GTable/>
+                {!data && <Box>
+                    <GTable rowClicked={(data:any)=>setData(data)}/>
+                </Box>}
+                {data && <Box sx={{ display: 'flex' }}>
+                    <Link
+                        component="button"
+                        variant="body2"
+                        underline="none"
+                        onClick={() => {
+                            setData(null)
+                        }}
+                        >
+                         &lt; back
+                    </Link>
+                </Box>}
             </Box>
         </Box>
     )
