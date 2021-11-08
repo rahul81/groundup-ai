@@ -4,10 +4,16 @@ import { Box } from '@mui/system';
 import './booking-view.scss';
 import GTable from '../common/table/GTable';
 import Filters from './filters/Filters';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import RequestNew from './request-new/RequestNew';
 
 export default function BookingView() {
     const [data, setData] = useState<any>(null);
+    const [open, setOpen] = useState(false);
+
+    const handleShowDialog = (status:boolean)=>{
+        setOpen(status);
+    }
 
     return (
         <Box className="page-container">
@@ -15,7 +21,7 @@ export default function BookingView() {
                 <Typography variant="h5" component="h2" className='heading-text'>
                     Crane Bookings
                 </Typography>
-                <Button variant="contained" startIcon={<AddIcon />}>
+                <Button variant="contained" startIcon={<AddIcon />} onClick={()=>setOpen(true)}>
                     Request New
                 </Button>
             </Box>}
@@ -23,6 +29,7 @@ export default function BookingView() {
             <Box>
                 {!data && <Box>
                     <GTable rowClicked={(data:any)=>setData(data)}/>
+                    <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
                 </Box>}
                 {data && <Box sx={{ display: 'flex' }}>
                     <Link

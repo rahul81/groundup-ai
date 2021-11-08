@@ -9,7 +9,7 @@ export interface SignInFormFields {
     password: string;
 }
 interface SignInFormProps{
-    handleSubmit: (event:any)=>void;
+    handleSubmit: (data:any)=>void;
 };
 
 export default function SignInForm(props:SignInFormProps) {

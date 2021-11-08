@@ -1,0 +1,16 @@
+.groundup-form{
+    .MuiInput-root.MuiInputBase-root{
+        &:before,&:after,&:hover:not(.Mui-disabled):before{
+            border-bottom: none
+        }
+    }
+    input{
+        padding: 2px;
+        border: 1px solid gray;
+        border-radius: 4px;
+    }
+    label{
+        text-align: left;
+        margin: .5rem 0 0.1rem 0;
+    }
+}
