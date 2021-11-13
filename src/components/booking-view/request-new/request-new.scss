@@ -14,20 +14,3 @@
         margin: .5rem 0 0.1rem 0;
     }
 }
-
-.dialog-container{
-    .MuiDialogTitle-root{
-        &.dialog-title{
-            display: flex;
-            justify-content: space-between;
-            padding: 0;
-            align-items: center;
-        }
-    }
-    .MuiDialogContent-root{
-        padding: .5rem;
-    }
-    .MuiDialogActions-root{
-        justify-content: flex-end;
-    }
-}
