@@ -1,7 +1,8 @@
-import { DialogProps, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Input, InputLabel, FormControl, MenuItem, Select, NativeSelect } from '@mui/material';
+import { DialogProps, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Input, InputLabel, FormControl, MenuItem, Select, NativeSelect, IconButton, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react'
 import { requestNewValidationSchema } from './RequestNewFormValidation';
+import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 
 
@@ -11,7 +12,7 @@ interface RequestNewFormFields{
 
 interface RequestNewProps{
     open:boolean;
-    showDialog?: (status:boolean)=>void;
+    showDialog: (status:boolean)=>void;
     handleSubmit: (data:any)=>void;
 }
 
@@ -25,31 +26,38 @@ export default function RequestNew({open, showDialog, handleSubmit}:RequestNewPr
             handleSubmit(data)
         },
     });
+   
     return (
         <Dialog disablePortal
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 , minHeight: '50%'} }}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 , minHeight: '50%', padding: '1rem'} }}
             maxWidth="xs"
             open={open}
             onClose={showDialog}
             scroll={scroll}
+            className="dialog-container"
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
         >
-            <DialogTitle id="scroll-dialog-title">Request Booking</DialogTitle>
+            <DialogTitle id="scroll-dialog-title" className="dialog-title">
+                <Typography variant="h6" component="h2"> Request Booking</Typography>
+                <IconButton onClick={()=>showDialog(false)}>
+                    <CloseIcon/>
+                </IconButton>
+            </DialogTitle>
             <DialogContent dividers={scroll === 'paper'}>
-            <DialogContentText
-                id="scroll-dialog-description"
-                tabIndex={-1}
-            >
-                <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
-                    <InputLabel id="contractor">Contractor</InputLabel>
-                    <Input required fullWidth id="contractor" aria-label="contractor"
-                        name="contractor" autoComplete="contractor" autoFocus 
-                        value={formik.values.contractor}
-                        onChange={formik.handleChange}
-                        error={formik.touched.contractor && Boolean(formik.errors.contractor)}/>
-                </form> 
-            </DialogContentText>
+                <DialogContentText
+                    id="scroll-dialog-description"
+                    tabIndex={-1}
+                >
+                    <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
+                        <InputLabel id="contractor">Contractor</InputLabel>
+                        <Input required fullWidth id="contractor" aria-label="contractor"
+                            name="contractor" autoComplete="contractor" autoFocus 
+                            value={formik.values.contractor}
+                            onChange={formik.handleChange}
+                            error={formik.touched.contractor && Boolean(formik.errors.contractor)}/>
+                    </form> 
+                </DialogContentText>
             </DialogContent>
             <DialogActions sx={{display: 'flex', justifyContent:'left'}}>
                     <Button variant="contained" type="submit" form="request-new-form">Submit</Button>
