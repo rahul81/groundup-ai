@@ -9,6 +9,24 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+    error: React.CSSProperties;
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    error?: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    error: true;
+  }
+}
+
 const theme = createTheme({
   typography: {
     h3:{
@@ -25,6 +43,11 @@ const theme = createTheme({
     },
     h6:{
       fontSize: '1.1rem'
+    },
+    error:{
+      color: 'red',
+      fontSize: '.8rem',
+      lineHeight: '1.3'
     }
   },
   components:{

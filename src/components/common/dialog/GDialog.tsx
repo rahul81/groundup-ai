@@ -1,5 +1,5 @@
 import { Dialog, DialogTitle, Typography, IconButton, DialogContent, DialogContentText, InputLabel, Input, DialogActions, Button, DialogProps } from '@mui/material'
-import React from 'react'
+import React, { useRef } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import './g-dialog.scss'
 
@@ -12,8 +12,10 @@ interface GDialogProps{
 export default function GDialog(props: GDialogProps) {
     const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
     const {open, showDialog} = props;
+    
     return (
-        <Dialog disablePortal
+        <Dialog
+            disablePortal
             sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 , minHeight: '50%', padding: '1rem'} }}
             maxWidth="xs"
             open={open}
@@ -32,8 +34,7 @@ export default function GDialog(props: GDialogProps) {
             <DialogContent dividers={scroll === 'paper'}>
                 <DialogContentText
                     id="scroll-dialog-description"
-                    tabIndex={-1}
-                >
+                    tabIndex={-1}>
                     {props.children}
                 </DialogContentText>
             </DialogContent>
