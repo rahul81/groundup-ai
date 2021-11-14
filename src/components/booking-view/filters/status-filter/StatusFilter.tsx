@@ -1,6 +1,7 @@
 import { ToggleButtonGroup, ToggleButton } from '@mui/material'
 import React from 'react'
-import GToggleButtonGroup, { GToggleButtonOption } from '../../common/toggle-group/GToggleButtonGroup';
+import GToggleButtonGroup, { GToggleButtonOption } from '../../../common/toggle-group/GToggleButtonGroup';
+
 import './status-filter.scss'
 
 export default function StatusFilter() {
