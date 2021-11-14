@@ -6,11 +6,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 import GDialog from '../../common/dialog/GDialog';
 import GInput from '../../common/input/GInput';
+import Gselect, { GSelectOption } from '../../common/select/Gselect';
 
 
 interface RequestNewFormFields{
     contractor:string;
-    zone:string;
+    zone:string | number;
 }
 
 interface RequestNewProps{
@@ -20,11 +21,17 @@ interface RequestNewProps{
 }
 
 export default function RequestNew({open, showDialog, handleSubmit}:RequestNewProps) {
-    const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
     const initialValues: RequestNewFormFields = {contractor: '', zone: ''};
+    const zones:GSelectOption[] = [
+        {key:"zone1", value:"Zone1"},
+        {key:"zone2", value:"Zone2"},
+        {key:"zone3", value:"Zone3"}
+    ];
+
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: requestNewValidationSchema,
+        validateOnChange: false,
         onSubmit: (data)=>{
             handleSubmit(data)
         },
@@ -34,6 +41,7 @@ export default function RequestNew({open, showDialog, handleSubmit}:RequestNewPr
         <GDialog title="Request Booking" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                 <GInput<RequestNewFormFields> formik={formik} id="contractor" label="Contractor"/>
+                <Gselect<RequestNewFormFields> formik={formik} id="zone" label="Zone" options={zones}/>
             </form> 
         </GDialog>
     )
