@@ -6,6 +6,7 @@ import GTable from '../common/table/GTable';
 import Filters from './filters/Filters';
 import React, { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
+import { columns, rows } from '../../mockData/BookingTable';
 
 export default function BookingView() {
     const [data, setData] = useState<any>(null);
@@ -28,7 +29,7 @@ export default function BookingView() {
             {!data && <Filters/>}
             <Box>
                 {!data && <Box>
-                    <GTable rowClicked={(data:any)=>setData(data)}/>
+                    <GTable rowClicked={(data:any)=>(data)} rows={rows} columns={columns} />
                     <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
                 </Box>}
                 {data && <Box sx={{ display: 'flex' }}>
