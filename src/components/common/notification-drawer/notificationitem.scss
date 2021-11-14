@@ -8,7 +8,16 @@
     padding: 5px;
     border-radius: 10px;
     border: 2px solid lightblue;
-    cursor: pointer;
+
+    .notification-drawer-category {
+      display: flex;
+      justify-content: space-between;
+      font-size: small;
+
+      .notification-close-icon {
+        cursor: pointer;
+      }
+    }
 
     .notification-times-ago {
       color: #555;
