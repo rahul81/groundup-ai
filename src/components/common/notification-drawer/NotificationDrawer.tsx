@@ -5,6 +5,7 @@ import List from "@mui/material/List";
 import "./notificationdrawer.scss";
 
 import NotificationItem from "./NotificationItem";
+import { Toolbar } from "@mui/material";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -38,6 +39,7 @@ export default function NotificationDrawer() {
     <React.Fragment>
       <div className="notification-drawer">
         <Drawer anchor="right" open={true} onClose={toggleDrawer("top", false)}>
+          <Toolbar />
           {list("top")}
         </Drawer>
       </div>
