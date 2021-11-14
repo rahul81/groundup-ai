@@ -1,0 +1,18 @@
+.notification-sidebar-items {
+  p {
+    margin: 1px;
+  }
+
+  .notification-item {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid lightblue;
+    cursor: pointer;
+
+    .notification-times-ago {
+      color: #555;
+      font-size: small;
+    }
+  }
+}
