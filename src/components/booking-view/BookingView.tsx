@@ -7,6 +7,7 @@ import Filters from './filters/Filters';
 import React, { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
 import { columns, rows } from '../../mockData/BookingTable';
+import GButton from '../common/button/GButton';
 
 export default function BookingView() {
     const [data, setData] = useState<any>(null);
@@ -22,9 +23,7 @@ export default function BookingView() {
                 <Typography variant="h5" component="h2" className='heading-text'>
                     Crane Bookings
                 </Typography>
-                <Button variant="contained" startIcon={<AddIcon />} onClick={()=>setOpen(true)}>
-                    Request New
-                </Button>
+                <GButton title="Request New" startIcon={<AddIcon />} onClick={()=>setOpen(true)} />
             </Box>}
             {!data && <Filters/>}
             <Box>

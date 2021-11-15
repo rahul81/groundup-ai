@@ -1,5 +1,6 @@
-import { Box, Typography, Divider, Checkbox, Button } from '@mui/material'
+import { Box, Typography, Divider, Checkbox } from '@mui/material'
 import React from 'react'
+import GButton from '../../../common/button/GButton';
 import '../../admin-view.scss'
 
 interface Notification{
@@ -60,9 +61,7 @@ export default function ReportsManagement() {
                     </Box>
                 )}
             </Box>)}
-            <Button variant="contained" className="update-changes" sx={{mt:3}}>
-                Save Changes
-            </Button>
+            <GButton title='Save Changes' className="update-changes" sx={{mt:3}} />
         </Box>
     )
 }

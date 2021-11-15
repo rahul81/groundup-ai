@@ -1,5 +1,6 @@
-import { Box, Button, Checkbox, Divider, Typography } from '@mui/material';
+import { Box, Checkbox, Divider, Typography } from '@mui/material';
 import { useState } from 'react';
+import GButton from '../common/button/GButton';
 import './notification-view.scss'
 
 interface Notification{
@@ -58,9 +59,7 @@ export default function NotificationView() {
                     </Box>
                 )}
             </Box>)}
-            <Button variant="contained" className="update-changes" sx={{mt:3}}>
-                Update Changes
-            </Button>
+            <GButton title='Update Changes' className='update-changes' sx={{mt:3}} />
         </Box>
     )
 }
