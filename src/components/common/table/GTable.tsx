@@ -50,7 +50,7 @@ export default function GTable(props: GTableProps) {
                                 <TableCell key={column.id} align={column.align}>
                                 {column.format && typeof value === 'number'
                                     ? column.format(value)
-                                    : column.id === 'image' ? <img src={value} height={'50px'} width={'60px'} />
+                                    : column.id === 'image' ? <img src={value} style={{height: '3rem', width:'3.5rem'}}/>
                                     : column.id === 'action' ? <Box> <EditOutlined sx={{color:'gray'}} onClick={()=> alert('Edit')} /> <DeleteOutlined sx={{color:'red'}} onClick={()=> alert('Delete')} />  </Box>
                                     : value}
                                 </TableCell>
