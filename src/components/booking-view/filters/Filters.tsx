@@ -1,7 +1,7 @@
 import { Box } from '@mui/system'
 import React from 'react'
-import CriteriaFilter from '../criteria-filter/CriteriaFilter'
-import StatusFilter from '../status-filter/StatusFilter'
+import CriteriaFilter from './criteria-filter/CriteriaFilter'
+import StatusFilter from './status-filter/StatusFilter'
 
 export default function Filters() {
     return (

@@ -1,0 +1,8 @@
+.no-notification-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .notification-no-img {
+        width: 16rem;
+    }
+}

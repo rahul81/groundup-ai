@@ -1,0 +1,16 @@
+  .notification-item {
+    margin: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid lightblue;
+
+    .notification-drawer-category {
+      display: flex;
+      justify-content: space-between;
+      font-size: small;
+
+      .notification-close-icon {
+        cursor: pointer;
+      }
+    }
+  }
