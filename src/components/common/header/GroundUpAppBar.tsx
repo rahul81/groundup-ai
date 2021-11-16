@@ -117,7 +117,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="primary">
+          <Badge badgeContent={4} color="primary">
             <NotificationsNoneIcon />
           </Badge>
         </IconButton>

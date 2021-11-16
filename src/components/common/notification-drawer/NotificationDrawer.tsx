@@ -6,23 +6,23 @@ import NotificationItem from "./NotificationItem/NotificationItem";
 import { Toolbar, Typography } from "@mui/material";
 import './notificationdrawer.scss'
 
-interface notificationsProps {
+interface NotificationsProps {
   notifications: string[],
-  setnotifications: React.Dispatch<React.SetStateAction<Array<string>>>
+  removeNotification: React.Dispatch<React.SetStateAction<Array<string>>>
 }
 
-const NotificationItems: React.FC<notificationsProps> = ({ notifications, setnotifications }) => (
-  <Box sx={{ width: "auto" }} role="presentation"  >
+const NotificationItems: React.FC<NotificationsProps> = ({ notifications, removeNotification }) => (
+  <Box role="presentation"  >
     <List style={{ width: "21.25rem" }}>
       {notifications.length != 0 ? notifications.map((text, index) => (
-        <NotificationItem key={index} setnotifications={setnotifications}
+        <NotificationItem key={index} removeNotification={removeNotification}
           notifications={notifications}
           index={index} category={text} message="Idling detected at Crane A, Zone A" time="1 Hr ago" />
       ))
         :
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-          <Typography sx={{ textAlign: 'center' }} m={5} className="heading" variant="h5" component="h2">No notifications</Typography>
-          <img className="notification-no" alt="no-notification" src="/assets/svg/notebook.svg" />
+        <Box className="no-notification-box"  >
+          <Typography m={5} className="heading" variant="h5" component="h2">No notifications</Typography>
+          <img className="notification-no-img" alt="no-notification" src="/assets/svg/notebook.svg" />
         </Box>
       }
     </List >
@@ -30,12 +30,12 @@ const NotificationItems: React.FC<notificationsProps> = ({ notifications, setnot
 );
 
 export default function NotificationDrawer() {
-  const [notifications, setnotifications] = useState<notificationsProps["notifications"]>(["Alert", "Bookings", "Alert", "Bookings"])
+  const [notifications, removeNotification] = useState<NotificationsProps["notifications"]>(["Alert", "Bookings", "Alert", "Bookings"])
   return (
     <React.Fragment>
       <Drawer anchor="right" open={true} >
         <Toolbar />
-        <NotificationItems notifications={notifications} setnotifications={setnotifications} />
+        <NotificationItems notifications={notifications} removeNotification={removeNotification} />
       </Drawer>
     </React.Fragment>
   );
