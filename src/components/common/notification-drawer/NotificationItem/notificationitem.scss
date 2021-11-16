@@ -1,12 +1,9 @@
 .notification-sidebar-items {
-  p {
-    margin: 1px;
-  }
 
   .notification-item {
-    margin: 10px;
-    padding: 5px;
-    border-radius: 10px;
+    margin: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.75rem;
     border: 2px solid lightblue;
 
     .notification-drawer-category {

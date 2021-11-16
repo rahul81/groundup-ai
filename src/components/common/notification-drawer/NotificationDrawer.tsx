@@ -1,48 +1,36 @@
-import * as React from "react";
+import React, { useState,} from 'react'
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import "./notificationdrawer.scss";
-
-import NotificationItem from "./NotificationItem";
+import NotificationItem from "./NotificationItem/NotificationItem";
 import { Toolbar } from "@mui/material";
 
-type Anchor = "top" | "left" | "bottom" | "right";
+interface notificationsProps {
+  notifications : string[],
+  setnotifications: React.Dispatch<React.SetStateAction<Array<string>>>
+}
+
+const NotificationItems:React.FC<notificationsProps> = ({notifications, setnotifications}) => (
+  <Box sx={{ width: "auto"  }} role="presentation"  >
+    <List style={{ width: "21.25rem" }}>
+      {notifications.map((text, index) => (
+        <NotificationItem key={index}   setnotifications={setnotifications}
+        notifications={notifications}
+        index={index} category={text} message="Idling detected at Crane A, Zone A" time="1 Hr ago" />
+      ))}
+    </List>
+  </Box>
+);
+
 
 export default function NotificationDrawer() {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
-
-  const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (event.type === "keydown" && ((event as React.KeyboardEvent).key === "Tab" || (event as React.KeyboardEvent).key === "Shift")) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-  };
-
-  const list = (anchor: Anchor) => (
-    <Box sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }} role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
-      <List style={{ width: "340px" }}>
-        {["Alert", "Bookings", "Alert", "Bookings"].map((text, index) => (
-          <NotificationItem category="Alert" message="Idling detected at Crane A, Zone A" time="1 Hr ago" />
-        ))}
-      </List>
-    </Box>
-  );
-
+   const [notifications, setnotifications] = useState<notificationsProps["notifications"]>(["Alert", "Bookings", "Alert", "Bookings"])
   return (
     <React.Fragment>
-      <div className="notification-drawer">
-        <Drawer anchor="right" open={true} onClose={toggleDrawer("top", false)}>
+        <Drawer anchor="right" open={true} >
           <Toolbar />
-          {list("top")}
+          <NotificationItems notifications={notifications} setnotifications={setnotifications}/>
         </Drawer>
-      </div>
     </React.Fragment>
   );
 }

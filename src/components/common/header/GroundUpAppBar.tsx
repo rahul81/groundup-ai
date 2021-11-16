@@ -19,12 +19,13 @@ import { RootState } from '../../../store/reducers';
 import { useHistory } from 'react-router';
 import { USER_ADMIN, USER_ADMIN_USER_MANAGEMENT, USER_NOTIFICATION } from '../../../constants/ContextPaths';
 import clsx from 'clsx';
+import NotificationDrawer from "../notification-drawer/NotificationDrawer";
 
 interface HeadersProps {
   handleDrawerToggle: ()=>void;
   headerTab: number;
   setHeaderTab: (index:number)=>void;
-}
+  }
 
 export default function GroundUpAppBar(props: HeadersProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -33,7 +34,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  const [openNotificationDrawer, setopenNotificationDrawer] = React.useState<Boolean>(true);
   const history = useHistory();
 
   const {username} = useSelector((state: RootState) => state.login);
@@ -56,6 +57,9 @@ export default function GroundUpAppBar(props: HeadersProps) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const toggleNotificationDrawer = () => {
+    setopenNotificationDrawer(!openNotificationDrawer);
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -73,6 +77,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      {openNotificationDrawer && <NotificationDrawer />}
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
     </Menu>
@@ -172,7 +177,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
               size="large"
               aria-label="show notifications"
               color="inherit"
-              onClick={()=>history.push(USER_NOTIFICATION)}
+              onClick={()=>toggleNotificationDrawer()}
             >
               <Badge badgeContent={17} color="primary">
                 <NotificationsNoneIcon />
