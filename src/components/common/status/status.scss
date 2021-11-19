@@ -1,0 +1,23 @@
+.booking-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .booking-status-buttons {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+
+        button {
+            padding: 0.25rem 2.5rem;
+            text-transform: capitalize;
+            width: 10rem;
+            cursor: initial;
+        }
+
+        .btn-over-run {
+            background-color: #C11C66;
+            color: white;
+        }
+    }
+}
