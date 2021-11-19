@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
 import { columns, rows } from '../../mockData/BookingTable';
 import GButton from '../common/button/GButton';
+import StatusHeader from '../common/status-header/StatusHeader';
 
 export default function BookingView() {
     const [data, setData] = useState<any>(null);
@@ -28,10 +29,10 @@ export default function BookingView() {
             {!data && <Filters/>}
             <Box>
                 {!data && <Box>
-                    <GTable rowClicked={(data:any)=>(data)} rows={rows} columns={columns} />
+                    <GTable rowClicked={(data:any)=>setData(data)} rows={rows} columns={columns} />
                     <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
                 </Box>}
-                {data && <Box sx={{ display: 'flex' }}>
+                {data && <><Box sx={{ display: 'flex' }}>
                     <Link
                         component="button"
                         variant="body2"
@@ -42,7 +43,9 @@ export default function BookingView() {
                         >
                          &lt; back
                     </Link>
-                </Box>}
+                </Box>
+                <StatusHeader />
+                </>}
             </Box>
         </Box>
     )

@@ -3,9 +3,17 @@ import React from 'react'
 import GButton from '../button/GButton';
 import './StatusHeader.scss';
 import { StatusData } from '../../../mockData/StatusHeaderData';
-import GDropDown from '../dropDown/GDropDown';
+import GButtonGroup from '../buttonGroup/GButtonGroup';
 
-export default function StatusHeader() {
+interface StatusHeader {
+    ButtonTitle?: string;
+    ButtonGroupTitle?: string;
+    options?: Array<any>
+}
+
+export default function StatusHeader(props: StatusHeader) {
+
+    const { ButtonTitle = 'Approve', ButtonGroupTitle='More' } = props;
 
     const options = [
         {
@@ -30,7 +38,7 @@ export default function StatusHeader() {
                     StatusData && StatusData.map(
                         ( {label, value} ) => 
                             <Box className="status-item-container" >
-                                <Typography variant="subtitle2" sx={{mb:.5 , fontSize:'small'}} >
+                                <Typography variant="subtitle2" className="status-item-label" >
                                     {label}
                                 </Typography>
                                 <Typography variant="subtitle2" >
@@ -41,8 +49,8 @@ export default function StatusHeader() {
             
             </Box>
             <Box className="status-button-container" >
-                {true && <GButton title='Approve' className="status-approve-btn" size='small' />}
-                <GDropDown title={'More'} id='dropdownMenuButton1' options={options} />
+                {true && <GButton title={ButtonTitle} className="status-approve-btn" size='small' />}
+                <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup' }} />
             </Box>
         </Box>
     )
