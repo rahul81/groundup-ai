@@ -30,10 +30,10 @@ export default function StatusHeader() {
                     StatusData && StatusData.map(
                         ( {label, value} ) => 
                             <Box className="status-item-container" >
-                                <Typography variant="h6" component="h2">
+                                <Typography variant="subtitle2" sx={{mb:.5 , fontSize:'small'}} >
                                     {label}
                                 </Typography>
-                                <Typography variant="h6" component="h2">
+                                <Typography variant="subtitle2" >
                                     {value}
                                 </Typography>
                             </Box> )
@@ -41,7 +41,7 @@ export default function StatusHeader() {
             
             </Box>
             <Box className="status-button-container" >
-                {true && <GButton title='Approve' className="status-approve-btn" />}
+                {true && <GButton title='Approve' className="status-approve-btn" size='small' />}
                 <GDropDown title={'More'} id='dropdownMenuButton1' options={options} />
             </Box>
         </Box>

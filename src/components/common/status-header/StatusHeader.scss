@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     background-color:  $GRAY_BACKGROUND;
     justify-content: space-between;
+    border-radius: .3rem;
   .status-header-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -13,23 +14,23 @@
       display: flex;
       flex-direction: column;
       text-align: left;
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem;
+      color: $LABEL_TEXT_COLOR;
     }
   }
 
   .status-button-container {
     display: flex;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     .status-approve-btn {
-      padding: 0.3rem 2rem;
+      padding: 0.2rem 2rem;
       margin-right: 1rem;
       background-color: $GREEN;
     }
     #dropdownMenuButton1 {
-      padding: 0.3rem 2rem;
+      padding: 0.2rem 2rem;
       background-color: $PRIMARY_BLUE;
-      align-items: center;
     }
   }
 }
