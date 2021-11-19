@@ -8,6 +8,7 @@ import Home from './container/home/Home';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
+import Sample from './container/sample/Sample';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
@@ -75,6 +76,10 @@ function App() {
         </Route>
         <Route path={USER}>
           <Settings/>
+        </Route>
+        {/* Sample route to render and test components */}
+        <Route path={'/sample'}>  
+          <Sample />
         </Route>
       </Switch>
     </div>
