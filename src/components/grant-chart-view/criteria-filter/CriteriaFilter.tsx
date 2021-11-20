@@ -7,7 +7,7 @@ import { GSelect, GSelectOption } from '../../common/select/GSelect';
 export default function CriteriaFilter() {
     const [crane, setCrane] = useState('')
     const [zone, setZone] = useState('');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState<Date | null>(new Date());
     const cranes: GSelectOption[] = [
         { key: "crane1", value: "Crane1" },
         { key: "crane2", value: "Crane2" },
@@ -30,7 +30,7 @@ export default function CriteriaFilter() {
         <>
             <Box sx={{ display: 'flex' }} mb={1}>
                 <Box className="dropdown" mr={1}>
-                    <GDatePicker date={date} onChange={setDate} />
+                    <GDatePicker date={date} onChange={setDate} dateDelete={true}/>
                 </Box>
                 <Box className="dropdown" mr={1}>
                     <GSelect id="Crane" placeholder="Select Crane" options={cranes} onChange={handleChangeCrane} value={crane} />
