@@ -1,0 +1,16 @@
+.page-container{
+    display: flex;
+    flex-direction: column;
+    .page-row{
+        padding-bottom: 1rem;
+    }
+    .dropdown-button{
+        background-color: transparent;
+        color: gray;
+    }
+    .heading-text{
+        text-align: left;
+        padding-right: 1rem;
+        line-height: 2;
+    }
+}
