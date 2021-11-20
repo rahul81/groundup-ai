@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 import GDialog from '../../common/dialog/GDialog';
 import GInput from '../../common/input/GInput';
-import Gselect, { GSelectOption } from '../../common/select/GSelect';
+import GSelect, { GSelectOption } from '../../common/select/GSelect';
 
 
 interface RequestNewFormFields{
@@ -41,7 +41,7 @@ export default function RequestNew({open, showDialog, handleSubmit}:RequestNewPr
         <GDialog title="Request Booking" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                 <GInput<RequestNewFormFields> formik={formik} id="contractor" label="Contractor"/>
-                <Gselect<RequestNewFormFields> formik={formik} id="zone" label="Zone" options={zones}/>
+                <GSelect<RequestNewFormFields> formik={formik} id="zone" label="Zone" options={zones}/>
             </form> 
         </GDialog>
     )

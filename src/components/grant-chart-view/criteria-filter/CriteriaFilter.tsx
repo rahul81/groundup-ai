@@ -2,7 +2,7 @@ import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system'
 import React, { useState } from 'react';
 import { GDatePicker } from '../../common/date-picker/GDatePicker';
-import { GSelect, GSelectOption } from '../../common/select/Gselect';
+import { GSelect, GSelectOption } from '../../common/select/GSelect';
 
 export default function CriteriaFilter() {
     const [crane, setCrane] = useState('')
