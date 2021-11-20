@@ -2,6 +2,7 @@ import DatePicker from 'react-datepicker';
 import { FormikValues, FormikProps } from 'formik';
 import { Box, Input, InputLabel, Typography } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import "react-datepicker/dist/react-datepicker.css";
 import './g-date-picker.scss';
@@ -9,8 +10,9 @@ import { useRef } from 'react';
 
 interface GDatePickerProps{
     label?:string;
-    date: Date;
-    onChange:(date:Date)=>void
+    date: Date | null;
+    dateDelete?: boolean;
+    onChange:(date:Date | null)=>void
 }
 
 interface GFormDatePickerProps<T extends FormikValues>{
@@ -40,12 +42,15 @@ export default function GFormDatePicker<T extends FormikValues>({formik, id, lab
     )
 }
 
-export function GDatePicker({label, date, onChange}:GDatePickerProps){
+export function GDatePicker({label, date, dateDelete=false, onChange}:GDatePickerProps){
     const datepickerRef = useRef<DatePicker>(null);
     const handleClickDatepickerIcon =() => {
         const datepickerElement = datepickerRef.current;
         datepickerElement?.setFocus();
-      }
+    }
+    const cleanDate = ()=>{
+        onChange(null);
+    }
     return (
         <Box className="g-date-picker">
             <InputLabel >{label}</InputLabel>
@@ -55,7 +60,8 @@ export function GDatePicker({label, date, onChange}:GDatePickerProps){
                 ref={datepickerRef}
                 placeholderText="Select Date"
             />
-            <EventIcon className="date-icon" onClick={() => handleClickDatepickerIcon()}/>
+            {(!date || !(date && dateDelete)) && <EventIcon className="date-icon" onClick={() => handleClickDatepickerIcon()}/>}
+            {date && dateDelete && <HighlightOffIcon className="date-icon" onClick={() => cleanDate()}/>}
         </Box>
     )
 }
