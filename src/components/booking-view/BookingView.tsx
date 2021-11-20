@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import './booking-view.scss';
 import GTable from '../common/table/GTable';
 import Filters from './filters/Filters';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
 import { columns, rows } from '../../mockData/BookingTable';
 import GButton from '../common/button/GButton';

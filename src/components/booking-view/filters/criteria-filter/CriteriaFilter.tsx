@@ -1,10 +1,12 @@
 import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
+import { GDatePicker } from '../../../common/date-picker/GDatePicker';
 
 export default function CriteriaFilter() {
     const [crane, setCrane] = useState('')
     const [zone, setZone] = useState('');
+    const [date, setDate] = useState(new Date());
     
     const handleChangeCrane = (event: SelectChangeEvent) => {
         setCrane(event.target.value);
@@ -15,6 +17,9 @@ export default function CriteriaFilter() {
     
     return (
         <>
+            <Box className="dropdown" mr={1}>
+                <GDatePicker date={date} onChange={setDate}/>
+            </Box>
             <Box className="dropdown" mr={1}>
                 <button className="btn btn-secondary dropdown-toggle dropdown-button" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Select Crane
