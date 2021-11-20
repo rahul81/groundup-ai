@@ -3,6 +3,7 @@ import './status.scss'
 import Button from '../button/GButton'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Box } from '@mui/system';
+import { FormikValues, FormikProps } from 'formik';
 
 // To use different colors for Rejected and Over-run
 // Use classname prop
@@ -28,6 +29,13 @@ interface GStatusProps {
     title?: string;
 }
 
+interface GFormStatusProps<T extends FormikValues> {
+    formik: FormikProps<T>;
+    id: string;
+    title?: string;
+    steps: GStatusSteps[];
+}
+
 function GStatus({ title, steps }: GStatusProps) {
     return (
         <Box className="booking-status">
@@ -42,6 +50,20 @@ function GStatus({ title, steps }: GStatusProps) {
                 )}
             </Box>
         </Box >
+    )
+}
+
+
+export function GFormStatus<T extends FormikValues>({ formik, id, steps }: GFormStatusProps<T>) {
+    return (
+        <Box className="booking-status">
+            <Typography>Status </Typography>
+            {(steps || []).map((item, index) => <Box className="booking-status-buttons">
+                <Button title="Pending"
+                    color={item.color} variant={item.variant} />
+                {(index != steps.length - 1) && <ArrowRightIcon />}
+            </Box>)}
+        </Box>
     )
 }
 
