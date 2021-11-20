@@ -4,53 +4,45 @@ import Button from '../button/GButton'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Box } from '@mui/system';
 
-interface statusProps {
-    status: "Pending" | "Scheduled" | "In-Progress" | "Completed" | "Over-Run" | "Rescheduled"
+// To use different colors for Rejected and Over-run
+// Use classname prop
+//     1. btn-over-run
+//     2. btn-rejected
+
+// For getting highlighted button use 
+//  const StausSteps: GStatusSteps[] = [{ key: 1, value: 'Pending' }]
+
+// For getting outlined button use 
+//  const StausSteps: GStatusSteps[] = [{ key: 2, value: 'Scheduled', color: 'inherit', variant: 'outlined' }]
+
+export interface GStatusSteps {
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning";
+    variant?: "text" | "outlined" | "contained";
+    key: string | number;
+    value: string;
+    className?: "btn-over-run" | "btn-rejected"
 }
 
-function Status(props: statusProps) {
-    const {
-        status = {}
-    } = props;
+interface GStatusProps {
+    steps: GStatusSteps[];
+    title?: string;
+}
 
+function GStatus({ title, steps }: GStatusProps) {
     return (
         <Box className="booking-status">
-            <Typography>Status </Typography>
+            {title && <Typography className="caption" >{title}</Typography>}
+
             <Box className="booking-status-buttons">
-
-                <Button title="Pending"
-                    color={status === "Pending" ? `primary` : `inherit`} variant={status === "Pending" ? `contained` : `outlined`} />
-                <ArrowRightIcon />
-
-                <Button title="Scheduled"
-                    color={status === "Scheduled" ? `primary` : `inherit`} variant={status === "Scheduled" ? `contained` : `outlined`} />
-                <ArrowRightIcon />
-
-                <Button title="In-Progress"
-                    color={status === "In-Progress" ? `primary` : `inherit`} variant={status === "In-Progress" ? `contained` : `outlined`} />
-                <ArrowRightIcon />
-
-                <Button title="Completed"
-                    color={status === "Completed" ? `primary` : `inherit`} variant={status === "Completed" ? `contained` : `outlined`} />
-
-                {status === "Over-Run" &&
-                    <Box>
-                        <ArrowRightIcon />
-                        <Button color="inherit" className="btn-over-run" title="Over-Run" />
-                    </Box>
-                }
-
+                {(steps).map((item, index) =>
+                    <>
+                        <Button className={item.className} title={item.value} variant={item.variant} color={item.color} />
+                        {(steps.length - 1 != index) && <ArrowRightIcon />}
+                    </>
+                )}
             </Box>
-
-            {status === "Rescheduled" &&
-                <Box className="booking-status-buttons">
-                    <Button title="Rescheduled" color="primary" />
-                </Box>
-            }
-
-
-        </Box>
+        </Box >
     )
 }
 
-export default Status
+export default GStatus
