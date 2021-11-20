@@ -53,7 +53,7 @@ export function GDatePicker({label, date, onChange}:GDatePickerProps){
                 selected={date}
                 onChange={onChange}
                 ref={datepickerRef}
-                placeholderText="mm/dd/yyyy"
+                placeholderText="Select Date"
             />
             <EventIcon className="date-icon" onClick={() => handleClickDatepickerIcon()}/>
         </Box>

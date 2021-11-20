@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 import GDialog from '../../common/dialog/GDialog';
 import GInput from '../../common/input/GInput';
-import Gselect, { GSelectOption } from '../../common/select/Gselect';
+import Gselect, { GSelectOption } from '../../common/select/GSelect';
 
 
 interface RequestNewFormFields{

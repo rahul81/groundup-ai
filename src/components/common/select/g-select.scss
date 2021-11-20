@@ -9,8 +9,8 @@
     fieldset{
         border: none;
     }
-    .MuiSelect-select{
-        padding: 2px;
+    .MuiSelect-select.MuiInputBase-input{
+        padding: 6px 12px;
         text-align: left;
     }
     .MuiOutlinedInput-root{
