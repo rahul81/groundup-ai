@@ -2,8 +2,9 @@ import React from "react";
 import { Route, Switch } from "react-router";
 import GroundUpDrawer from "../../components/common/drawer/Drawer";
 import GroundUpAppBar from "../../components/common/header/GroundUpAppBar";
-import { HOME_BOOKING } from "../../constants/ContextPaths";
+import { HOME_BOOKING, HOME_BOOKING_REVIEW } from "../../constants/ContextPaths";
 import BookingView from "../../components/booking-view/BookingView";
+import BookingReviewView from "../../components/booking-review-view/BookingReviewView";
 
 interface HomeProps {
     children?: any;
@@ -26,8 +27,11 @@ const Home: React.FC<HomeProps>  = (props: HomeProps) => {
             <GroundUpAppBar headerTab={headerTab} setHeaderTab={setHeaderTab} handleDrawerToggle={handleDrawerToggle}/>
             <GroundUpDrawer items={drawerItems} mobileOpen={open} handleDrawerToggle={handleDrawerToggle}>
                 <Switch>
-                    <Route path={HOME_BOOKING}>
+                    <Route path={HOME_BOOKING} exact>
                         <BookingView/>
+                    </Route>
+                    <Route path={HOME_BOOKING_REVIEW}>
+                        <BookingReviewView/>
                     </Route>
                 </Switch>
             </GroundUpDrawer> 

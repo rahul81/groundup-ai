@@ -1,8 +1,7 @@
-import { SelectChangeEvent } from '@mui/material';
 import { Box } from '@mui/system'
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
+import { useState } from 'react'
 import { GDatePicker } from '../../../common/date-picker/GDatePicker';
-import { GSelect, GSelectOption } from '../../../common/select/GSelect';
+import GSelect, { GSelectOption } from '../../../common/select/GSelect';
 
 export default function CriteriaFilter() {
     const [crane, setCrane] = useState('')
@@ -10,7 +9,7 @@ export default function CriteriaFilter() {
     const [date, setDate] = useState<Date | null>(null);
     
     const cranes:GSelectOption[] = [
-        {key:"crane1", value:"Crane1"},
+        {key:"crane1", value:"Crane1"}, 
         {key:"crane2", value:"Crane2"},
         {key:"crane3", value:"Crane3"}
     ];
@@ -33,10 +32,10 @@ export default function CriteriaFilter() {
                 <GDatePicker date={date} onChange={setDate} dateDelete={true}/>
             </Box>
             <Box className="dropdown" mr={1}>
-                <GSelect id="Crane" placeholder="Select Crane" options={cranes} onChange={handleChangeCrane} value={crane}/>
+                <GSelect id="crane" placeholder="Select Crane" options={cranes} onChange={handleChangeCrane} value={crane}/>
             </Box>
             <Box className="dropdown" mr={1}>
-                <GSelect id="Crane" placeholder="Select Zone" options={zones} onChange={handleChangeZone} value={zone}/>
+                <GSelect id="zone" placeholder="Select Zone" options={zones} onChange={handleChangeZone} value={zone}/>
             </Box>
         </>
     )
