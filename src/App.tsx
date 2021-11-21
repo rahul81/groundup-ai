@@ -6,6 +6,7 @@ import {
 import SignIn from './container/sign-in/SignIn';
 import Home from './container/home/Home';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
 import Sample from './container/sample/Sample';
@@ -44,6 +45,9 @@ const theme = createTheme({
     },
     h6:{
       fontSize: '1.1rem'
+    },
+    subtitle2:{
+      color: grey[600]
     },
     error:{
       color: 'red',
