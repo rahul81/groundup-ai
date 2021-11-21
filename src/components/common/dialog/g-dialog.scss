@@ -1,4 +1,10 @@
 .dialog-container{
+    .MuiDialog-paper{
+        max-height: 90vh;
+        min-height: 30rem;
+        min-width: 30rem;
+        padding: 1rem;
+    }
     .MuiDialogTitle-root{
         &.dialog-title{
             display: flex;

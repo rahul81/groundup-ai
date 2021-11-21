@@ -1,8 +1,6 @@
 import { Box } from '@mui/system'
 import './g-pane.scss';
-import GSelect, { GSelectOption } from '../select/GSelect'
 import { Typography } from '@mui/material';
-import { FormikValues, FormikProps } from 'formik';
 
 interface GPaneProps{
     label?:string

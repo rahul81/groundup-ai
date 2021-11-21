@@ -4,8 +4,6 @@ import { Button, Link, Typography } from '@mui/material'
 import { HOME_BOOKING } from '../../constants/ContextPaths';
 import { useHistory } from 'react-router';
 import GPane from '../common/pane/GPane';
-import GInput from '../common/input/GInput';
-import GSelect from '../common/select/GSelect';
 import GButton from '../common/button/GButton';
 
 export default function BookingReviewView() {

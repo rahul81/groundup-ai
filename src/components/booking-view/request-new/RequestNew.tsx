@@ -1,12 +1,13 @@
-import { DialogProps, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Input, InputLabel, FormControl, MenuItem, Select, NativeSelect, IconButton, Typography } from '@mui/material';
+import { DialogProps, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Input, InputLabel, FormControl, MenuItem, Select, NativeSelect, IconButton, Typography, Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react'
 import { requestNewValidationSchema } from './RequestNewFormValidation';
 import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 import GDialog from '../../common/dialog/GDialog';
-import GInput from '../../common/input/GInput';
+import {GFormInput} from '../../common/input/GInput';
 import { GFormSelect, GSelectOption } from '../../common/select/GSelect';
+import GFormDatePicker from '../../common/date-picker/GDatePicker';
 
 
 interface RequestNewFormFields{
@@ -40,8 +41,16 @@ export default function RequestNew({open, showDialog, handleSubmit}:RequestNewPr
     return (
         <GDialog title="Request Booking" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
-                <GInput<RequestNewFormFields> formik={formik} id="contractor" label="Contractor"/>
+                <GFormInput<RequestNewFormFields> formik={formik} id="contractor" label="Contractor"/>
                 <GFormSelect<RequestNewFormFields> formik={formik} id="zone" label="Zone" options={zones}/>
+                <Grid xs={12} container>
+                    <Grid xs={4}>
+                        <GFormDatePicker<RequestNewFormFields> formik={formik} id="startTime" label="Time Start" timeonly={true}/>
+                    </Grid>
+                    <Grid xs={4}>
+                        <GFormDatePicker<RequestNewFormFields> formik={formik} id="endTime" label="End Start" timeonly={true}/>
+                    </Grid>
+                </Grid>
             </form> 
         </GDialog>
     )
