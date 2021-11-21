@@ -16,7 +16,6 @@ export default function GDialog(props: GDialogProps) {
     return (
         <Dialog
             disablePortal
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 , minHeight: '50%', padding: '1rem'} }}
             maxWidth="xs"
             open={open}
             onClose={showDialog}

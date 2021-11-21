@@ -1,0 +1,30 @@
+.g-date-picker{
+    position: relative;
+    width: 8rem;
+    input{
+        width: 8rem;
+        padding: 6px 12px;
+        border-radius: 0.25rem;
+        border-width: 1px;
+        float: left;
+    }
+    .date-icon {
+        position: absolute;
+        right: 5px;
+        margin: auto;
+        top: -6px;
+        bottom: 0;
+    }
+    .form-date-icon{
+        position: absolute;
+        padding: 2px;
+        right: 3px;
+        top: 3px;
+    }
+    .react-datepicker-popper{
+        z-index: 1000;
+    }
+    .react-datepicker__navigation-icon::before{
+        top:13px;
+    }
+}

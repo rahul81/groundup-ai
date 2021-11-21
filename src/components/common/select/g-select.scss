@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-width: 7.5rem;
+    min-width: 8.3rem;
     label{
         margin: .5rem 0 0.2rem 0;
     }
@@ -10,10 +10,16 @@
         border: none;
     }
     .MuiSelect-select{
-        padding: 2px;
-        text-align: left;
+        &.MuiInputBase-input{
+            padding: 6px 12px;
+            text-align: left;
+        }
     }
     .MuiOutlinedInput-root{
         border: 1px solid #ccc;
+    }
+    .dropdown-button{
+        background-color: transparent;
+        color: gray;
     }
 }

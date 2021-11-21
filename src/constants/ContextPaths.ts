@@ -4,6 +4,7 @@ export const HOME ="/home";
 export const USER ="/user";
 export const BOOKING ="/booking";
 export const ADMIN ="/admin";
+export const REVIEW ="/review";
 export const NOTIFICATION ="/notification";
 export const USER_MANAGEMENT="/user-management";
 export const ROLE_MANAGEMENT="/role-management";
@@ -14,6 +15,7 @@ export const CRANE_BOOKING_MANAGEMENT="/crane-booking-management";
 export const REPORTS_MANAGEMENT="/reports-management";
 
 export const HOME_BOOKING = HOME + BOOKING;
+export const HOME_BOOKING_REVIEW = HOME + BOOKING + REVIEW;
 export const USER_ADMIN = USER + ADMIN;
 export const USER_NOTIFICATION = USER + NOTIFICATION;
 export const USER_ADMIN_USER_MANAGEMENT= USER_ADMIN + USER_MANAGEMENT;
