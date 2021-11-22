@@ -2,13 +2,13 @@ import { InputLabel, Input, Typography } from '@mui/material'
 import {  FormikProps, FormikValues } from 'formik'
 import './g-input.scss'
 
-interface GInputProps<T extends FormikValues>{
+interface GFormInputProps<T extends FormikValues>{
     formik: FormikProps<T>
     id:string;
     label:string;
 }
 
-export default function GInput<T extends FormikValues>({formik, id, label}:GInputProps<T>) {
+export function GFormInput<T extends FormikValues>({formik, id, label}:GFormInputProps<T>) {
     return (
         <div className="custom-input">
             <InputLabel id={id}>{label}</InputLabel>
@@ -25,3 +25,4 @@ export default function GInput<T extends FormikValues>({formik, id, label}:GInpu
         </div>
     )
 }
+

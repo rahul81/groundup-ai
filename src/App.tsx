@@ -12,11 +12,13 @@ import Settings from './container/settings/Settings';
 declare module '@mui/material/styles' {
   interface TypographyVariants {
     error: React.CSSProperties;
+    paneheader: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     error?: React.CSSProperties;
+    paneheader: React.CSSProperties;
   }
 }
 
@@ -24,6 +26,7 @@ declare module '@mui/material/styles' {
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
     error: true;
+    paneheader:true;
   }
 }
 
@@ -43,6 +46,10 @@ const theme = createTheme({
     },
     h6:{
       fontSize: '1.1rem'
+    },
+    paneheader:{
+      fontSize: '.9rem',
+      fontWeight: 700
     },
     error:{
       color: 'red',

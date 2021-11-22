@@ -1,6 +1,5 @@
-import { FormControl, Select, MenuItem, FormHelperText, SelectChangeEvent, InputLabel, TextField, Typography } from '@mui/material'
-import { FormikProps, FormikValues, useField } from 'formik';
-import React, { ChangeEvent, ChangeEventHandler, ReactEventHandler } from 'react'
+import { MenuItem, InputLabel, TextField, Typography } from '@mui/material'
+import { FormikProps, FormikValues } from 'formik';
 import './g-select.scss'
 
 export interface GSelectOption{
@@ -24,7 +23,7 @@ interface GSelectProps{
     onChange:(value:string)=>void;
 }
 
-export default function GFormselect<T extends FormikValues>({formik, id, label, options}:GFormSelectProps<T>) {
+export function GFormSelect<T extends FormikValues>({formik, id, label, options}:GFormSelectProps<T>) {
     const {setFieldValue} = formik;
     return (
         <div className="custom-select">
@@ -52,7 +51,7 @@ export default function GFormselect<T extends FormikValues>({formik, id, label, 
     )
 }
 
-export function GSelect({id, placeholder, label, value, options, onChange}:GSelectProps){
+export default function GSelect({id, placeholder, label, value, options, onChange}:GSelectProps){
     return (
         <div className="custom-select">
             {label && <InputLabel id="custom-input-label">{label}</InputLabel>}

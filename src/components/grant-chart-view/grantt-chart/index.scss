@@ -1,0 +1,81 @@
+.grantt-chart-heading{
+    text-align: left;
+    padding-top: 20px;
+}
+
+.grantt-chart-header-container{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    .status-container{
+        display: flex;
+        .status-text{
+            margin-right: 24px;
+            display: flex;
+            align-items: center;
+            .status-color{
+                height: 10px;
+                width: 10px;
+                display: block;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+.grantt-chart-main-container{
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    padding-bottom: 25px;
+    .single-row{
+        display: flex;
+        flex-direction: row;
+        height: 30px;
+        .single-row-left{
+            display: flex;
+            width: 30%;
+            border: 1px solid grey;
+            padding: 3px 0px 3px 0px;
+            .single-row-left-text{
+                width: 33%;
+            }
+        }
+        .single-row-right{
+            display: flex;
+            width: 70%;
+            border-width: 1px 1px 1px 0px;
+            border-color: grey;
+            border-style: solid;
+            justify-content: space-around;
+            padding: 3px 0px 3px 0px;
+        }
+        .single-row-left-box{
+            border-width: 0px 1px 1px 1px;
+            border-color: grey;
+            border-style: solid;
+            .crane-status-color{
+                height: 6px;
+                width: 6px;
+                display: inline-block;
+                border-radius: 50%;
+                margin-right: 5px;
+            }
+        }
+        .single-row-right-box{
+            display: flex;
+            width: 70%;
+            border-width: 0px 1px 1px 0px;
+            border-color: grey;
+            border-style: solid;
+            padding: 3px 0px 3px 0px;
+            position: relative;
+            .timing-box{
+                position: absolute;
+                border-radius: 5px;
+                height: 24px;
+            }
+        }
+    }
+}

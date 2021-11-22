@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box } from '@mui/system';
 import './grant-chart-view.scss';
 import CriteriaFilter from './criteria-filter/CriteriaFilter';
-import React, { useState } from 'react';
+import React from 'react';
 import GranttChart from './grantt-chart/index';
 
 export default function GranttChartView() {

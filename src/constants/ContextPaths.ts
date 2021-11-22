@@ -5,6 +5,7 @@ export const USER = "/user";
 export const BOOKING = "/booking";
 export const GRANTT_CHART = "/chart";
 export const ADMIN = "/admin";
+export const REVIEW = "/review";
 export const NOTIFICATION = "/notification";
 export const USER_MANAGEMENT = "/user-management";
 export const ROLE_MANAGEMENT = "/role-management";
@@ -15,6 +16,7 @@ export const CRANE_BOOKING_MANAGEMENT = "/crane-booking-management";
 export const REPORTS_MANAGEMENT = "/reports-management";
 
 export const HOME_BOOKING = HOME + BOOKING;
+export const HOME_BOOKING_REVIEW = HOME + BOOKING + REVIEW;
 export const HOME_GRANTT_CHART = HOME + GRANTT_CHART;
 export const USER_ADMIN = USER + ADMIN;
 export const USER_NOTIFICATION = USER + NOTIFICATION;
