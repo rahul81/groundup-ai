@@ -30,7 +30,7 @@ export default function CriteriaFilter() {
         <>
             <Box sx={{ display: 'flex' }} mb={1}>
                 <Box className="dropdown" mr={1}>
-                    <GDatePicker date={date} onChange={setDate} />
+                    <GDatePicker date={date} onChange={setDate} dateDelete={true} />
                 </Box>
                 <Box className="dropdown" mr={1}>
                     <GSelect id="Crane" placeholder="Select Crane" options={cranes} onChange={handleChangeCrane} value={crane} />

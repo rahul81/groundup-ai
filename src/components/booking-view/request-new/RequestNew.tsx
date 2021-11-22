@@ -51,7 +51,7 @@ export default function RequestNew({ open, showDialog, handleSubmit }: RequestNe
                         <GFormDatePicker<RequestNewFormFields> formik={formik} id="endTime" label="End Start" timeonly={true} />
                     </Grid>
                 </Grid>
-            </form>
-        </GDialog>
+            </form >
+        </GDialog >
     )
 }
