@@ -77,7 +77,10 @@ export default function GroundUpAppBar(props: HeadersProps) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {openNotificationDrawer && <NotificationDrawer />}
+      {openNotificationDrawer && <NotificationDrawer
+        openNotificationDrawer={openNotificationDrawer}
+        setopenNotificationDrawer={setopenNotificationDrawer}
+      />}
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
     </Menu>

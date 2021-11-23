@@ -1,4 +1,4 @@
-import React, { useState, } from 'react'
+import React, { useState, Dispatch } from 'react'
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -9,6 +9,11 @@ import './notificationdrawer.scss'
 interface NotificationsProps {
   notifications: string[],
   removeNotification: React.Dispatch<React.SetStateAction<Array<string>>>
+}
+
+interface NotificationDrawerProps {
+  openNotificationDrawer: Boolean;
+  setopenNotificationDrawer: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
 const NotificationItems: React.FC<NotificationsProps> = ({ notifications, removeNotification }) => (
@@ -29,11 +34,11 @@ const NotificationItems: React.FC<NotificationsProps> = ({ notifications, remove
   </Box >
 );
 
-export default function NotificationDrawer() {
+export default function NotificationDrawer(props: NotificationDrawerProps) {
   const [notifications, removeNotification] = useState<NotificationsProps["notifications"]>(["Alert", "Bookings", "Alert", "Bookings"])
   return (
     <React.Fragment>
-      <Drawer anchor="right" open={true} >
+      <Drawer anchor="right" open={true} onClose={() => { props.setopenNotificationDrawer(!props.openNotificationDrawer) }}>
         <Toolbar />
         <NotificationItems notifications={notifications} removeNotification={removeNotification} />
       </Drawer>
