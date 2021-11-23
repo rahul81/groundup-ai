@@ -51,6 +51,7 @@ export default function GFormDatePicker<T extends FormikValues>({formik, id, lab
                 <DatePicker
                     {...timeProps}
                     selected={formik.values[id]}
+                    ref={datepickerRef}
                     onChange={(value)=>{
                         setFieldValue(id, value, true);
                     }}
@@ -85,7 +86,6 @@ export function GDatePicker({label, date, dateDelete=false, onChange}:GDatePicke
                 <DatePicker
                     selected={date}
                     onChange={onChange}
-                    
                     ref={datepickerRef}
                     placeholderText="Select Date"
                 />

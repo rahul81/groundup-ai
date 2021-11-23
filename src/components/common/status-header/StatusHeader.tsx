@@ -50,7 +50,7 @@ export default function StatusHeader(props: StatusHeader) {
             </Box>
             <Box className="status-button-container" >
                 {true && <GButton title={ButtonTitle} className="status-approve-btn" size='small' />}
-                <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup' }} />
+                <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup btn-primary' }} />
             </Box>
         </Box>
     )

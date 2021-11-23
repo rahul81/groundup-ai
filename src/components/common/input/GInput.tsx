@@ -1,3 +1,4 @@
+import { FormatLineSpacing } from '@mui/icons-material'
 import { InputLabel, Input, Typography } from '@mui/material'
 import {  FormikProps, FormikValues } from 'formik'
 import './g-input.scss'
@@ -15,6 +16,7 @@ export function GFormInput<T extends FormikValues>({formik, id, label}:GFormInpu
             <Input required fullWidth id={id} aria-label={id}
                 name={id} autoComplete="off" autoFocus 
                 value={formik.values[id]}
+                onBlur={()=>formik.validateField(id)}
                 onChange={formik.handleChange}
                 error={formik.touched[id] && Boolean(formik.errors[id])}/>
             {formik.errors[id] && 

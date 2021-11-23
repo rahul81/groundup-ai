@@ -16,7 +16,7 @@ export default function GButtonGroup(props: GButtonGroup) {
 
     return (
         <Box className="dropdown" mr={1}>
-            <button className={clsx('btn btn-secondary dropdown-toggle dropdown-button', buttonClassName)} type="button" id={id} data-bs-toggle="dropdown" aria-expanded="false">
+            <button className={clsx('btn dropdown-toggle dropdown-button', buttonClassName)} type="button" id={id} data-bs-toggle="dropdown" aria-expanded="false">
                 {title}
             </button>
             <ul className={clsx('dropdown-menu', listClassName)} >
