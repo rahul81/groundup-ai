@@ -9,6 +9,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
 import theme from './Theme';
+import Sample from './container/sample/Sample';
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
         </Route>
         <Route path={USER}>
           <Settings/>
+        </Route>
+        {/* Sample route to render and test components */}
+        <Route path={'/sample'}>  
+          <Sample />
         </Route>
       </Switch>
     </div>

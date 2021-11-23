@@ -1,0 +1,38 @@
+@import "../../../styles/variables";
+
+.status-header-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color:  $GRAY_BACKGROUND;
+    justify-content: space-between;
+    border-radius: .3rem;
+  .status-header-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .status-item-container {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      padding: 1.5rem 1rem;
+      .status-item-label {
+        font-size:small;
+        margin-bottom:.5;
+      }
+    }
+  }
+
+  .status-button-container {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    .status-approve-btn {
+      padding: 0.2rem 2rem;
+      margin-right: 1rem;
+      background-color: $GREEN;
+    }
+    .gButtonGroup {
+      padding: 0.2rem 2rem;
+    }
+  }
+}

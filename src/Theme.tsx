@@ -4,7 +4,7 @@ import Home from './container/home/Home';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
-
+import { grey } from '@mui/material/colors';
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
@@ -43,6 +43,9 @@ declare module '@mui/material/styles' {
       },
       h6:{
         fontSize: '1.1rem'
+      },
+      subtitle2: {
+        color: grey[600]
       },
       paneheader:{
         fontSize: '.9rem',
