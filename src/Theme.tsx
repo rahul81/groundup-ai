@@ -4,7 +4,7 @@ import Home from './container/home/Home';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
-import { grey } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
@@ -55,6 +55,14 @@ declare module '@mui/material/styles' {
         color: 'red',
         fontSize: '.8rem',
         lineHeight: '1.3'
+      }
+    },
+    palette:{
+      secondary:{
+        main: grey[200]
+      },
+      success:{
+        main: green[600]
       }
     },
     components:{

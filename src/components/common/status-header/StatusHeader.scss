@@ -1,9 +1,7 @@
-@import "../../../styles/variables";
 
 .status-header-container {
     display: flex;
     flex-wrap: wrap;
-    background-color:  $GRAY_BACKGROUND;
     justify-content: space-between;
     border-radius: .3rem;
   .status-header-wrapper {
@@ -29,7 +27,6 @@
     .status-approve-btn {
       padding: 0.2rem 2rem;
       margin-right: 1rem;
-      background-color: $GREEN;
     }
     .gButtonGroup {
       padding: 0.2rem 2rem;
