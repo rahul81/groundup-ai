@@ -106,7 +106,7 @@ const GranttChart = () => {
                 <span className="status-text"><span className="status-color" style={{ backgroundColor: "#8d3ed4" }}></span>Maintenance Schedule</span>
             </div>
             <div>
-                <GToggleButtonGroup formats={formats} setFormats={setFormats} options={options} />
+                <GToggleButtonGroup formats={formats} setFormats={setFormats} options={options} singleSelect={true} />
             </div>
         </div>
         <div className="grantt-chart-main-container">
