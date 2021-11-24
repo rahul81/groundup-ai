@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import './request-new.scss'
 import GDialog from '../../common/dialog/GDialog';
 import { GFormInput } from '../../common/input/GInput';
-import { GFormSelect, GSelectOption } from '../../common/select/Gselect';
+import { GFormSelect, GSelectOption } from '../../common/select/GSelect';
 import GFormDatePicker from '../../common/date-picker/GDatePicker';
 
 
