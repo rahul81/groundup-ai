@@ -1,6 +1,7 @@
 import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Box } from '@mui/material';
 import { EditOutlined, DeleteOutlined } from '@mui/icons-material';
 import React from 'react';  
+import { grey } from '@mui/material/colors';
 interface GTableProps{
   rowClicked?: (data: any)=>void;
   rows: Array<any>,
@@ -22,9 +23,9 @@ export default function GTable(props: GTableProps) {
     };
 
     return (
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Paper sx={{ width: '100%', overflow: 'scroll' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table stickyHeader aria-label="sticky table" sx={{padding:'1rem', paddingTop:'0.5rem'}}>
                 <TableHead>
                     <TableRow>
                     {columns.map((column) => (
@@ -32,6 +33,7 @@ export default function GTable(props: GTableProps) {
                         key={column.id}
                         align={column.align}
                         style={{ minWidth: column.minWidth || 100 }}
+                        sx={{borderBottom: `2.5px solid ${grey[300]}`}}
                         >
                         {column.label}
                         </TableCell>
