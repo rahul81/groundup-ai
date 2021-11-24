@@ -11,11 +11,18 @@ interface GToggleButtonGroupProps{
     formats: string[];
     setFormats: (formats:string[])=> void;
     options: GToggleButtonOption[];
+    singleSelect?:boolean;
 }
 
-export default function GToggleButtonGroup({options, formats, setFormats}: GToggleButtonGroupProps) {
+export default function GToggleButtonGroup({options, formats, singleSelect=false, setFormats}: GToggleButtonGroupProps) {
+
+
     const handleFormat = (event: React.MouseEvent<HTMLElement>, newFormats: string[]) => {
-        setFormats(newFormats);
+        if(singleSelect){
+            setFormats([(event.target as HTMLButtonElement).value]);
+        }else{
+            setFormats(newFormats);
+        }
     };
     return (
         <ToggleButtonGroup
