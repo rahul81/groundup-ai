@@ -1,4 +1,4 @@
-import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Box } from '@mui/material';
+import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Box, Typography } from '@mui/material';
 import { EditOutlined, DeleteOutlined } from '@mui/icons-material';
 import React from 'react';  
 import { grey } from '@mui/material/colors';
@@ -35,7 +35,9 @@ export default function GTable(props: GTableProps) {
                         style={{ minWidth: column.minWidth || 100 }}
                         sx={{borderBottom: `2.5px solid ${grey[300]}`}}
                         >
-                        {column.label}
+                        <Typography variant="subtitle2">
+                                {column.label}
+                            </Typography>
                         </TableCell>
                     ))}
                     </TableRow>
@@ -49,12 +51,12 @@ export default function GTable(props: GTableProps) {
                             {columns.map((column) => {
                             const value = row[column.id];
                             return (
-                                <TableCell key={column.id} align={column.align}>
+                                <TableCell key={column.id} align={column.align}  >
                                 {column.format && typeof value === 'number'
                                     ? column.format(value)
                                     : column.id === 'image' ? <img src={value} style={{height: '3rem', width:'3.5rem'}}/>
                                     : column.id === 'action' ? <Box> <EditOutlined sx={{color:'gray'}} onClick={()=> alert('Edit')} /> <DeleteOutlined sx={{color:'red'}} onClick={()=> alert('Delete')} />  </Box>
-                                    : value}
+                                    : <Typography variant="subtitle2" sx={{fontSize:'1rem'}}> {value} </Typography>}
                                 </TableCell>
                             );
                             })}

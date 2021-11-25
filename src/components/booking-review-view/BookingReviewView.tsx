@@ -5,6 +5,7 @@ import { HOME_BOOKING } from '../../constants/ContextPaths';
 import { useHistory } from 'react-router';
 import GPane from '../common/pane/GPane';
 import GButton from '../common/button/GButton';
+import StatusHeader from '../common/status-header/StatusHeader';
 
 export default function BookingReviewView() {
     const history = useHistory();
@@ -22,6 +23,8 @@ export default function BookingReviewView() {
                         <Typography variant="subtitle2">&lt; Back</Typography>
                 </Link>
             </Box>
+            <StatusHeader />
+            <br/>
             <Box>
                 <GPane label="Booking Details">
                     <GButton title='Add Activity' size='small' style={{ display:'block', margin:'10px 0' }} />
