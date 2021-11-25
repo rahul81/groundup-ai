@@ -12,7 +12,7 @@ interface NotificationsProps {
 }
 
 interface NotificationDrawerProps {
-  openNotificationDrawer: boolean;
+  openNotificationDrawer: boolean ;
   setopenNotificationDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
