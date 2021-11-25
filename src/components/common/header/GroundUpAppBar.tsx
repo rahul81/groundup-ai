@@ -34,7 +34,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const [openNotificationDrawer, setopenNotificationDrawer] = React.useState<Boolean>(false);
+  const [openNotificationDrawer, setopenNotificationDrawer] = React.useState<boolean>(false);
   const history = useHistory();
 
   const {username} = useSelector((state: RootState) => state.login);
@@ -77,10 +77,10 @@ export default function GroundUpAppBar(props: HeadersProps) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {openNotificationDrawer && <NotificationDrawer
+      <NotificationDrawer
         openNotificationDrawer={openNotificationDrawer}
         setopenNotificationDrawer={setopenNotificationDrawer}
-      />}
+      />
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
     </Menu>

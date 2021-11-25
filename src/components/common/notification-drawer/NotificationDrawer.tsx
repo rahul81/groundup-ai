@@ -12,8 +12,8 @@ interface NotificationsProps {
 }
 
 interface NotificationDrawerProps {
-  openNotificationDrawer: Boolean;
-  setopenNotificationDrawer: React.Dispatch<React.SetStateAction<Boolean>>;
+  openNotificationDrawer: boolean;
+  setopenNotificationDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NotificationItems: React.FC<NotificationsProps> = ({ notifications, removeNotification }) => (
@@ -38,7 +38,7 @@ export default function NotificationDrawer(props: NotificationDrawerProps) {
   const [notifications, removeNotification] = useState<NotificationsProps["notifications"]>(["Alert", "Bookings", "Alert", "Bookings"])
   return (
     <React.Fragment>
-      <Drawer anchor="right" open={true} onClose={() => { props.setopenNotificationDrawer(!props.openNotificationDrawer) }}>
+      <Drawer anchor="right" open={props.openNotificationDrawer} onClose={() => { props.setopenNotificationDrawer(!props.openNotificationDrawer) }}>
         <Toolbar />
         <NotificationItems notifications={notifications} removeNotification={removeNotification} />
       </Drawer>
