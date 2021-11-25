@@ -31,7 +31,7 @@ export default function StatusHeader(props: StatusHeader) {
     ]
 
     return (
-        <Box className="status-header-container">
+        <Box className="status-header-container" sx={{backgroundColor:'secondary.main'}}>
             <Box className="status-header-wrapper">
 
                 {
@@ -49,7 +49,7 @@ export default function StatusHeader(props: StatusHeader) {
             
             </Box>
             <Box className="status-button-container" >
-                {true && <GButton title={ButtonTitle} className="status-approve-btn" size='small' />}
+                {true && <GButton title={ButtonTitle} className="status-approve-btn" size='small' color='success' />}
                 <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup btn-primary' }} />
             </Box>
         </Box>
