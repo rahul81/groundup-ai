@@ -14,6 +14,7 @@ interface GButtonProps {
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
+    type?: 'submit'
 }
 
 
@@ -29,10 +30,11 @@ export default function GButton(props: GButtonProps) {
         className = '', 
         onClick = () => ({}), 
         startIcon, 
-        endIcon } = props;
+        endIcon,
+        type } = props;
 
     return (
-        <Button variant={variant} size={size} style={style} color={color} sx={sx} className={className} onClick={onClick} startIcon={startIcon} endIcon={endIcon} >
+        <Button type={type} variant={variant} size={size} style={style} color={color} sx={sx} className={className} onClick={onClick} startIcon={startIcon} endIcon={endIcon} >
             {title}
         </Button>
     )
