@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router";
-import GroundUpDrawer from "../../components/common/drawer/Drawer";
+import GroundUpDrawer from "../../components/common/drawer/GDrawer";
 import GroundUpAppBar from "../../components/common/header/GroundUpAppBar";
 import { HOME_BOOKING, HOME_BOOKING_REVIEW, HOME_GRANTT_CHART } from "../../constants/ContextPaths";
 import BookingView from "../../components/booking-view/BookingView";
