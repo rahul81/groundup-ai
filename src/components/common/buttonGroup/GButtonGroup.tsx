@@ -7,16 +7,17 @@ interface GButtonGroup {
     id?: string;
     options?: Array<any>;
     title?: string;
+    btnStyle? : object
 }
 
 export default function GButtonGroup(props: GButtonGroup) {
 
-    const { className={} , id='', options=[], title='' } = props;
+    const { className={} , id='', options=[], title='', btnStyle={} } = props;
     const { buttonClassName = '', listClassName = '', optionClassName = '' } = className;
 
     return (
         <Box className="dropdown" mr={1}>
-            <button className={clsx('btn dropdown-toggle dropdown-button', buttonClassName)} type="button" id={id} data-bs-toggle="dropdown" aria-expanded="false">
+            <button className={clsx('btn dropdown-toggle dropdown-button', buttonClassName)} style={btnStyle} type="button" id={id} data-bs-toggle="dropdown" aria-expanded="false">
                 {title}
             </button>
             <ul className={clsx('dropdown-menu', listClassName)} >
