@@ -25,7 +25,7 @@ export default function GTable(props: GTableProps) {
     return (
       <Paper sx={{ width: '100%', overflow: 'scroll' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table" sx={{padding:'1rem', paddingTop:'0.5rem'}}>
+                <Table stickyHeader aria-label="sticky table" size="small" sx={{padding:'1rem', paddingTop:'0.5rem'}}>
                 <TableHead>
                     <TableRow>
                     {columns.map((column) => (
