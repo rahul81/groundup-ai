@@ -2,12 +2,13 @@ import { Box, Checkbox, Divider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import GButton from '../common/button/GButton';
+import GCheckbox from '../common/checkobx/GCheckbox';
 import './notification-view.scss'
 
 
 interface Notification{
     text:string;
-    initialValue:string;
+    checkedUnchecked:string;
 }
 
 interface Notifications{
@@ -16,27 +17,37 @@ interface Notifications{
 }
 
 export default function NotificationView() {
+
+    const checkedUnchecked: any = {
+        machineIlding_SS: true,
+        machineIlding_PM: false,
+        bookingSchheduling_PM: false,
+        bookingSchheduling_DPCM: false,
+        bookingApproval_DPCM: false,
+        bookingApproval_PM: true,
+    }
+
     const machineIlding: Notifications = {
         text: "Machine Ilding",
         notifications: [
-            { text: "Project Manager", initialValue: "machineIlding_PM" },
-            { text: "Site Supervisor", initialValue: "machineIlding_SS" }
+            { text: "Project Manager", checkedUnchecked: "machineIlding_PM" },
+            { text: "Site Supervisor", checkedUnchecked: "machineIlding_SS" }
         ]       
     };
 
     const bookingSchheduling: Notifications = {
         text: "Booking Schedule Changes",
         notifications: [
-            { text: "Project Manager", initialValue: "bookingSchheduling_PM" },
-            { text: "Deputy PM/Construction Manager", initialValue: "bookingSchheduling_DPCM" }
+            { text: "Project Manager", checkedUnchecked: "bookingSchheduling_PM" },
+            { text: "Deputy PM/Construction Manager", checkedUnchecked: "bookingSchheduling_DPCM" }
         ]
     };
 
     const bookingApproval: Notifications = {
         text: "Booking Approval Status",
         notifications: [
-            { text: "Project Manager", initialValue: "bookingApproval_PM" },
-            { text: "Deputy PM/Construction Manager", initialValue: "bookingApproval_DPCM" }
+            { text: "Project Manager", checkedUnchecked: "bookingApproval_PM" },
+            { text: "Deputy PM/Construction Manager", checkedUnchecked: "bookingApproval_DPCM" }
         ]
     };
 
@@ -44,17 +55,8 @@ export default function NotificationView() {
         machineIlding, bookingSchheduling, bookingApproval
     ];
 
-    const initialValues: any = {
-        machineIlding_SS: true,
-        machineIlding_PM: true,
-        bookingSchheduling_PM: false,
-        bookingSchheduling_DPCM: false,
-        bookingApproval_DPCM: true,
-        bookingApproval_PM: true,
-    }
-
     const formik = useFormik({
-        initialValues: initialValues,
+        initialValues: checkedUnchecked,
         onSubmit: (data) => {
             console.log(data);
         },
@@ -68,17 +70,13 @@ export default function NotificationView() {
             {(allNotifications || []).map((notif) => <Box className="sub-section">
                 {notif && <Typography className="heading" variant="h6" component="div">{notif.text}</Typography>}
                 {(notif.notifications || []).map((item, index) =>
-                    <Box className="item">                            
-                        <Checkbox
-                            className="item-checkbox"
-                            aria-label={item.initialValue}
-                            name={item.initialValue}
-                            id={item.initialValue}
-                            checked={formik.values[item.initialValue.toString()]}
-                            onChange={formik.handleChange}
-                        />
-                        <Typography variant="body1" >{item.text}</Typography>
-                    </Box>
+                   <Box className="item">                            
+                        <GCheckbox 
+                        checkedUncheckedState={item.checkedUnchecked} 
+                        formik={formik} 
+                        id={item.checkedUnchecked} 
+                        label={item.text}/>
+               </Box>
                 )}
             </Box>)}
             <GButton type="submit" title='Update Changes' className='update-changes' sx={{ mt: 3 }} />

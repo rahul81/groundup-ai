@@ -14,9 +14,8 @@ interface GButtonProps {
     onClick?: (e: React.MouseEvent<HTMLElement>) => void;
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
-    type?: 'submit'
+    type?: 'button' | 'submit' | 'reset'
 }
-
 
 export default function GButton(props: GButtonProps) {
 
