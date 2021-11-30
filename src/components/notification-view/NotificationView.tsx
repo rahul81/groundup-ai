@@ -1,6 +1,5 @@
-import { Box, Checkbox, Divider, Typography } from '@mui/material';
+import { Box,  Divider, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import { useState } from 'react';
 import GButton from '../common/button/GButton';
 import GCheckbox from '../common/checkobx/GCheckbox';
 import './notification-view.scss'
