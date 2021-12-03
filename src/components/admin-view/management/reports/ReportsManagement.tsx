@@ -7,7 +7,7 @@ import '../../admin-view.scss'
 
 interface Notification{
     text:string;
-    checkedUnchecked:string;
+    selected:string;
 }
 
 interface Notifications{
@@ -17,7 +17,7 @@ interface Notifications{
 
 export default function ReportsManagement() {
 
-    const checkedUnchecked: any = {
+    const initialState: any = {
         booking_BS: true,
         booking_BRL: false,
         crane_CUS: false,
@@ -30,25 +30,25 @@ export default function ReportsManagement() {
     const booking: Notifications = {
         text: "Booking",
         notifications : [
-            {text: "Booking Summary", checkedUnchecked: "booking_BS"},
-            {text: "Booking Record list", checkedUnchecked: "booking_BRL"}
+            {text: "Booking Summary", selected: "booking_BS"},
+            {text: "Booking Record list", selected: "booking_BRL"}
         ]
     };
 
     const crane: Notifications = {
         text: "Crane",
         notifications : [
-            {text: "Crane Utilisation Summary", checkedUnchecked: "crane_CUS"},
-            {text: "Crane Utilization Records", checkedUnchecked: "crane_CUR"},
-            {text: "Indentified Materials List", checkedUnchecked: "crane_IML"}
+            {text: "Crane Utilisation Summary", selected: "crane_CUS"},
+            {text: "Crane Utilization Records", selected: "crane_CUR"},
+            {text: "Indentified Materials List", selected: "crane_IML"}
         ]
     };
 
     const maintainence: Notifications = {
         text: "Maintainance",
         notifications : [
-            {text: "Planned Maintainance Records", checkedUnchecked: "maintainence_PMR"},
-            {text: "Materials lifted", checkedUnchecked: "maintainence_ML"}
+            {text: "Planned Maintainance Records", selected: "maintainence_PMR"},
+            {text: "Materials lifted", selected: "maintainence_ML"}
         ]
     };
 
@@ -57,7 +57,7 @@ export default function ReportsManagement() {
     ];
 
     const formik = useFormik({
-        initialValues: checkedUnchecked,
+        initialValues: initialState,
         onSubmit: (data) => {
             console.log(data);
         },
@@ -73,9 +73,9 @@ export default function ReportsManagement() {
                 {(notif.notifications || [] ).map((item, index)=>  
                     <Box className="item">                            
                         <GCheckbox 
-                        checkedUncheckedState={item.checkedUnchecked} 
+                        selected={item.selected} 
                         formik={formik} 
-                        id={item.checkedUnchecked} 
+                        id={item.selected} 
                         label={item.text}/>
                     </Box>
                 )}

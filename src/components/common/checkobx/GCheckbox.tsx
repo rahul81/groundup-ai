@@ -6,10 +6,10 @@ interface GFormikCheckboxProps<T extends FormikValues> {
     id: string;
     label: string;
     formik: FormikProps<T>;
-    checkedUncheckedState: string;
+    selected: string;
 }
 
-export function GCheckbox<T extends FormikValues>({ id, label, formik, checkedUncheckedState }: GFormikCheckboxProps<T>) {
+export function GCheckbox<T extends FormikValues>({ id, label, formik, selected }: GFormikCheckboxProps<T>) {
     return (
         <div className="g-checkbox">
             <Checkbox
@@ -17,7 +17,7 @@ export function GCheckbox<T extends FormikValues>({ id, label, formik, checkedUn
                 aria-label={label}
                 name={id}
                 id={id}
-                checked={formik.values[checkedUncheckedState]}
+                checked={formik.values[selected]}
                 onChange={formik.handleChange}
             />
             <Typography variant="body1" >{label}</Typography>

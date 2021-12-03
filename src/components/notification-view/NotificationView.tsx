@@ -7,7 +7,7 @@ import './notification-view.scss'
 
 interface Notification{
     text:string;
-    checkedUnchecked:string;
+    selected:string;
 }
 
 interface Notifications{
@@ -17,7 +17,7 @@ interface Notifications{
 
 export default function NotificationView() {
 
-    const checkedUnchecked: any = {
+    const initialState: any = {
         machineIlding_SS: true,
         machineIlding_PM: false,
         bookingSchheduling_PM: false,
@@ -29,24 +29,24 @@ export default function NotificationView() {
     const machineIlding: Notifications = {
         text: "Machine Ilding",
         notifications: [
-            { text: "Project Manager", checkedUnchecked: "machineIlding_PM" },
-            { text: "Site Supervisor", checkedUnchecked: "machineIlding_SS" }
+            { text: "Project Manager", selected: "machineIlding_PM" },
+            { text: "Site Supervisor", selected: "machineIlding_SS" }
         ]       
     };
 
     const bookingSchheduling: Notifications = {
         text: "Booking Schedule Changes",
         notifications: [
-            { text: "Project Manager", checkedUnchecked: "bookingSchheduling_PM" },
-            { text: "Deputy PM/Construction Manager", checkedUnchecked: "bookingSchheduling_DPCM" }
+            { text: "Project Manager", selected: "bookingSchheduling_PM" },
+            { text: "Deputy PM/Construction Manager", selected: "bookingSchheduling_DPCM" }
         ]
     };
 
     const bookingApproval: Notifications = {
         text: "Booking Approval Status",
         notifications: [
-            { text: "Project Manager", checkedUnchecked: "bookingApproval_PM" },
-            { text: "Deputy PM/Construction Manager", checkedUnchecked: "bookingApproval_DPCM" }
+            { text: "Project Manager", selected: "bookingApproval_PM" },
+            { text: "Deputy PM/Construction Manager", selected: "bookingApproval_DPCM" }
         ]
     };
 
@@ -55,7 +55,7 @@ export default function NotificationView() {
     ];
 
     const formik = useFormik({
-        initialValues: checkedUnchecked,
+        initialValues: initialState,
         onSubmit: (data) => {
             console.log(data);
         },
@@ -71,9 +71,9 @@ export default function NotificationView() {
                 {(notif.notifications || []).map((item, index) =>
                    <Box className="item">                            
                         <GCheckbox 
-                        checkedUncheckedState={item.checkedUnchecked} 
+                        selected={item.selected} 
                         formik={formik} 
-                        id={item.checkedUnchecked} 
+                        id={item.selected} 
                         label={item.text}/>
                </Box>
                 )}
