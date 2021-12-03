@@ -59,10 +59,13 @@ declare module '@mui/material/styles' {
     },
     palette:{
       secondary:{
-        main: grey[200]
+        main: grey[200],
+        dark: grey[400],
+        contrastText: 'white',
       },
       success:{
-        main: green[600]
+        main: green[500],
+        contrastText: 'white'
       }
     },
     components:{

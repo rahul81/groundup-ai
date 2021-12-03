@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import GButton from '../button/GButton';
 import './StatusHeader.scss';
@@ -30,6 +30,10 @@ export default function StatusHeader(props: StatusHeader) {
         },
     ]
 
+    const theme = useTheme();
+
+    const { palette } = theme;
+
     return (
         <Box className="status-header-container" sx={{backgroundColor:'secondary.main'}}>
             <Box className="status-header-wrapper">
@@ -50,7 +54,7 @@ export default function StatusHeader(props: StatusHeader) {
             </Box>
             <Box className="status-button-container" >
                 {true && <GButton title={ButtonTitle} className="status-approve-btn" size='small' color='success' />}
-                <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup btn-primary' }} />
+                <GButtonGroup title={ButtonGroupTitle} options={options} className={{ buttonClassName: 'gButtonGroup' }} btnStyle={{backgroundColor: palette.primary.main, color:'white'}} />
             </Box>
         </Box>
     )
