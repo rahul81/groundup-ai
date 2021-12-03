@@ -56,7 +56,7 @@ export default function GTable(props: GTableProps) {
                                     ? column.format(value)
                                     : column.id === 'image' ? <img src={value} style={{height: '3rem', width:'3.5rem'}}/>
                                     : column.id === 'action' ? <Box> <EditOutlined sx={{color:'gray'}} onClick={()=> alert('Edit')} /> <DeleteOutlined sx={{color:'red'}} onClick={()=> alert('Delete')} />  </Box>
-                                    : <Typography variant="subtitle2" sx={{fontSize:'1rem'}}> {value} </Typography>}
+                                    : <Typography variant="subtitle2"> {value} </Typography>}
                                 </TableCell>
                             );
                             })}
