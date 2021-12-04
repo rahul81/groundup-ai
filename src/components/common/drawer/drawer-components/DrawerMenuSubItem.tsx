@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItem, ListItemText, Collapse, List, ListItemIcon } from "@mui/material";
+import { ListItem, ListItemText, Collapse, List, ListItemIcon, Typography } from "@mui/material";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -51,7 +51,9 @@ const DrawerSubMenuItem: React.FC<DrawerItem> = (item:DrawerItem): React.ReactEl
                 <ListItemIcon>
                   {/* */}
                 </ListItemIcon>
-                <ListItemText className={clsx("submenu-item", {["active"]: activeSubMenu==subItem.id})} key={subItem.id} sx={{margin:0}}>{subItem.text}</ListItemText>
+                <ListItemText className={clsx("submenu-item", {["active"]: activeSubMenu==subItem.id})} key={subItem.id} sx={{margin:0}}>
+                  <Typography variant="body1">{subItem.text}</Typography>
+                </ListItemText>
               </ListItem>
             </List>
           )}
