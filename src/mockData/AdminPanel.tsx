@@ -341,3 +341,35 @@ export const CraneUsageRows : CraneUsageRows[] = [
 ]
 
 // Crance Usage Management Ends //
+
+// Company Management Starts //
+
+export const CompanyColumns: Columns[] = [
+  {
+    id: "company",
+    label: "Company",
+  },
+  {
+    id: "action",
+    label: "Action",
+  },
+];
+
+interface CompanyRows {
+  company: string;
+  action: string;
+}
+
+export const CompanyRows: CompanyRows[] = [
+  {
+    company: "Groundup.AI",
+    action: "Edit/Remove",
+  },
+  {
+    company: "ABC PVT.LTD",
+    action: "Edit/Remove",
+  },
+];
+
+
+// Company Management Ends //
