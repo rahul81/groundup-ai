@@ -7,13 +7,13 @@ import { RootState } from '../reducers';
 
 export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 
-export const loginUser = (username:string, password:string): AppThunk<void> =>{
+export const loginUser = (email:string, password:string): AppThunk<void> =>{
      return async (dispatch: Dispatch<Action>)=> {
-        return await axios.post(LOGIN_USER, {username, password})
+        return await axios.post(LOGIN_USER, {email, password})
         .then(response=>{
-            dispatch(loginUserSuccess(username));
+            dispatch(loginUserSuccess(email));
         }).catch(error=>{
-            dispatch(loginUserFailed(username));
+            dispatch(loginUserFailed(email));
         });
     }
 }

@@ -10,27 +10,29 @@ import { HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
 import theme from './Theme';
 import Sample from './container/sample/Sample';
+import HttpInterceptor from './HttpInterceptor';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-    <div className="App">
-      <Switch>
-        <Route path={ROOT} exact>
-          <SignIn />
-        </Route>
-        <Route path={HOME}>
-          <Home/>
-        </Route>
-        <Route path={USER}>
-          <Settings/>
-        </Route>
-        {/* Sample route to render and test components */}
-        <Route path={'/sample'}>  
-          <Sample />
-        </Route>
-      </Switch>
-    </div>
+      <HttpInterceptor/>
+      <div className="App">
+        <Switch>
+          <Route path={ROOT} exact>
+            <SignIn />
+          </Route>
+          <Route path={HOME}>
+            <Home/>
+          </Route>
+          <Route path={USER}>
+            <Settings/>
+          </Route>
+          {/* Sample route to render and test components */}
+          <Route path={'/sample'}>  
+            <Sample />
+          </Route>
+        </Switch>
+      </div>
     </ThemeProvider>
   );
 }
