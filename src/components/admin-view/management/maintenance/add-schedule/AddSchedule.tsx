@@ -6,6 +6,7 @@ import GFormDatePicker, { GDatePicker } from '../../../../common/date-picker/GDa
 import GDialog from '../../../../common/dialog/GDialog';
 import { GFormInput } from '../../../../common/input/GInput';
 import { GFormSelect, GSelectOption } from '../../../../common/select/GSelect';
+import { GTextarea } from '../../../../common/textarea/GTextarea';
 import ScheduleFormValidation from './ScheduleFormValidation'
 
 interface ScheduleFormFields {
@@ -17,7 +18,7 @@ interface ScheduleFormFields {
     description: string;
     startTime: string;
     endTime: string;
-    recurranceDate: string;
+    recurranceDate: Date | null;
 }
 
 interface AddScheduleProps {
@@ -39,7 +40,7 @@ export default function AddSchedule({ open, showDialog, handleSubmit }: AddSched
         description: "",
         startTime: "",
         endTime: "",
-        recurranceDate: "",
+        recurranceDate: null,
     };
 
     const contracter: GSelectOption[] = [
@@ -99,6 +100,8 @@ export default function AddSchedule({ open, showDialog, handleSubmit }: AddSched
                         <GFormDatePicker<ScheduleFormFields> formik={formik} id="endTime" label="End Start" timeonly={true} />
                     </Grid>
                 </Grid>
+
+                <GTextarea formik={formik} id="description" label="Description" fullWidth={true} />
 
                 <Box className="dropdown" mr={1}>
                     <GFormDatePicker formik={formik} id="recurranceDate" label="Recurrance Date" dateDelete={true} />

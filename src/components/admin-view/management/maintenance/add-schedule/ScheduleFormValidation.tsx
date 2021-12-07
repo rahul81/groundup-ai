@@ -17,14 +17,17 @@ export const CompanyFormValidation = Yup.object().shape({
         .string()
         .required('Maintenance  is required'),
     recurranceDate: Yup
-        .date()
+        .date().nullable().typeError('Invalid Date')
         .required('Recurrance Date required'),
     endTime: Yup
         .date()
         .required('End Time required'),
     startTime: Yup
         .date()
-        .required('Start Time  required')
+        .required('Start Time  required'),
+    description: Yup
+        .string()
+        .required(),
 });
 
 export default CompanyFormValidation
