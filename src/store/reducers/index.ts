@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
+import adminReducer from "./adminReducers";
 import loginReducer from "./loginReducer";
 
 const reducers = combineReducers({
-    login : loginReducer
+    login : loginReducer,
+    admin : adminReducer
 });
 
 export default reducers;
