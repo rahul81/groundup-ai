@@ -20,9 +20,9 @@ export const getUsers = (): AppThunk<void> =>{
      return async (dispatch: Dispatch<Action>)=> {
         return await axios.post(GET_USERS, bodyParameters, config)
         .then(response=>{
-            dispatch(getUsersSuccess());
+            dispatch(getUsersSuccess(response.data.data));
         }).catch(error=>{
-            dispatch(getUsersSuccess());
+            console.error('Something happened')
         });
     }
 }

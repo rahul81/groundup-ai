@@ -1,18 +1,18 @@
 import { AdminActionTypes } from '../action-types/adminActionTypes';
 import {Action} from '../actions/adminActions';
 
-interface LoginState {
-
+interface AdminState {
+    users : []
 }
 
-export const initialState: LoginState ={
-
+export const initialState: AdminState ={
+    users : []
 } 
 
-const adminReducer = (state: LoginState = initialState, action: Action)=>{
+const adminReducer = (state: AdminState = initialState, action: Action)=>{
     switch(action.type){
         case AdminActionTypes.GET_USERS:
-            return {...state };
+            return {...state, users : action.payload };
         default:
             return state;
     }
