@@ -19,12 +19,13 @@ export const CompanyFormValidation = Yup.object().shape({
     recurranceDate: Yup
         .date().nullable().typeError('Invalid Date')
         .required('Recurrance Date required'),
-    endTime: Yup
-        .date()
-        .required('End Time required'),
     startTime: Yup
         .date()
         .required('Start Time  required'),
+    endTime: Yup
+        .date().min(Yup.ref('startTime'),
+        "End time can't be before start time")
+        .required('End Time required'),
     description: Yup
         .string()
         .required(),
