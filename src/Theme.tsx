@@ -5,6 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ADMIN, HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
 import { green, grey } from '@mui/material/colors';
+import { color } from '@mui/system';
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
@@ -31,25 +32,33 @@ declare module '@mui/material/styles' {
     typography: {
       h3:{
         fontSize: '2rem',
-        fontWeight: 500
+        fontWeight: 500,
+        color:grey[600]
       },
       h4:{
         fontSize: '1.5rem',
-        fontWeight: 500
+        fontWeight: 500,
+        color:grey[600]
       },
       h5:{
         fontSize: '1.25rem',
-        fontWeight: 500
+        fontWeight: 500,
+        color:grey[800]
       },
       h6:{
-        fontSize: '1.1rem'
+        fontSize: '1.1rem',
+        color:grey[600]
       },
       subtitle2: {
         color: grey[600]
       },
+      body1: {
+        color: grey[800]
+      },
       paneheader:{
         fontSize: '.9rem',
-        fontWeight: 700
+        fontWeight: 700,
+        color:grey[600]
       },
       error:{
         color: 'red',
@@ -59,10 +68,13 @@ declare module '@mui/material/styles' {
     },
     palette:{
       secondary:{
-        main: grey[200]
+        main: grey[200],
+        dark: grey[400],
+        contrastText: 'white',
       },
       success:{
-        main: green[600]
+        main: green[500],
+        contrastText: 'white'
       }
     },
     components:{

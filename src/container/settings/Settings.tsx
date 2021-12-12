@@ -14,7 +14,6 @@ export default function Settings() {
         setOpen(!open);
     };
     const drawerItems = [
-        {text:'Notifications', id: USER_NOTIFICATION, notifications:10}, 
         {
             text:'Admin',
             id: USER_ADMIN,

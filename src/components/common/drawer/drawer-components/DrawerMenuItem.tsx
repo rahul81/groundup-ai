@@ -1,4 +1,4 @@
-import { ListItem, ListItemText, Badge } from "@mui/material";
+import { ListItem, ListItemText, Badge, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -26,8 +26,10 @@ const DrawerMenuItem: React.FC<DrawerItem> = (item:DrawerItem): React.ReactEleme
     return (
       <ListItem button key={item.text}  selected={activeMenu.indexOf(item.id)>-1} onClick={()=>history.push(item.id)}>
         <ListItemText className="menu-item-text">
-          <span>{item.text}</span>
-          {item.notifications && <Badge badgeContent={item.notifications} color="primary" style={{left: '2rem'}}></Badge>}
+          <Typography variant="body1">
+            {item.text}
+            {item.notifications && <Badge badgeContent={item.notifications} color="primary" style={{left: '2rem'}}></Badge>}
+          </Typography>
         </ListItemText>
       </ListItem>
     );

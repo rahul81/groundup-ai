@@ -1,2 +1,2 @@
-export const LOGIN_USER = '/login/user';
+export const LOGIN_USER = '/signup';
 
