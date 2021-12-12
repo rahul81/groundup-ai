@@ -102,7 +102,7 @@ export default function AddSchedule({ open, showDialog, handleSubmit }: AddSched
 
                 <GTextarea formik={formik} id="description" label="Description" fullWidth={true} />
 
-                <Box className="dropdown" mr={1}>
+                <Box className="dropdown" >
                     <GFormDatePicker formik={formik} id="recurranceDate" label="Recurrance Date" dateDelete={true} />
                 </Box>
 
