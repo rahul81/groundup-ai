@@ -38,7 +38,6 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         validationSchema: AddUserFormValidation,
         onSubmit: (data) => {
             handleSubmit(data)
-            console.log(data)
         },
     });
 

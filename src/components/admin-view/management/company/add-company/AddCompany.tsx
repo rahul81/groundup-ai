@@ -22,7 +22,6 @@ export default function AddCompany({ open, showDialog, handleSubmit }: AddCompan
         validationSchema: CompanyFormValidation,
         onSubmit: (data) => {
             handleSubmit(data)
-            console.log(data)
         },
     });
 

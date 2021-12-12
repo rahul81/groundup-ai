@@ -21,7 +21,6 @@ export default function AddActivity({ open, showDialog, handleSubmit }: AddActiv
         validateOnChange: false,
         onSubmit: (data) => {
             handleSubmit(data)
-            console.log(data)
         },
     });
     return (

@@ -57,7 +57,6 @@ export default function NotificationView() {
     const formik = useFormik({
         initialValues: initialState,
         onSubmit: (data) => {
-            console.log(data);
         },
     });
 

@@ -79,7 +79,6 @@ export default function AddSchedule({ open, showDialog, handleSubmit }: AddSched
         validationSchema: ScheduleFormValidation,
         onSubmit: (data) => {
             handleSubmit(data)
-            console.log(data)
         },
     });
 

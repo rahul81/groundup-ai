@@ -21,8 +21,7 @@ export default function AddMaterial({ open, showDialog, handleSubmit }: AddMater
         validateOnChange: false,
         onSubmit: (data) => {
             handleSubmit(data)
-            console.log(data)
-        },
+            },
     });
     return (
         <GDialog title="Material Management" open={open} showDialog={showDialog}>
