@@ -42,7 +42,7 @@ export function GFormSelect<T extends FormikValues>({formik, id, label, options}
                 </MenuItem>
                 {(options || []).map(item=><MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>)}
             </TextField>
-            {formik.errors[id] && 
+            {formik.touched[id] && formik.errors[id] && 
                 <Typography variant="error" component="div">
                     {formik.errors[id]}
                 </Typography>
