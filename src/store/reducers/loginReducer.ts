@@ -3,19 +3,19 @@ import {Action} from '../actions/loginAction';
 
 interface LoginState {
     username: string;
-    password:string;
+    status: boolean;
 }
 export const initialState: LoginState ={
     username: '',
-    password: ''
+    status: false
 } 
 
 const loginReducer = (state: LoginState = initialState, action: Action)=>{
     switch(action.type){
         case LoginActionTypes.LOGGED_IN_USER:
-            return {...state, username: action.payload};
+            return {...state, username: action.payload, status: "success"};
         case LoginActionTypes.LOGGED_IN_USER_FAILED:
-            return {...state, username: action.payload};
+            return {...state, username: action.payload, status: "failed"};
         default:
             return state;
     }

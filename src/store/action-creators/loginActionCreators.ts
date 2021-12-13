@@ -11,6 +11,7 @@ export const loginUser = (email:string, password:string): AppThunk<void> =>{
      return async (dispatch: Dispatch<Action>)=> {
         return await axios.post(LOGIN_USER, {email, password})
         .then(response=>{
+            localStorage.setItem('token', response.data.token)
             dispatch(loginUserSuccess(email));
         }).catch(error=>{
             dispatch(loginUserFailed(email));
