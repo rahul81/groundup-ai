@@ -1,6 +1,6 @@
 import { Box, Typography, Divider } from '@mui/material'
-import React, { useEffect } from 'react'
-import { UserManagementColumns, UserManagementRows } from '../../../../mockData/AdminPanel'
+import { useEffect } from 'react'
+import { UserManagementColumns } from '../../../../mockData/AdminPanel'
 import GButton from '../../../common/button/GButton'
 import GTable from '../../../common/table/GTable'
 import '../../admin-view.scss'

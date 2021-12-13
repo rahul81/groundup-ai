@@ -57,7 +57,6 @@ export default function NotificationView() {
     const formik = useFormik({
         initialValues: initialState,
         onSubmit: (data) => {
-            console.log(data);
         },
     });
 
@@ -78,7 +77,7 @@ export default function NotificationView() {
                </Box>
                 )}
             </Box>)}
-            <GButton type="submit" title='Update Changes' className='update-changes' sx={{ mt: 3 }} />
+            <GButton type="submit" title='Update Changes' className='update-changes' />
             </form>
         </Box>
     )

@@ -7,19 +7,20 @@ interface GFormInputProps<T extends FormikValues>{
     formik: FormikProps<T>
     id:string;
     label:string;
+    required?:boolean;
 }
 
-export function GFormInput<T extends FormikValues>({formik, id, label}:GFormInputProps<T>) {
+export function GFormInput<T extends FormikValues>({formik, id, label,required}:GFormInputProps<T>) {
     return (
         <div className="custom-input">
             <InputLabel id={id}>{label}</InputLabel>
-            <Input required fullWidth id={id} aria-label={id}
+            <Input required={required} fullWidth id={id} aria-label={id}
                 name={id} autoComplete="off" autoFocus 
                 value={formik.values[id]}
                 onBlur={()=>formik.validateField(id)}
                 onChange={formik.handleChange}
                 error={formik.touched[id] && Boolean(formik.errors[id])}/>
-            {formik.errors[id] && 
+            {formik.touched[id] && formik.errors[id] && 
                 <Typography variant="error" component="div">
                     {formik.errors[id]}
                 </Typography>

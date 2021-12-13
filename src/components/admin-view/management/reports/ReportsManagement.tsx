@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import GButton from '../../../common/button/GButton';
 import GCheckbox from '../../../common/checkobx/GCheckbox';
 import '../../admin-view.scss'
+import './reports-management.scss'
 
 interface Notification{
     text:string;
@@ -59,7 +60,6 @@ export default function ReportsManagement() {
     const formik = useFormik({
         initialValues: initialState,
         onSubmit: (data) => {
-            console.log(data);
         },
     });
 
@@ -80,7 +80,7 @@ export default function ReportsManagement() {
                     </Box>
                 )}
             </Box>)}
-            <GButton type="submit" title='Save Changes' className="update-changes" sx={{mt:3}} />
+            <GButton type="submit" title='Save Changes' className="update-changes" />
             </form>
 
         </Box>

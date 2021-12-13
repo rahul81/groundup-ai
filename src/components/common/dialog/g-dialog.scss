@@ -1,7 +1,7 @@
 .dialog-container{
     .MuiDialog-paper{
         max-height: 90vh;
-        min-height: 30rem;
+        min-height: 15rem;
         min-width: 30rem;
         padding: 1rem;
     }
@@ -14,7 +14,7 @@
         }
     }
     .MuiDialogContent-root{
-        padding: .5rem;
+        padding: 1rem .5rem;
     }
     .MuiDialogActions-root{
         justify-content: flex-end;
