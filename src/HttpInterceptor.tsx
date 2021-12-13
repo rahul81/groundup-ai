@@ -1,5 +1,5 @@
-import React from 'react'
 import axios from 'axios';
+import { LOGIN_USER } from './constants/Api';
 
 export default function HttpInterceptor() {
     const BASE_URL = 'http://13.212.88.14:3000/api/v1'
@@ -8,6 +8,16 @@ export default function HttpInterceptor() {
             // Add configurations here
             if(request.url?.indexOf(BASE_URL)==-1){
                 request.url = BASE_URL + request.url
+            }
+            if(request.url?.indexOf(LOGIN_USER)==-1){
+                request.headers = {
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`,
+                    'Content-Type': 'application/json'
+                }
+            }else{
+                request.headers = {
+                    'Content-Type': 'application/json'
+                }
             }
             return request;
         },
