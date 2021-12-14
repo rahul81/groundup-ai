@@ -1,5 +1,5 @@
-import { AdminActionTypes } from '../action-types/adminActionTypes';
-import { Action } from '../actions/adminActions';
+import { AdminActionTypes } from '../action-types/userActionTypes';
+import { Action } from '../actions/userActions';
 
 export interface AdminState {
     users: [],

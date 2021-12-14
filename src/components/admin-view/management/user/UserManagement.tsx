@@ -10,7 +10,7 @@ import { adminActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux'
 import AddUser from './add-user/AddUser'
 import LinearProgress from '@mui/material/LinearProgress';
-import { AdminState } from '../../../../store/reducers/adminReducers'
+import { AdminState } from '../../../../store/reducers/userReducers'
 
 interface UserManagementRowsTypes {
     username: string;
@@ -28,7 +28,7 @@ export default function UserManagement() {
 
     const dispatch = useDispatch();
     const { fetchUsers } = bindActionCreators(adminActionCreators, dispatch)
-    const { users, error, loading }: AdminState = useSelector((state: RootState) => state.admin);
+    const { users, error, loading }: AdminState = useSelector((state: RootState) => state.user);
 
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);
     const tempUserManagementRows: UserManagementRowsTypes[] = []

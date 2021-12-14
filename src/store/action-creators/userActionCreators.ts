@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Action, getUsersSuccess, getUsers, getUsersFailed } from '../actions/adminActions';
+import { Action, getUsersSuccess, getUsers, getUsersFailed } from '../actions/userActions';
 import axios from 'axios';
 import { GET_USERS } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';

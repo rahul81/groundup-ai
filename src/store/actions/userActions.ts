@@ -1,4 +1,4 @@
-import { AdminActionTypes } from '../action-types/adminActionTypes';
+import { AdminActionTypes } from '../action-types/userActionTypes';
 
 interface GetUsersAction {
     type: AdminActionTypes.GET_USERS,
