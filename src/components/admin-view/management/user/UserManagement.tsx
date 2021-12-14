@@ -1,5 +1,5 @@
 import { Box, Typography, Divider } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { UserManagementColumns } from '../../../../mockData/AdminPanel'
 import GButton from '../../../common/button/GButton'
 import GTable from '../../../common/table/GTable'
@@ -8,6 +8,7 @@ import { RootState } from '../../../../store/reducers';
 import { useDispatch, useSelector } from 'react-redux'
 import { adminActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux'
+import AddUser from './add-user/AddUser'
 
 interface USerManagementRows {
     username: string;
@@ -18,6 +19,11 @@ interface USerManagementRows {
 }
 
 export default function UserManagement() {
+    const [open, setOpen] = useState(false);
+    const handleShowDialog = (status:boolean)=>{
+        setOpen(status);
+    }
+    
     const dispatch = useDispatch();
     const { getUsers } = bindActionCreators(adminActionCreators, dispatch)
     const { users } = useSelector((state: RootState) => state.admin);
@@ -41,10 +47,11 @@ export default function UserManagement() {
     })
 
     return (
-        <Box className="crane-booking-management-view">
+        <Box >
             <Typography className="heading" variant="h5" component="h2">User Management</Typography>
             <Divider />
-            <GButton title='Add User' size='small' style={{ display: 'block', margin: '10px 0' }} />
+            <GButton className='user-management-btn' title='Add User' size='small' onClick={()=>setOpen(true)}/>
+            <AddUser open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
             <GTable rowClicked={(data: any) => { }} rows={UserManagementRows} columns={UserManagementColumns} />
         </Box>
     )
