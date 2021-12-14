@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import {Action, getUsersSuccess  } from '../actions/adminActions';
+import {Action, getUsersSuccess , getUsersFailed } from '../actions/adminActions';
 import axios from 'axios';
 import { GET_USERS } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
@@ -13,7 +13,7 @@ export const getUsers = (): AppThunk<void> =>{
         .then(response=>{
             dispatch(getUsersSuccess(response.data.data));
         }).catch(error=>{
-            console.error('Something happened')
+            dispatch(getUsersFailed('Failed to fetch API'));
         });
     }
 }

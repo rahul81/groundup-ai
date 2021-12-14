@@ -1,16 +1,27 @@
 import { AdminActionTypes } from '../action-types/adminActionTypes';
 
-interface GetUsersAction{
+interface GetUsersAction {
     type: AdminActionTypes.GET_USERS,
-    payload : []
+    payload: []
 }
 
-export type Action = GetUsersAction ;
+interface GetUsersFailed {
+    type: AdminActionTypes.GET_USERS_FAILED,
+    payload: string
+}
 
-export const getUsersSuccess = (users : []):GetUsersAction=>{
+export type Action = GetUsersAction | GetUsersFailed;;
+
+export const getUsersSuccess = (users: []): GetUsersAction => {
     return {
         type: AdminActionTypes.GET_USERS,
-        payload : users
+        payload: users
     }
 }
 
+export const getUsersFailed = (message: string): GetUsersFailed => {
+    return {
+        type: AdminActionTypes.GET_USERS_FAILED,
+        payload: message
+    }
+}
