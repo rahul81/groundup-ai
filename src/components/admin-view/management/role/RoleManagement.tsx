@@ -16,7 +16,7 @@ export default function RoleManagement() {
         <Box className="crane-booking-management-view">
             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
             <Divider/>
-            <GButton title='Add Role' size='small' className='role-management-btn' onClick={()=>setOpen(true)}/>
+            <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={()=>setOpen(true)}/>
             <AddRole open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
             <GTable rowClicked={(data: any) => {}} rows={RoleRows} columns={RoleColumns} />
         </Box>

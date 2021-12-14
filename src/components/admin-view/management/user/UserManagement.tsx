@@ -20,39 +20,42 @@ interface USerManagementRows {
 
 export default function UserManagement() {
     const [open, setOpen] = useState(false);
-    const handleShowDialog = (status:boolean)=>{
-        setOpen(status);
-    }
-    
+    const [userManagementRows, setUserManagementRows] = useState<USerManagementRows[]>([]);
     const dispatch = useDispatch();
     const { getUsers } = bindActionCreators(adminActionCreators, dispatch)
     const { users } = useSelector((state: RootState) => state.admin);
-    const UserManagementRows: USerManagementRows[] = []
+
+     
+    const handleShowDialog = (status:boolean)=>{
+        setOpen(status);
+    }
 
     useEffect(() => {
-        getUsers()
-        return () => {
-        }
+        getUsers();
     }, [])
 
-
-    users.map((user, index) => {
-        UserManagementRows.push({
-            username: user['name'],
-            company: "NA",
-            email: user['email'],
-            userRole: "NA",
-            action: "Edit/Remove"
-        })
-    })
+    useEffect(() => {
+        const tempUserManagementRows:USerManagementRows[] =[]
+        users.map((user, index) => {
+            tempUserManagementRows.push({
+                username: user['name'],
+                company: "NA",
+                email: user['email'],
+                userRole: "NA",
+                action: "Edit/Remove"
+            })
+        });
+        setUserManagementRows(tempUserManagementRows);
+    }, [users])
+    
 
     return (
         <Box >
             <Typography className="heading" variant="h5" component="h2">User Management</Typography>
             <Divider />
-            <GButton className='user-management-btn' title='Add User' size='small' onClick={()=>setOpen(true)}/>
+            <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={()=>setOpen(true)}/>
             <AddUser open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
-            <GTable rowClicked={(data: any) => { }} rows={UserManagementRows} columns={UserManagementColumns} />
+            <GTable rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
         </Box>
     )
 }
