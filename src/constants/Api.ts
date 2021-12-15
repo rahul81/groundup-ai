@@ -1,4 +1,5 @@
 export const LOGIN_USER = '/signin';
 export const GET_USERS = '/users';
 export const GET_ROLES = '/role';
+export const GET_COMPANY = '/companies';
 

@@ -41,7 +41,6 @@ export default function RoleManagement() {
             })
         })
         setRoleManagementRows( tempRoleManagementRows)
-        console.log('tempRoleManagementRows ' + roleManagementRows)
     }, [roles])
 
     return (
