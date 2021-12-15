@@ -16,7 +16,7 @@ export default function CompanyManagement() {
         <Box className="company-management-view">
             <Typography className="heading" variant="h5" component="h2">Company Management</Typography>
             <Divider/>
-            <GButton title='Add Comapny' size='small' className='company-management-btn' onClick={()=>setOpen(true)}/>
+            <GButton title='Add Comapny' size='small' className='company-management-btn add-button' onClick={()=>setOpen(true)}/>
             <AddCompany open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
             <GTable rowClicked={(data: any) => {}} rows={CompanyRows} columns={CompanyColumns} />
         </Box>

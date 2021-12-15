@@ -16,7 +16,7 @@ export default function ActivityManagement() {
         <Box className="activity-management-view">
             <Typography className="heading" variant="h5" component="h2">Activity Management</Typography>
             <Divider />
-            <GButton title='Add Activity' size='small' className='activity-management-btn' onClick={()=>setOpen(true)}/>
+            <GButton title='Add Activity' size='small' className='activity-management-btn add-button' onClick={()=>setOpen(true)}/>
             <AddActivity open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
             <GTable rowClicked={(data: any) => { }} rows={ActivityRows} columns={ActivityColumns} />
         </Box>

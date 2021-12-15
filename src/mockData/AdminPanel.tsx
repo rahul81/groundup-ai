@@ -15,17 +15,21 @@ export const UserManagementColumns: Columns[] = [
     label: "Username",
   },
   {
-    id:"userRole",
-    label: "User Role",
-  },
-  {
     id:"company",
     label: "Company",
   },
   {
+    id:"email",
+    label: "Email",
+  },
+  {
+    id:"userRole",
+    label: "User Role",
+  },
+  {
     id:"action",
     label: "Action",
-  }
+  },
 ]
 
 interface USerManagementRows {

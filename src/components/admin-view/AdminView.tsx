@@ -1,9 +1,5 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { USER_NOTIFICATION, USER_ADMIN, USER_ADMIN_USER_MANAGEMENT, USER_ADMIN_ROLE_MANAGEMENT, USER_ADMIN_MATERIAL_MANAGEMENT, USER_ADMIN_ACTIVITY_MANAGEMENT, USER_ADMIN_MAINTENANCE_MANAGEMENT, USER_ADMIN_CRANE_BOOKING_MANAGEMENT, USER_ADMIN_REPORTS_MANAGEMENT,USER_ADMIN_COMPANY_MANAGEMENT } from '../../constants/ContextPaths';
-import { RootState } from '../../store/reducers';
-import NotificationView from '../notification-view/NotificationView';
+import { USER_ADMIN_USER_MANAGEMENT, USER_ADMIN_ROLE_MANAGEMENT, USER_ADMIN_MATERIAL_MANAGEMENT, USER_ADMIN_ACTIVITY_MANAGEMENT, USER_ADMIN_MAINTENANCE_MANAGEMENT, USER_ADMIN_CRANE_BOOKING_MANAGEMENT, USER_ADMIN_REPORTS_MANAGEMENT,USER_ADMIN_COMPANY_MANAGEMENT } from '../../constants/ContextPaths';
 import './admin-view.scss'
 import ActivityManagement from './management/activity/ActivityManagement';
 import CraneBookingManagement from './management/crane-booking/CraneBookingManagement';
@@ -13,10 +9,11 @@ import ReportsManagement from './management/reports/ReportsManagement';
 import RoleManagement from './management/role/RoleManagement';
 import UserManagement from './management/user/UserManagement';
 import CompanyManagement from './management/company/CompanyManagement';
+import { Box } from '@mui/material';
 
 export default function AdminView() {
     return (
-        <>
+        <Box className="admin-view">
             <Switch>
                 <Route path={USER_ADMIN_USER_MANAGEMENT}>
                     <UserManagement/>
@@ -43,6 +40,6 @@ export default function AdminView() {
                     <CompanyManagement/>
                 </Route>
             </Switch>
-        </>
+        </Box>
     )
 }
