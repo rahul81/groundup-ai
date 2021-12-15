@@ -5,4 +5,13 @@
         width: 100%;
         overflow: scroll;
     }
+    .MuiTablePagination-toolbar{
+        align-items: center;
+        >*{
+            margin-bottom: 0;
+        }
+    }
+    .MuiTablePagination-root{
+        box-shadow: 0px 1px 4px 0px #0000001f;
+    }
 }
