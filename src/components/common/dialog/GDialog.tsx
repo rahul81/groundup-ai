@@ -7,19 +7,21 @@ interface GDialogProps{
     children: React.ReactNode;
     title: string;
     open:boolean;
+    size? : 'small' | 'medium' | 'large'
     showDialog: (status:boolean)=>void;
 }
 export default function GDialog(props: GDialogProps) {
     const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
-    const {open, showDialog} = props;
+    const {open, showDialog, size="small"} = props;
     
     return (
         <Dialog
             disablePortal
-            maxWidth="xs"
             open={open}
             onClose={showDialog}
             scroll={scroll}
+            fullWidth={true}
+            maxWidth = {`${size === 'medium' ? 'sm' : size === 'large' ? 'md' : 'xs'}`}
             className="dialog-container"
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"

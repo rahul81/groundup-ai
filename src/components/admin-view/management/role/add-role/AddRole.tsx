@@ -60,7 +60,7 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
     });
 
     return (
-        <GDialog  title="Role Management" open={open} showDialog={showDialog}>
+        <GDialog size='large'  title="Role Management" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                 <GFormInput<RoleFormFields> formik={formik} id="role" label="User Role" />
                 <InputLabel id="notification">Notification</InputLabel>
