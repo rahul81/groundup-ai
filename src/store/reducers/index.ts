@@ -1,12 +1,13 @@
 import { combineReducers } from "redux";
-import adminReducer from "./userReducers";
+import userReducer, { createUserReducer } from "./userReducer";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
 import companyReducer from "./companyReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
-    user : adminReducer,
+    user : userReducer,
+    createUser : createUserReducer,
     role : roleReducer,
     company : companyReducer
 });
