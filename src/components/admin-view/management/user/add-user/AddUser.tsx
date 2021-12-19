@@ -38,6 +38,7 @@ const roles: GSelectOption[] = [
 export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps) {
     const initialValues: UserFormFields = { username: '', company: '', email: '', role: '' };
     const dispatch = useDispatch();
+    const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
     const { error, loading }: CreateUserState = useSelector((state: RootState) => state.createUser);
 
     const formik = useFormik({
@@ -45,7 +46,6 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         validateOnChange: false,
         validationSchema: AddUserFormValidation,
         onSubmit: (data) => {
-            const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
             createNewUser(formik.values.email, 'password', formik.values.username)
         },
     });
