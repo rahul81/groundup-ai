@@ -6,11 +6,11 @@ import GTable from '../../../common/table/GTable'
 import '../../admin-view.scss'
 import { RootState } from '../../../../store/reducers';
 import { useDispatch, useSelector } from 'react-redux'
-import { adminActionCreators } from '../../../../store/action-creators'
+import { userActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux'
 import AddUser from './add-user/AddUser'
 import LinearProgress from '@mui/material/LinearProgress';
-import { AdminState } from '../../../../store/reducers/userReducers'
+import { UserState } from '../../../../store/reducers/userReducer'
 
 interface UserManagementRowsTypes {
     username: string;
@@ -27,8 +27,8 @@ export default function UserManagement() {
     }
 
     const dispatch = useDispatch();
-    const { fetchUsers } = bindActionCreators(adminActionCreators, dispatch)
-    const { users, error, loading }: AdminState = useSelector((state: RootState) => state.user);
+    const { fetchUsers } = bindActionCreators(userActionCreators, dispatch)
+    const { users, error, loading }: UserState = useSelector((state: RootState) => state.user);
 
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);
     const tempUserManagementRows: UserManagementRowsTypes[] = []

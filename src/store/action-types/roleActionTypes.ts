@@ -1,0 +1,5 @@
+export enum RolesActionTypes{
+    GET_ROLES = "GET_ROLES",
+    GET_ROLES_FAILED = "GET_ROLES_FAILED",
+    GET_ROLES_SUCCESS = "GET_ROLES_SUCCESS"
+}
