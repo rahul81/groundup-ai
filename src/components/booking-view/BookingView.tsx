@@ -8,23 +8,33 @@ import { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
 import { columns, rows } from '../../mockData/BookingTable';
 import GButton from '../common/button/GButton';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { HOME_BOOKING_REVIEW } from '../../constants/ContextPaths';
+import React from 'react';
+
 
 export default function BookingView() {
     const [data, setData] = useState<any>(null);
     const [open, setOpen] = useState(false);
 
     const history = useHistory();
+    const { search } = useLocation();
 
-    const handleShowDialog = (status:boolean)=>{
+    const handleShowDialog = (status: boolean) => {
         setOpen(status);
     }
 
-    const handleSelectData = (data:any)=>{
+    const handleSelectData = (data: any) => {
         setData(data);
         history.push(HOME_BOOKING_REVIEW);
     }
+
+    React.useEffect(() => {
+        let query = new URLSearchParams(search);
+        if (query && query.get('from') === 'chart') {
+            setOpen(true);
+        }
+    }, [])
 
     return (
         <Box className="page-container">
@@ -32,13 +42,13 @@ export default function BookingView() {
                 <Typography variant="h5" component="h2" className='heading-text'>
                     Crane Bookings
                 </Typography>
-                <GButton title="Request New" startIcon={<AddIcon />} onClick={()=>setOpen(true)} />
+                <GButton title="Request New" startIcon={<AddIcon />} onClick={() => setOpen(true)} />
             </Box>
-            <Filters/>
+            <Filters />
             <Box>
                 <Box>
-                    <GTable rowClicked={(data:any)=>handleSelectData(data)} rows={rows} columns={columns} />
-                    <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>
+                    <GTable rowClicked={(data: any) => handleSelectData(data)} rows={rows} columns={columns} />
+                    <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
                 </Box>
             </Box>
         </Box>

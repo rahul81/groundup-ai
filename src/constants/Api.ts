@@ -6,4 +6,5 @@ export const CREATE_USER = '/user/create';
 export const GET_ROLES = '/role';
 export const GET_COMPANY = '/companies';
 
+export const BOOKINGS = '/bookings';
 
