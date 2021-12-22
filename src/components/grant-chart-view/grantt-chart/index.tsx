@@ -1,109 +1,207 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import GToggleButtonGroup, { GToggleButtonOption } from '../../common/toggle-group/GToggleButtonGroup';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers';
+import ChartRow from './ChartRow';
+import { GranttChartData } from './interface';
 
-interface GranttChartData {
-    crane: string;
-    location: string;
-    liftType: string;
-    width: string;
-    left: string;
-    color: string;
-    craneColor: string;
-}
+const totalMinutesInaDay: number = 1440;
 
-const GranttChart = () => {
+const totalMinutesInaWeek: number = 7 * totalMinutesInaDay;
 
-    const [formats, setFormats] = React.useState<string[]>(() => []);
+const dayRightColumns: string[] = ["00:00", "02:00", "04:00", "06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"]
+
+const GranttChart = ({
+    selectedDate,
+    selectedCrane,
+    selectedZone
+}: any) => {
+
+    const [formats, setFormats] = React.useState<string[]>(() => ['day']);
+
+    const [newdata, setData] = useState<GranttChartData[]>([])
+
+    const [rightColumns, setRightColumns] = useState<string[]>(dayRightColumns)
+
     const options: GToggleButtonOption[] = [
         { value: "day", label: "Day" },
         { value: "week", label: "Week" }
     ];
 
-    const leftColumns: string[] = ["Crane", "Location", "Lift Type"];
+    const weekRightColumns = () => {
+        let curr = new Date(selectedDate);
+        let week = [];
+        if (selectedDate) {
+            for (let i = 1; i <= 7; i++) {
+                let first = curr.getDate() - curr.getDay() + i
+                let day = new Date(curr.setDate(first)).toDateString().slice(0, 10);
+                week.push(day)
+            }
+        }
+        return week;
+    }
 
-    const rightColumns: string[] = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"]
+    const reduxState = useSelector((state: RootState) => {
+        const { bookings: { data = [] } = {} } = state || {};
+        return {
+            bookings: data
+        }
+    });
 
-    const data: GranttChartData[] = [{
-        crane: "CraneA",
-        location: "Zone A",
-        liftType: "Install Framework",
-        width: "12%",
-        left: "15%",
-        color: "#3478fc",
-        craneColor: "#ff8d8d"
-    },
-    {
-        crane: "CraneA",
-        location: "Zone A",
-        liftType: "Loading/Unloading",
-        width: "8%",
-        left: "27%",
-        color: "#b7b7b7",
-        craneColor: "#ff8d8d"
-    },
-    {
-        crane: "CraneB",
-        location: "Zone A",
-        liftType: "Maintenance",
-        width: "8%",
-        left: "35%",
-        color: "#8d3ed4",
-        craneColor: "#8dabff"
-    },
-    {
-        crane: "CraneB",
-        location: "Zone A",
-        liftType: "Loading/Unloading",
-        width: "2%",
-        left: "43%",
-        color: "#b7b7b7",
-        craneColor: "#8dabff"
-    },
-    {
-        crane: "CraneB",
-        location: "Zone A",
-        liftType: "Install Framework",
-        width: "6%",
-        left: "44%",
-        color: "#b7b7b7",
-        craneColor: "#8dabff"
-    },
-    {
-        crane: "Crane A",
-        location: "Zone A",
-        liftType: "Concreting/Casting",
-        width: "19%",
-        left: "47%",
-        color: "#b7b7b7",
-        craneColor: "#8dabff"
-    },
-    {
-        crane: "CraneB",
-        location: "Zone A",
-        liftType: "Loading/Unloading",
-        width: "4%",
-        left: "72%",
-        color: "#b7b7b7",
-        craneColor: "#8dabff"
-    },
-    {
-        crane: "CraneB",
-        location: "Zone A",
-        liftType: "Loading/Unloading",
-        width: "4%",
-        left: "88%",
-        color: "#b7b7b7",
-        craneColor: "#8dabff"
-    }]
+    const checkForSelctedValuesMatch = (startTime: any, craneName: string, zone: string) => {
+        const startDate = new Date(startTime);
+        const selected = selectedDate ? new Date(selectedDate) : null;
+        const dateMatched = selected ? (startDate &&
+            startDate.getDate() == selected.getDate() &&
+            startDate.getMonth() == selected.getMonth() &&
+            startDate.getFullYear() == selected.getFullYear()) : true;
+        const craneMatched = selectedCrane ? selectedCrane === craneName : true;
+        const zoneMatched = selectedZone ? selectedZone === zone : true;
+        if (
+            dateMatched && craneMatched && zoneMatched
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    const getLeftPercentageDay = (startTime: any) => {
+        const startDate = new Date(startTime);
+        const timeInMinutes = (startDate.getHours() * 60) + (startDate.getMinutes());
+        return (timeInMinutes / totalMinutesInaDay) * 100;
+    }
+
+    const getWidthPercentageDay = (startTime: any, endTime: any) => {
+        const timediffInMinutes: number = (new Date(endTime).getTime() - new Date(startTime).getTime()) / (1000 * 60);
+        return (timediffInMinutes / totalMinutesInaDay) * 100;
+    }
+
+    const checkForDaysMatch = (startTime: any, craneName: string, zone: string) => {
+        const startDate = new Date(startTime);
+        let dateMatched = false;
+        const days = weekRightColumns();
+        const craneMatched = selectedCrane ? selectedCrane === craneName : true;
+        const zoneMatched = selectedZone ? selectedZone === zone : true;
+        days.map(day => {
+            const selectedDay = new Date(day);
+            if (!dateMatched)
+                dateMatched = startDate ?
+                    (startDate.getDate() == selectedDay.getDate() &&
+                        startDate.getMonth() == selectedDay.getMonth() &&
+                        startDate.getFullYear() == new Date().getFullYear()) : false;
+        });
+        if (dateMatched && craneMatched && zoneMatched)
+            return true;
+        return false;
+    }
+
+    const getLeftPercentageWeek = (startTime: any) => {
+        const startDate = new Date(startTime);
+        let timeInMinutes = (startDate.getHours() * 60) + (startDate.getMinutes());
+        const days = weekRightColumns();
+        let minutesToAdd = 0;
+        let dateMatched = false;
+        days.map(day => {
+            const selectedDay = new Date(day);
+            if (!dateMatched) {
+                dateMatched = startDate ?
+                    (startDate.getDate() == selectedDay.getDate() &&
+                        startDate.getMonth() == selectedDay.getMonth() &&
+                        startDate.getFullYear() == new Date().getFullYear()) : false;
+                if (!dateMatched)
+                    minutesToAdd += totalMinutesInaDay;
+            }
+
+        });
+        return ((minutesToAdd + timeInMinutes) / totalMinutesInaWeek) * 100;
+    }
+
+    const getWidthPercentageWeek = (startTime: any, endTime: any) => {
+        const timediffInMinutes: number = (new Date(endTime).getTime() - new Date(startTime).getTime()) / (1000 * 60);
+        return (timediffInMinutes / totalMinutesInaWeek) * 100;
+    }
+
+    useEffect(() => {
+        if (reduxState && reduxState.bookings && reduxState.bookings.length > 0) {
+            const { bookings } = reduxState;
+            let filteredBookings = [];
+            filteredBookings = bookings
+                .filter((booking: { crane_id: any; }) => booking.crane_id)
+            const timeSelection = formats && formats[0];
+            if (timeSelection === 'week') {
+                setRightColumns(weekRightColumns);
+                filteredBookings = filteredBookings.filter(
+                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForDaysMatch(booking.start_time, booking.crane_id.name, booking.zone)
+                ).map((booking:
+                    { crane_id: { name: string, _id: string }; zone: string; start_time: any, end_time: any, status: string, createdAt: any }
+                ) => {
+                    const { crane_id: { name = '', _id = '' } = {}, zone, start_time, end_time, status, createdAt } = booking;
+                    let color = 'transparent';
+                    if (status === 'Pending' || status === 'Unscheduled') {
+                        color = "#b7b7b7"
+                    } else if (status === 'Completed') {
+                        color = '#3478fc';
+                    } else if (status === 'Rescheduled') {
+                        color = '#8d3ed4'
+                    }
+                    return {
+                        id: _id,
+                        crane: name,
+                        location: zone,
+                        liftType: "Install Framework",
+                        width: getWidthPercentageWeek(start_time, end_time) + '%',
+                        left: getLeftPercentageWeek(start_time) + '%',
+                        color: color,
+                        craneColor: "#ff8d8d",
+                        createdAt
+                    }
+                });
+
+            } else {
+                setRightColumns(dayRightColumns);
+                filteredBookings = filteredBookings.filter(
+                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForSelctedValuesMatch(booking.start_time, booking.crane_id.name, booking.zone)
+                )
+                    .map((booking:
+                        { crane_id: { name: string, _id: string }; zone: string; start_time: any, end_time: any, status: string, createdAt: any }
+                    ) => {
+                        const { crane_id: { name = '', _id = '' } = {}, zone, start_time, end_time, status, createdAt } = booking;
+                        let color = 'transparent';
+                        if (status === 'Pending' || status === 'Unscheduled') {
+                            color = "#b7b7b7"
+                        } else if (status === 'Completed') {
+                            color = '#3478fc';
+                        } else if (status === 'Rescheduled') {
+                            color = '#8d3ed4'
+                        }
+                        return {
+                            id: _id,
+                            crane: name,
+                            location: zone,
+                            liftType: "Install Framework",
+                            width: getWidthPercentageDay(start_time, end_time) + '%',
+                            left: getLeftPercentageDay(start_time) + '%',
+                            color: color,
+                            craneColor: "#ff8d8d",
+                            createdAt
+                        }
+                    });
+            }
+            setData(filteredBookings);
+        }
+    }, [reduxState.bookings, formats, selectedDate, selectedCrane, selectedZone])
+
+
+    const leftColumns: string[] = ["Crane", "Location"];
     return <>
         <Typography variant="h4" className="grantt-chart-heading">All Cranes</Typography>
         <div className="grantt-chart-header-container">
             <div className="status-container">
                 <span className="status-text"><span className="status-color" style={{ backgroundColor: "#b7b7b7" }}></span>Pending</span>
-                <span className="status-text"><span className="status-color" style={{ backgroundColor: "#3478fc" }}></span>Scheduled</span>
-                <span className="status-text"><span className="status-color" style={{ backgroundColor: "#8d3ed4" }}></span>Maintenance Schedule</span>
+                <span className="status-text"><span className="status-color" style={{ backgroundColor: "#3478fc" }}></span>Completed</span>
+                <span className="status-text"><span className="status-color" style={{ backgroundColor: "#8d3ed4" }}></span>Rescheduled</span>
             </div>
             <div>
                 <GToggleButtonGroup formats={formats} setFormats={setFormats} options={options} singleSelect={true} />
@@ -127,18 +225,9 @@ const GranttChart = () => {
                 </div>
             </div>
             {
-                data.map(a =>
-                    <div className="single-row">
-                        <div className="single-row-left single-row-left-box">
-                            <div className="single-row-left-text"> <span className="crane-status-color" style={{ backgroundColor: a.craneColor }}></span>{a.crane}</div>
-                            <div className="single-row-left-text">{a.location}</div>
-                            <div className="single-row-left-text">{a.liftType}</div>
-                        </div>
-                        <div className="single-row-right-box">
-                            <div className="timing-box" style={{ width: a.width, backgroundColor: a.color, left: a.left }}></div>
-                        </div>
-                    </div>
-                )
+                (newdata && newdata.length > 0) ? newdata.map(a =>
+                    <ChartRow rowData={a} key={a.id + a.crane + a.location + a.createdAt} />
+                ) : <div className='no-data'>No Data Available</div>
             }
         </div>
     </>
