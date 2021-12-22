@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import userReducer, { createUserReducer } from "./userReducer";
 import bookingReducer from "./bookings";
-import cranesReducer from "./cranes";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
 import companyReducer from "./companyReducer";
@@ -12,8 +11,7 @@ const reducers = combineReducers({
     createUser: createUserReducer,
     role: roleReducer,
     company: companyReducer,
-    bookings: bookingReducer,
-    cranes: cranesReducer
+    bookings: bookingReducer
 });
 
 export default reducers;

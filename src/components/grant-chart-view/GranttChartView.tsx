@@ -5,10 +5,11 @@ import './grant-chart-view.scss';
 import CriteriaFilter from './criteria-filter/CriteriaFilter';
 import React, { useEffect, useState } from 'react';
 import GranttChart from './grantt-chart/index';
-import { bookingsActionCreators, cranesActionCreators } from '../../store/action-creators';
+import { bookingsActionCreators } from '../../store/action-creators';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { HOME_BOOKING_FROM_GRANTT_CHART } from '../../constants/ContextPaths';
 
 export default function GranttChartView() {
     const [date, setDate] = useState<Date | null>(new Date());
@@ -22,7 +23,7 @@ export default function GranttChartView() {
         getBookings();
     }, []);
 
-    const navigateTo = () => history.push('/home/booking?from=chart');
+    const navigateTo = () => history.push(HOME_BOOKING_FROM_GRANTT_CHART);
 
     return (
         <Box className="page-container">

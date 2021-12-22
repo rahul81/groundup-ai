@@ -5,7 +5,10 @@ interface BookingsAction {
     payload: string
 }
 
-export type Action = BookingsAction;
+interface BookingsFailed {
+    type: BookingsActionTypes.BOOKINGS_FAILED,
+    payload: string
+}
 
 export const bookingsSuccess = (data: any): BookingsAction => {
     return {
@@ -13,3 +16,12 @@ export const bookingsSuccess = (data: any): BookingsAction => {
         payload: data
     }
 }
+
+export const bookingsFailed = (message: string): BookingsFailed => {
+    return {
+        type: BookingsActionTypes.BOOKINGS_FAILED,
+        payload: message
+    }
+}
+
+export type Action = BookingsAction | BookingsFailed;

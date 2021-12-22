@@ -7,5 +7,4 @@ export const GET_ROLES = '/role';
 export const GET_COMPANY = '/companies';
 
 export const BOOKINGS = '/bookings';
-export const CRANES = '/cranes';
 

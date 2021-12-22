@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Action, bookingsSuccess } from '../actions/bookingsAction';
+import { Action, bookingsSuccess, bookingsFailed } from '../actions/bookingsAction';
 import axios from 'axios';
 import { BOOKINGS } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
@@ -16,7 +16,7 @@ export const getBookings = (): AppThunk<void> => {
                 const { data: { data = [] } = {} } = response || {};
                 dispatch(bookingsSuccess(data));
             }).catch(error => {
-                console.log('error in getting all bookings', error);
+                dispatch(bookingsFailed(error.message));
             });
     }
 }
