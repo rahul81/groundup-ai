@@ -15,9 +15,9 @@ import { roleState } from '../../../../../store/reducers/roleReducer';
 
 interface UserFormFields {
     username: string;
-    company: string;
+    company: string | number;
     email: string;
-    role: string;
+    role: string | number;
 }
 
 interface AddUserProps {
@@ -50,7 +50,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     useEffect(() => {
         const tempCompanies:GSelectOption[] =[];
         (company || []).map((companyDetails) => {
-            tempCompanies.push({ key: `${companyDetails['id']}`, value: `${companyDetails['name']}` })
+            tempCompanies.push({ key: `${companyDetails['_id']}`, value: `${companyDetails['name']}` })
         })
         setCompanyOptions(tempCompanies);
     }, [company])
@@ -58,7 +58,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     useEffect(() => {
         const tempRoles:GSelectOption[] =[];
         (roles || []).map((roleDetails) => {
-            tempRoles.push({ key: `${roleDetails['id']}`, value: `${roleDetails['name']}` })
+            tempRoles.push({ key: `${roleDetails['_id']}`, value: `${roleDetails['name']}` })
         })
         setRolesOptions(tempRoles);
     }, [roles])
@@ -68,7 +68,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         validateOnChange: false,
         validationSchema: AddUserFormValidation,
         onSubmit: (data) => {
-            createNewUser(formik.values.email, 'password', formik.values.username)
+            createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
         },
     });
 

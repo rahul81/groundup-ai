@@ -19,10 +19,10 @@ export const fetchUsers = (): AppThunk<void> => {
     }
 }
 
-export const createNewUser = (email: string, password: string, name: string): AppThunk<void> => {
+export const createNewUser = (email: string, password: string, name: string, role: string | number, company: string | number): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(createUser());
-        return await axios.post(CREATE_USER, { email, name, password })
+        return await axios.post(CREATE_USER, { email, name, password, company, role })
             .then(response => {
                 dispatch(createUserSuccess());
             }).catch(error => {
