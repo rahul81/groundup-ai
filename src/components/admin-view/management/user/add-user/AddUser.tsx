@@ -10,7 +10,7 @@ import { CreateUserState } from '../../../../../store/reducers/userReducer';
 import { RootState } from '../../../../../store/reducers';
 import { Alert, LinearProgress } from '@mui/material';
 import { companyState } from '../../../../../store/reducers/companyReducer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { roleState } from '../../../../../store/reducers/roleReducer';
 
 interface UserFormFields {
@@ -26,22 +26,21 @@ interface AddUserProps {
     handleSubmit: (data: any) => void;
 }
 
-const companyOptions: GSelectOption[] = []
-
-const rolesOptions: GSelectOption[] = []
 
 export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps) {
     const initialValues: UserFormFields = { username: '', company: '', email: '', role: '' };
     const dispatch = useDispatch();
     const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
     const { error, loading }: CreateUserState = useSelector((state: RootState) => state.createUser);
-
+    
     const { fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
     const { company }: companyState = useSelector((state: RootState) => state.company);
-
+    
     const { fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
     const { roles }: roleState = useSelector((state: RootState) => state.role);
 
+    const [companyOptions, setCompanyOptions] = useState<GSelectOption[]>([]);
+    const [rolesOptions, setRolesOptions] = useState<GSelectOption[]>([]);
 
     useEffect(() => {
         fetchCompany()
@@ -49,15 +48,19 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     }, [])
 
     useEffect(() => {
+        const tempCompanies:GSelectOption[] =[];
         (company || []).map((companyDetails) => {
-            companyOptions.push({ key: `${companyDetails['id']}`, value: `${companyDetails['name']}` })
+            tempCompanies.push({ key: `${companyDetails['id']}`, value: `${companyDetails['name']}` })
         })
+        setCompanyOptions(tempCompanies);
     }, [company])
 
     useEffect(() => {
+        const tempRoles:GSelectOption[] =[];
         (roles || []).map((roleDetails) => {
-            rolesOptions.push({ key: `${roleDetails['id']}`, value: `${roleDetails['name']}` })
+            tempRoles.push({ key: `${roleDetails['id']}`, value: `${roleDetails['name']}` })
         })
+        setRolesOptions(tempRoles);
     }, [roles])
 
     const formik = useFormik({
