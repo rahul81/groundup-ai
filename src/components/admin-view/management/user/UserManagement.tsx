@@ -10,7 +10,7 @@ import { userActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux'
 import AddUser from './add-user/AddUser'
 import LinearProgress from '@mui/material/LinearProgress';
-import { UserState } from '../../../../store/reducers/userReducer'
+import { UserState, DeleteUserState } from '../../../../store/reducers/userReducer'
 
 interface UserManagementRowsTypes {
     username: string;
@@ -18,6 +18,7 @@ interface UserManagementRowsTypes {
     userRole: string;
     company: string;
     action: string;
+    _id: number;
 }
 
 export default function UserManagement() {
@@ -29,6 +30,9 @@ export default function UserManagement() {
     const dispatch = useDispatch();
     const { fetchUsers } = bindActionCreators(userActionCreators, dispatch)
     const { users, error, loading }: UserState = useSelector((state: RootState) => state.user);
+
+    const { removeUser } = bindActionCreators(userActionCreators, dispatch)
+    const { deleteLError, deleteLoading }: DeleteUserState = useSelector((state: RootState) => state.removeUser);
 
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);
     const tempUserManagementRows: UserManagementRowsTypes[] = []
@@ -44,7 +48,8 @@ export default function UserManagement() {
                 company: "NA",
                 email: user['email'],
                 userRole: "NA",
-                action: "Edit/Remove"
+                action: "Edit/Remove",
+                _id: user['_id']
             })
         })
         setUserManagementRows(tempUserManagementRows)
@@ -57,9 +62,9 @@ export default function UserManagement() {
                     <>
                         <Typography className="heading" variant="h5" component="h2">User Management</Typography>
                         <Divider />
-                        <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={()=>setOpen(true)}/>
+                        <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={() => setOpen(true)} />
                         <AddUser open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                        <GTable rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        <GTable editlicked={(data: any) => { }} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
                     </>
             }
 

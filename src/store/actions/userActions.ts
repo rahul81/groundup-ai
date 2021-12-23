@@ -1,4 +1,4 @@
-import { userActionTypes, createUserActionTypes } from '../action-types/userActionTypes';
+import { userActionTypes, createUserActionTypes, deleteUserActionTypes } from '../action-types/userActionTypes';
 
 // getUser
 
@@ -72,4 +72,42 @@ export const createUserSuccess = (): CreateUserSuccess => {
     }
 }
 
-export type Action = GetUsersAction | GetUsersFailed | GetUsersSuccess | CreateUserSuccess | CreateUserFailed | CreateUserAction;
+// deleteUser
+
+interface DeleteUserAction {
+    type: deleteUserActionTypes.DELETE_USER,
+    payload: number
+}
+
+interface DeleteUserFailed {
+    type: deleteUserActionTypes.DELETE_USER_FAILED,
+    payload: string
+}
+
+interface DeleteUserSuccess {
+    type: deleteUserActionTypes.DELETE_USER_SUCCESS
+}
+
+
+export const deleteUser = (_id: number): DeleteUserAction => {
+    return {
+        type: deleteUserActionTypes.DELETE_USER,
+        payload: _id
+    }
+}
+
+
+export const deleteUserFailed = (message: string): DeleteUserFailed => {
+    return {
+        type: deleteUserActionTypes.DELETE_USER_FAILED,
+        payload: message
+    }
+}
+
+export const deleteUserSuccess = (): DeleteUserSuccess => {
+    return {
+        type: deleteUserActionTypes.DELETE_USER_SUCCESS,
+    }
+}
+
+export type Action = DeleteUserAction | DeleteUserSuccess | DeleteUserFailed | GetUsersAction | GetUsersFailed | GetUsersSuccess | CreateUserSuccess | CreateUserFailed | CreateUserAction;

@@ -2,6 +2,7 @@ export const LOGIN_USER = '/signin';
 
 export const GET_USERS = '/users';
 export const CREATE_USER = '/user/create';
+export const DELETE_USER = '/user/delete/';
 
 export const GET_ROLES = '/role';
 export const GET_COMPANY = '/companies';

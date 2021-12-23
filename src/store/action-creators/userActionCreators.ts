@@ -1,9 +1,10 @@
 import { Dispatch } from 'redux';
-import { Action, getUsersSuccess, getUsers, getUsersFailed, createUser, createUserFailed, createUserSuccess } from '../actions/userActions';
+import { Action, getUsersSuccess, getUsers, getUsersFailed, createUser, createUserFailed, createUserSuccess, deleteUser, deleteUserFailed, deleteUserSuccess } from '../actions/userActions';
 import axios from 'axios';
-import { GET_USERS, CREATE_USER } from '../../constants/Api';
+import { GET_USERS, CREATE_USER, DELETE_USER } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
+import { __String } from 'typescript';
 
 export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 
@@ -27,6 +28,18 @@ export const createNewUser = (email: string, password: string, name: string, rol
                 dispatch(createUserSuccess());
             }).catch(error => {
                 dispatch(createUserFailed(error));
+            });
+    }
+}
+
+export const removeUser = (userId: number): AppThunk<void> => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch(deleteUser(userId));
+        return await axios.delete(DELETE_USER + userId, {})
+            .then(response => {
+                dispatch(deleteUserSuccess());
+            }).catch(error => {
+                dispatch(deleteUserFailed(error));
             });
     }
 }
