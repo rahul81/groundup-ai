@@ -11,8 +11,9 @@ import { bindActionCreators } from 'redux'
 import AddUser from './add-user/AddUser'
 import LinearProgress from '@mui/material/LinearProgress';
 import { UserState, DeleteUserState } from '../../../../store/reducers/userReducer'
+import EditUser from './edit-user/EditUser'
 
-interface UserManagementRowsTypes {
+export interface UserManagementRowsTypes {
     username: string;
     email: string;
     userRole: string;
@@ -27,6 +28,11 @@ export default function UserManagement() {
         setOpen(status);
     }
 
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const handleShowEditDialog = (status: boolean) => {
+        setOpenEditDialog(status);
+    }
+
     const dispatch = useDispatch();
     const { fetchUsers } = bindActionCreators(userActionCreators, dispatch)
     const { users, error, loading }: UserState = useSelector((state: RootState) => state.user);
@@ -34,6 +40,7 @@ export default function UserManagement() {
     const { removeUser } = bindActionCreators(userActionCreators, dispatch)
     const { deleteLError, deleteLoading }: DeleteUserState = useSelector((state: RootState) => state.removeUser);
 
+    const [editUserData, setEditUserData] = useState<UserManagementRowsTypes>();
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);
     const tempUserManagementRows: UserManagementRowsTypes[] = []
 
@@ -63,8 +70,10 @@ export default function UserManagement() {
                         <Typography className="heading" variant="h5" component="h2">User Management</Typography>
                         <Divider />
                         <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={() => setOpen(true)} />
+                        <GTable editlicked={(data: UserManagementRowsTypes) => { setEditUserData(data); setOpenEditDialog(true); }} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        {/* Dialogs */}
                         <AddUser open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                        <GTable editlicked={(data: any) => { }} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        <EditUser editUserData={editUserData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />
                     </>
             }
 
