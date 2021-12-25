@@ -13,33 +13,26 @@ interface EditUserProps {
 }
 
 interface UserFormFields {
-    username: any;
-    email: any;
+    username: string;
+    email: string;
 }
 
-const EditUser = ({ open, showDialog, handleSubmit, editUserData }: EditUserProps) => {
-    console.log(editUserData)
-
-    const [EditUserDataState, setEditUserDataState] = useState<UserFormFields>({
-        username: 'any',
-        email: 'any'
-    })
+const EditUser = ({ open, showDialog, handleSubmit, editUserData = { username: '', email: '' } }: EditUserProps) => {
 
     const initialState = {
-        username: editUserData?.username || '',
-        email: editUserData?.email || '',
+        username: editUserData.username,
+        email: editUserData.email,
     }
 
     const formik = useFormik({
         initialValues: initialState,
         onSubmit: () => {
-            console.log("ASS")
+            console.log("Absfas")
         },
         validateOnChange: false,
     })
     return (
         <>
-            {console.log(editUserData)}
             <GDialog title="Edit User" open={open} showDialog={showDialog}>
                 <form id="request-new-form" className="groundup-form" >
                     <GFormInput<UserFormFields> formik={formik} id="username" label="User Name" />
