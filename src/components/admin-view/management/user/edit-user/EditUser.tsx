@@ -26,20 +26,18 @@ const EditUser = ({ open, showDialog, handleSubmit, editUserData = { username: '
 
     const formik = useFormik({
         initialValues: initialState,
-        onSubmit: () => {
+        onSubmit: (data) => {
             console.log("Absfas")
         },
         validateOnChange: false,
     })
     return (
-        <>
-            <GDialog title="Edit User" open={open} showDialog={showDialog}>
-                <form id="request-new-form" className="groundup-form" >
-                    <GFormInput<UserFormFields> formik={formik} id="username" label="User Name" />
-                    <GFormInput<UserFormFields> formik={formik} id="email" label="Email" />
-                </form >
-            </GDialog >
-        </>
+        <GDialog title="Edit User" open={open} showDialog={showDialog}>
+            <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
+                <GFormInput<UserFormFields> formik={formik} id="username" label="User Name" />
+                <GFormInput<UserFormFields> formik={formik} id="email" label="Email" />
+            </form >
+        </GDialog >
     )
 }
 

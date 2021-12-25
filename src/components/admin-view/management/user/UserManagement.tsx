@@ -62,6 +62,11 @@ export default function UserManagement() {
         setUserManagementRows(tempUserManagementRows)
     }, [users])
 
+    const rowClicked = (data: UserManagementRowsTypes)=>{
+        setEditUserData(data); 
+        setOpenEditDialog(true); 
+    }
+
     return (
         <Box >
             {loading === true ? (<LinearProgress />)
@@ -70,10 +75,10 @@ export default function UserManagement() {
                         <Typography className="heading" variant="h5" component="h2">User Management</Typography>
                         <Divider />
                         <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={() => setOpen(true)} />
-                        <GTable editlicked={(data: UserManagementRowsTypes) => { setEditUserData(data); setOpenEditDialog(true); }} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        <GTable editlicked={rowClicked} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
                         {/* Dialogs */}
                         <AddUser open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                        <EditUser editUserData={editUserData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />
+                        {openEditDialog && <EditUser editUserData={editUserData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />}
                     </>
             }
 
