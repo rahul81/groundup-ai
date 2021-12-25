@@ -2,15 +2,20 @@ import { combineReducers } from "redux";
 import userReducer, { createUserReducer, deleteUserReducer } from "./userReducer";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
-import companyReducer from "./companyReducer";
+import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
+
+    role : roleReducer,
+
     user : userReducer,
     createUser : createUserReducer,
     removeUser : deleteUserReducer,
-    role : roleReducer,
-    company : companyReducer
+
+    company : companyReducer,
+    createCompany : createCompanyReducer,
+    deleteCompany : deleteCompanyReducer
 });
 
 export default reducers;
