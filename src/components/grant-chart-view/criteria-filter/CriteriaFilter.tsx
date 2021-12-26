@@ -11,28 +11,10 @@ export default function CriteriaFilter(
         date,
         setDate,
         crane,
-        setCrane,
-        zone,
-        setZone
+        setCrane
     }: any
 ) {
 
-    const selectDistinctZones = (items: any[]) => {
-        let lookup: any = {};
-        let result: GSelectOption[] = [];
-
-        for (let item, i = 0; item = items[i++];) {
-            let zone = item.zone;
-
-            if (!(zone in lookup)) {
-                lookup[zone] = 1;
-                result.push({
-                    key: zone, value: zone
-                });
-            }
-        }
-        return result;
-    }
 
     const selectDistinctCranes = (items: any[]) => {
         let lookup: any = {};
@@ -55,8 +37,7 @@ export default function CriteriaFilter(
         const { bookings: { data = [] } = {} } = state || {};
         return {
             bookings: data,
-            cranes: selectDistinctCranes(data.filter((booking: { crane_id: any }) => booking.crane_id)),
-            zones: selectDistinctZones(data.filter((booking: { crane_id: any }) => booking.crane_id)),
+            cranes: selectDistinctCranes(data.filter((booking: { crane_id: any }) => booking.crane_id))
         }
     });
 
@@ -68,9 +49,6 @@ export default function CriteriaFilter(
                 </Box>
                 <Box className="dropdown" mr={1}>
                     <GSelect id="Crane" placeholder="Select Crane" options={reduxState.cranes} onChange={setCrane} value={crane} />
-                </Box>
-                <Box className="dropdown" mr={1}>
-                    <GSelect id="Zone" placeholder="Select Zone" options={reduxState.zones} onChange={setZone} value={zone} />
                 </Box>
             </Box>
         </>
