@@ -10,14 +10,16 @@ import { userActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux'
 import AddUser from './add-user/AddUser'
 import LinearProgress from '@mui/material/LinearProgress';
-import { UserState } from '../../../../store/reducers/userReducer'
+import { UserState, DeleteUserState } from '../../../../store/reducers/userReducer'
+import EditUser from './edit-user/EditUser'
 
-interface UserManagementRowsTypes {
+export interface UserManagementRowsTypes {
     username: string;
     email: string;
     userRole: string;
     company: string;
     action: string;
+    _id: number;
 }
 
 export default function UserManagement() {
@@ -26,10 +28,19 @@ export default function UserManagement() {
         setOpen(status);
     }
 
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const handleShowEditDialog = (status: boolean) => {
+        setOpenEditDialog(status);
+    }
+
     const dispatch = useDispatch();
     const { fetchUsers } = bindActionCreators(userActionCreators, dispatch)
     const { users, error, loading }: UserState = useSelector((state: RootState) => state.user);
 
+    const { removeUser } = bindActionCreators(userActionCreators, dispatch)
+    const { deleteLError, deleteLoading }: DeleteUserState = useSelector((state: RootState) => state.removeUser);
+
+    const [editUserData, setEditUserData] = useState<UserManagementRowsTypes>();
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);
     const tempUserManagementRows: UserManagementRowsTypes[] = []
 
@@ -44,11 +55,17 @@ export default function UserManagement() {
                 company: "NA",
                 email: user['email'],
                 userRole: "NA",
-                action: "Edit/Remove"
+                action: "Edit/Remove",
+                _id: user['_id']
             })
         })
         setUserManagementRows(tempUserManagementRows)
     }, [users])
+
+    const rowClicked = (data: UserManagementRowsTypes)=>{
+        setEditUserData(data); 
+        setOpenEditDialog(true); 
+    }
 
     return (
         <Box >
@@ -57,9 +74,11 @@ export default function UserManagement() {
                     <>
                         <Typography className="heading" variant="h5" component="h2">User Management</Typography>
                         <Divider />
-                        <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={()=>setOpen(true)}/>
+                        <GButton className='user-management-btn add-button' title='Add User' size='small' onClick={() => setOpen(true)} />
+                        <GTable editlicked={rowClicked} deleteClicked={(id) => { removeUser(id) }} rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        {/* Dialogs */}
                         <AddUser open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                        <GTable rowClicked={(data: any) => { }} rows={userManagementRows} columns={UserManagementColumns} />
+                        {openEditDialog && <EditUser editUserData={editUserData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />}
                     </>
             }
 

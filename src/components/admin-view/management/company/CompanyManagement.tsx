@@ -11,10 +11,12 @@ import { companyState } from '../../../../store/reducers/companyReducer';
 import { bindActionCreators } from 'redux';
 import { companyActionCreators } from '../../../../store/action-creators'
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteCompany } from '../../../../store/action-creators/companyActionCreators';
 
 interface CompanyRowsTypes {
     company: string;
     action: string;
+    _id: number;
 }
 
 export default function CompanyManagement() {
@@ -24,11 +26,13 @@ export default function CompanyManagement() {
     }
 
     const dispatch = useDispatch();
-    const { fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
+    const { fetchCompany, deleteCompany } = bindActionCreators(companyActionCreators, dispatch)
     const { company, error, loading }: companyState = useSelector((state: RootState) => state.company);
 
     const [companyManagementRows, setcompanyManagementRows] = useState<CompanyRowsTypes[]>([]);
     const tempcompanyManagementRows: CompanyRowsTypes[] = []
+
+    
 
     useEffect(() => {
         fetchCompany()
@@ -38,7 +42,8 @@ export default function CompanyManagement() {
         (company || []).map((company, index) => {
             tempcompanyManagementRows.push({
                 company: company['name'],
-                action: "Edit/Remove"
+                action: "Edit/Remove",
+                _id : company['_id']
             })
         })
         setcompanyManagementRows(tempcompanyManagementRows)
@@ -55,7 +60,7 @@ export default function CompanyManagement() {
                             <Divider />
                             <GButton title='Add Comapny' size='small' className='company-management-btn add-button' onClick={() => setOpen(true)} />
                             <AddCompany open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                            <GTable rowClicked={(data: any) => { }} rows={companyManagementRows} columns={CompanyColumns} />
+                            <GTable rowClicked={(data: any) => { }} deleteClicked={(data) => deleteCompany(data)} rows={companyManagementRows} columns={CompanyColumns} />
                         </Box>
                     </>
             }

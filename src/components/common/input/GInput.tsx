@@ -21,7 +21,7 @@ export function GFormInput<T extends FormikValues>({formik, id, label,required}:
                 onChange={formik.handleChange}
                 error={formik.touched[id] && Boolean(formik.errors[id])}/>
             {formik.touched[id] && formik.errors[id] && 
-                <Typography variant="error" component="div">
+                <Typography variant="error" component="span">
                     {formik.errors[id]}
                 </Typography>
             }
