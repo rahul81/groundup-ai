@@ -12,6 +12,7 @@ import { Alert, LinearProgress } from '@mui/material';
 import { companyState } from '../../../../../store/reducers/companyReducer';
 import { useEffect, useState } from 'react';
 import { roleState } from '../../../../../store/reducers/roleReducer';
+import GToast from '../../../../common/toast/GToast';
 
 interface UserFormFields {
     username: string;
@@ -28,14 +29,20 @@ interface AddUserProps {
 
 
 export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps) {
+
+    const [notificationOpen, setNotificationOpen] = useState(false);
+    const notificationToggleState = () => {
+        setNotificationOpen(!notificationOpen);
+    };
+
     const initialValues: UserFormFields = { username: '', company: '', email: '', role: '' };
     const dispatch = useDispatch();
     const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
     const { error, loading }: CreateUserState = useSelector((state: RootState) => state.createUser);
-    
+
     const { fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
     const { company }: companyState = useSelector((state: RootState) => state.company);
-    
+
     const { fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
     const { roles }: roleState = useSelector((state: RootState) => state.role);
 
@@ -68,12 +75,17 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         validateOnChange: false,
         validationSchema: AddUserFormValidation,
         onSubmit: (data) => {
+            handleSubmit(data)
             createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
+            setNotificationOpen(true)
         },
     });
 
     return (
         <>
+            {loading === false && error !== "" && <GToast severity="error" message={error} notificationToggleState={notificationToggleState} open={notificationOpen} />}
+            {loading === false && error === "" && <GToast severity="success" message="User added successfully" notificationToggleState={notificationToggleState} open={notificationOpen} />}
+            
             <GDialog title="User Management" open={open} showDialog={showDialog}>
                 <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                     <GFormInput<UserFormFields> formik={formik} id="username" label="User Name" />

@@ -26,7 +26,7 @@ export const createNewUser = (email: string, password: string, name: string, rol
             .then(response => {
                 dispatch(createUserSuccess());
             }).catch(error => {
-                dispatch(createUserFailed(error));
+                dispatch(createUserFailed(error.message));
             });
     }
 }

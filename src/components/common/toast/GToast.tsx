@@ -4,11 +4,13 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 // Boiler code to call GToast component
-// const [open, setOpen] = useState(false);
+// const [notificationOpen, setNotificationOpen] = useState(false);
 // const notificationToggleState = () => {
-//     setOpen(!open);
+//     setNotificationOpen(!notificationOpen);
 // };
-// notificationToggleState()
+// {loading === false && <GToast severity="error" message="Hello" notificationToggleState={notificationToggleState} open={notificationOpen} />}
+
+
 
 interface GToastProps {
     severity: 'success' | 'info' | 'warning' | 'error';
@@ -30,7 +32,7 @@ export default function GToast(props: GToastProps) {
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
-            <Snackbar open={props.open} autoHideDuration={autoHideDuration} onClose={props.notificationToggleState}>
+            <Snackbar open={props.open} autoHideDuration={autoHideDuration} onClose={props.notificationToggleState} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} >
                 <Alert onClose={props.notificationToggleState} severity={props.severity} sx={{ width: '100%' }}>
                     {props.message}
                 </Alert>
