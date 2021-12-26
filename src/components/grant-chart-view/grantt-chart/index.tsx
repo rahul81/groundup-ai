@@ -16,8 +16,7 @@ const dayRightColumns: string[] = ["00:00", "02:00", "04:00", "06:00", "08:00", 
 
 const GranttChart = ({
     selectedDate,
-    selectedCrane,
-    selectedZone
+    selectedCrane
 }: any) => {
 
     const [formats, setFormats] = React.useState<string[]>(() => ['day']);
@@ -55,7 +54,7 @@ const GranttChart = ({
         }
     });
 
-    const checkForSelctedValuesMatch = (startTime: any, craneName: string, zone: string) => {
+    const checkForSelctedValuesMatch = (startTime: any, craneName: string) => {
         const startDate = new Date(startTime);
         const selected = selectedDate ? new Date(selectedDate) : null;
         const dateMatched = selected ? (startDate &&
@@ -63,9 +62,8 @@ const GranttChart = ({
             startDate.getMonth() == selected.getMonth() &&
             startDate.getFullYear() == selected.getFullYear()) : true;
         const craneMatched = selectedCrane ? selectedCrane === craneName : true;
-        const zoneMatched = selectedZone ? selectedZone === zone : true;
         if (
-            dateMatched && craneMatched && zoneMatched
+            dateMatched && craneMatched
         ) {
             return true;
         }
@@ -83,12 +81,11 @@ const GranttChart = ({
         return (timediffInMinutes / totalMinutesInaDay) * 100;
     }
 
-    const checkForDaysMatch = (startTime: any, craneName: string, zone: string) => {
+    const checkForDaysMatch = (startTime: any, craneName: string) => {
         const startDate = new Date(startTime);
         let dateMatched = false;
         const days = weekRightColumns();
         const craneMatched = selectedCrane ? selectedCrane === craneName : true;
-        const zoneMatched = selectedZone ? selectedZone === zone : true;
         days.map(day => {
             const selectedDay = new Date(day);
             if (!dateMatched)
@@ -97,7 +94,7 @@ const GranttChart = ({
                         startDate.getMonth() == selectedDay.getMonth() &&
                         startDate.getFullYear() == new Date().getFullYear()) : false;
         });
-        if (dateMatched && craneMatched && zoneMatched)
+        if (dateMatched && craneMatched)
             return true;
         return false;
     }
@@ -138,7 +135,7 @@ const GranttChart = ({
             if (timeSelection === 'week') {
                 setRightColumns(weekRightColumns);
                 filteredBookings = filteredBookings.filter(
-                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForDaysMatch(booking.start_time, booking.crane_id.name, booking.zone)
+                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForDaysMatch(booking.start_time, booking.crane_id.name)
                 ).map((booking:
                     { crane_id: { name: string, _id: string }; zone: string; start_time: any, end_time: any, status: string, createdAt: any }
                 ) => {
@@ -167,7 +164,7 @@ const GranttChart = ({
             } else {
                 setRightColumns(dayRightColumns);
                 filteredBookings = filteredBookings.filter(
-                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForSelctedValuesMatch(booking.start_time, booking.crane_id.name, booking.zone)
+                    (booking: { start_time: any, crane_id: { name: string }, zone: string }) => checkForSelctedValuesMatch(booking.start_time, booking.crane_id.name)
                 )
                     .map((booking:
                         { crane_id: { name: string, _id: string }; zone: string; start_time: any, end_time: any, status: string, createdAt: any }
@@ -196,7 +193,7 @@ const GranttChart = ({
             }
             setData(filteredBookings);
         }
-    }, [reduxState.bookings, formats, selectedDate, selectedCrane, selectedZone])
+    }, [reduxState.bookings, formats, selectedDate, selectedCrane])
 
 
     const leftColumns: string[] = ["Crane", "Location"];
