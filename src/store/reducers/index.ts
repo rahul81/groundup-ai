@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } from "./userReducer";
+import bookingReducer from "./bookings";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
@@ -9,6 +10,8 @@ const reducers = combineReducers({
 
     role : roleReducer,
 
+    bookings: bookingReducer,
+
     user : userReducer,
     createUser : createUserReducer,
     removeUser : deleteUserReducer,
@@ -17,6 +20,7 @@ const reducers = combineReducers({
     company : companyReducer,
     createCompany : createCompanyReducer,
     deleteCompany : deleteCompanyReducer
+
 });
 
 export default reducers;

@@ -14,4 +14,5 @@ export const GET_COMPANY = '/companies';
 export const CREATE_COMPANY = '/company/create';
 export const DELETE_COMPANY = '/company/delete/';
 
+export const BOOKINGS = '/bookings';
 
