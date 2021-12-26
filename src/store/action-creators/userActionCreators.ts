@@ -1,10 +1,9 @@
 import { Dispatch } from 'redux';
-import { Action, getUsersSuccess, getUsers, getUsersFailed, createUser, createUserFailed, createUserSuccess, deleteUser, deleteUserFailed, deleteUserSuccess } from '../actions/userActions';
+import { Action, getUsersSuccess, getUsers, getUsersFailed, createUser, createUserFailed, createUserSuccess, deleteUser, deleteUserFailed, deleteUserSuccess, editUser, editUserFailed, editUserSuccess } from '../actions/userActions';
 import axios from 'axios';
-import { GET_USERS, CREATE_USER, DELETE_USER } from '../../constants/Api';
+import { GET_USERS, CREATE_USER, DELETE_USER ,UPDATE_USER} from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
-import { __String } from 'typescript';
 
 export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 
@@ -40,6 +39,18 @@ export const removeUser = (userId: number): AppThunk<void> => {
                 dispatch(deleteUserSuccess());
             }).catch(error => {
                 dispatch(deleteUserFailed(error));
+            });
+    }
+}
+
+export const updateUser = (userId: number, email: string, name: string): AppThunk<void> => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch(editUser());
+        return await axios.put(UPDATE_USER + userId, { email, name })
+            .then(response => {
+                dispatch(editUserSuccess());
+            }).catch(error => {
+                dispatch(editUserFailed(error));
             });
     }
 }

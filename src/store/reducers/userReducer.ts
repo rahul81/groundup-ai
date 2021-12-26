@@ -1,5 +1,8 @@
-import { userActionTypes, createUserActionTypes, deleteUserActionTypes } from '../action-types/userActionTypes';
+import { userActionTypes, createUserActionTypes, deleteUserActionTypes, editUserActionTypes } from '../action-types/userActionTypes';
 import { Action } from '../actions/userActions';
+
+
+// Get User
 
 export interface UserState {
     users: [],
@@ -81,6 +84,34 @@ export const deleteUserReducer = (state: DeleteUserState = deleteInitialState, a
 
         case deleteUserActionTypes.DELETE_USER_SUCCESS:
             return { ...state, deleteLoading: false, deleteLError: '' };
+            
+        default:
+            return state;
+    }
+}
+
+// Edit User
+
+export interface EditUserState {
+    editLoading: boolean,
+    editLError: string
+}
+
+export const editUserInitialState: EditUserState = {
+    editLoading: true,
+    editLError: ''
+}
+
+export const editUserReducer = (state: EditUserState = editUserInitialState, action: Action) => {
+    switch (action.type) {
+        case editUserActionTypes.EDIT_USER:
+            return { ...state, editLoading: true, editLError: '', };
+
+        case editUserActionTypes.EDIT_USER_FAILED:
+            return { ...state, editLoading: false, editLError: action.payload };
+
+        case editUserActionTypes.EDIT_USER_SUCCESS:
+            return { ...state, editLoading: false, editLError: '' };
             
         default:
             return state;

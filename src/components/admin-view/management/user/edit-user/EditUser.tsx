@@ -1,14 +1,14 @@
-import { Formik, useFormik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import { useFormik } from 'formik'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { userActionCreators } from '../../../../../store/action-creators'
 import GDialog from '../../../../common/dialog/GDialog'
 import { GFormInput } from '../../../../common/input/GInput'
-import { GFormSelect } from '../../../../common/select/GSelect'
-import { UserManagementRowsTypes } from '../UserManagement'
 
 interface EditUserProps {
     open: boolean;
     showDialog: (status: boolean) => void;
-    handleSubmit: (data: any) => void;
+    handleSubmit: () => void;
     editUserData: any;
 }
 
@@ -19,6 +19,9 @@ interface UserFormFields {
 
 const EditUser = ({ open, showDialog, handleSubmit, editUserData = { username: '', email: '' } }: EditUserProps) => {
 
+    const dispatch = useDispatch();
+    const { updateUser } = bindActionCreators(userActionCreators, dispatch)
+
     const initialState = {
         username: editUserData.username,
         email: editUserData.email,
@@ -27,7 +30,8 @@ const EditUser = ({ open, showDialog, handleSubmit, editUserData = { username: '
     const formik = useFormik({
         initialValues: initialState,
         onSubmit: (data) => {
-            console.log("Absfas")
+            handleSubmit()
+            updateUser(editUserData._id, formik.values.email, formik.values.username)
         },
         validateOnChange: false,
     })

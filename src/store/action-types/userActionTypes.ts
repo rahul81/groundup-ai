@@ -15,3 +15,9 @@ export enum deleteUserActionTypes{
     DELETE_USER_FAILED = "DELETE_USER_FAILED",
     DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS"
 }
+
+export enum editUserActionTypes{
+    EDIT_USER = "EDIT_USER",
+    EDIT_USER_FAILED = "EDIT_USER_FAILED",
+    EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS"
+}

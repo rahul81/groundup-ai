@@ -1,4 +1,4 @@
-import { userActionTypes, createUserActionTypes, deleteUserActionTypes } from '../action-types/userActionTypes';
+import { userActionTypes, createUserActionTypes, deleteUserActionTypes, editUserActionTypes } from '../action-types/userActionTypes';
 
 // getUser
 
@@ -58,7 +58,6 @@ export const createUser = (): CreateUserAction => {
     }
 }
 
-
 export const createUserFailed = (message: string): CreateUserFailed => {
     return {
         type: createUserActionTypes.CREATE_USER_FAILED,
@@ -110,4 +109,39 @@ export const deleteUserSuccess = (): DeleteUserSuccess => {
     }
 }
 
-export type Action = DeleteUserAction | DeleteUserSuccess | DeleteUserFailed | GetUsersAction | GetUsersFailed | GetUsersSuccess | CreateUserSuccess | CreateUserFailed | CreateUserAction;
+// edit user
+
+interface EditUserAction {
+    type: editUserActionTypes.EDIT_USER
+}
+
+interface EditUserFailed {
+    type: editUserActionTypes.EDIT_USER_FAILED,
+    payload: string
+}
+
+interface EditUserSuccess {
+    type: editUserActionTypes.EDIT_USER_SUCCESS
+}
+
+
+export const editUser = (): EditUserAction => {
+    return {
+        type: editUserActionTypes.EDIT_USER
+    }
+}
+
+export const editUserFailed = (message: string): EditUserFailed => {
+    return {
+        type: editUserActionTypes.EDIT_USER_FAILED,
+        payload: message
+    }
+}
+
+export const editUserSuccess = (): EditUserSuccess => {
+    return {
+        type: editUserActionTypes.EDIT_USER_SUCCESS,
+    }
+}
+
+export type Action = EditUserAction | EditUserFailed | EditUserSuccess | DeleteUserAction | DeleteUserSuccess | DeleteUserFailed | GetUsersAction | GetUsersFailed | GetUsersSuccess | CreateUserSuccess | CreateUserFailed | CreateUserAction;
