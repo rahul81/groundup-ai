@@ -10,7 +10,7 @@ export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 export const getBookings = (): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         return await axios.post(BOOKINGS, {
-            "skip": 0,
+            "skip": 0
         })
             .then(response => {
                 const { data: { data = [] } = {} } = response || {};
