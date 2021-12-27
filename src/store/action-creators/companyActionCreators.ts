@@ -2,10 +2,10 @@ import { Dispatch } from 'redux';
 import {
     Action,
     getCompany, getCompanyFailed, getCompanySuccess,
-    createCompanySuccessAction, createCompanyFailedAction, createCompanyAction, deleteCompanySuccessAction, deleteCompanyFailedAction
+    createCompanySuccessAction, createCompanyFailedAction, createCompanyAction, deleteCompanySuccessAction, deleteCompanyFailedAction, editCompanySuccessAction, editCompanyFailedAction
 } from '../actions/companyActions';
 import axios from 'axios';
-import { GET_COMPANY, CREATE_COMPANY, DELETE_COMPANY } from '../../constants/Api';
+import { GET_COMPANY, CREATE_COMPANY, DELETE_COMPANY, UPDATE_COMPANY } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
 
@@ -46,3 +46,16 @@ export const deleteCompany = (_id: number): AppThunk<void> => {
             });
     }
 }
+
+export const editCompany = (_id: number, name: string, address: string, number: number): AppThunk<void> => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch(createCompanyAction());
+        return await axios.put(UPDATE_COMPANY + _id, { name, address, number })
+            .then(response => {
+                dispatch(editCompanySuccessAction());
+            }).catch(error => {
+                dispatch(editCompanyFailedAction(error.message));
+            });
+    }
+}
+

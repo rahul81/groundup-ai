@@ -83,3 +83,30 @@ export const deleteCompanyReducer = (state: deleteCompanyState = deleteCompanyIn
             return state;
     }
 }
+
+// Edit Comapny
+
+export interface editCompanyState {
+    editCompanyloading: boolean,
+    editCompanyerror: string
+}
+
+export const editCompanyInitialState: editCompanyState = {
+    editCompanyloading: true,
+    editCompanyerror: ''
+}
+
+export const editCompanyReducer = (state: editCompanyState = editCompanyInitialState, action: Action) => {
+    switch (action.type) {
+        case CompanyActionTypes.EDIT_COMPANY:
+            return { ...state, editCompanyloading: true };
+
+        case CompanyActionTypes.EDIT_COMPANY_FAILED:
+            return { ...state, editCompanyloading: false, editCompanyerror: action.payload };
+
+        case CompanyActionTypes.EDIT_COMPANY_SUCCESS:
+            return { ...state, editCompanyloading: false, editCompanyerror: '' };
+        default:
+            return state;
+    }
+}
