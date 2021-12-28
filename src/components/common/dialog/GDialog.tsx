@@ -27,13 +27,13 @@ export default function GDialog(props: GDialogProps) {
             aria-describedby="scroll-dialog-description"
         >
             <DialogTitle id="scroll-dialog-title" className="dialog-title">
-                <Typography variant="h6" component="h2">{props.title}</Typography>
+                <Typography variant="h6" component={'span'}>{props.title}</Typography>
                 <IconButton onClick={()=>showDialog(false)}>
                     <CloseIcon/>
                 </IconButton>
             </DialogTitle>
             <DialogContent dividers={scroll === 'paper'}>
-                <DialogContentText
+                <DialogContentText component={'span'}
                     id="scroll-dialog-description"
                     tabIndex={-1}>
                     {props.children}
