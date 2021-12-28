@@ -10,17 +10,22 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'jquery/dist/jquery.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
-import {store} from './store/store'
+import { store } from './store/store'
 import { Provider } from 'react-redux'
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
+
   <React.StrictMode>
-    <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+    <SnackbarProvider maxSnack={30}>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </SnackbarProvider>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
