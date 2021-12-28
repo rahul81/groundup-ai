@@ -38,7 +38,7 @@ export default function UserManagement() {
     const { users, error, loading }: UserState = useSelector((state: RootState) => state.user);
 
     const { removeUser } = bindActionCreators(userActionCreators, dispatch)
-    const { deleteLError, deleteLoading }: DeleteUserState = useSelector((state: RootState) => state.removeUser);
+    const { deleteError, deleteLoading }: DeleteUserState = useSelector((state: RootState) => state.removeUser);
 
     const [editUserData, setEditUserData] = useState<UserManagementRowsTypes>();
     const [userManagementRows, setUserManagementRows] = useState<UserManagementRowsTypes[]>([]);

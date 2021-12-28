@@ -66,24 +66,24 @@ export const createUserReducer = (state: CreateUserState = createUserInitialStat
 
 export interface DeleteUserState {
     deleteLoading: boolean,
-    deleteLError: string
+    deleteError: string
 }
 
 export const deleteInitialState: DeleteUserState = {
     deleteLoading: true,
-    deleteLError: ''
+    deleteError: ''
 }
 
 export const deleteUserReducer = (state: DeleteUserState = deleteInitialState, action: Action) => {
     switch (action.type) {
         case deleteUserActionTypes.DELETE_USER:
-            return { ...state, deleteLoading: true, deleteLError: '', };
+            return { ...state, deleteLoading: true, deleteError: '', };
 
         case deleteUserActionTypes.DELETE_USER_FAILED:
-            return { ...state, deleteLoading: false, deleteLError: action.payload };
+            return { ...state, deleteLoading: false, deleteError: action.payload };
 
         case deleteUserActionTypes.DELETE_USER_SUCCESS:
-            return { ...state, deleteLoading: false, deleteLError: '' };
+            return { ...state, deleteLoading: false, deleteError: '' };
             
         default:
             return state;
