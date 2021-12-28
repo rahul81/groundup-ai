@@ -34,7 +34,6 @@ const EditCompany = ({ open, showDialog, handleSubmit, EditCompanyData = { compa
         initialValues: initialState,
         onSubmit: (data) => {
             handleSubmit()
-            console.log(data)
             editCompany(EditCompanyData?._id, formik.values.company, formik.values.address, formik.values.phone)
         },
         validateOnChange: false,

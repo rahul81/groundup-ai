@@ -9,6 +9,9 @@ export const UPDATE_USER = '/user/update/';
 // Roles
 export const GET_ROLES = '/role';
 
+// Manage Priviledges
+export const GET_PRIVLIEDGES = '/priviledges';
+
 // Company
 export const GET_COMPANY = '/companies';
 export const CREATE_COMPANY = '/company/create';

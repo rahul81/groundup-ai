@@ -1,7 +1,7 @@
 import { Box, Typography, Divider, Alert, LinearProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import '../../admin-view.scss'
-import {  RoleColumns } from '../../../../mockData/AdminPanel';
+import { RoleColumns } from '../../../../mockData/AdminPanel';
 import GTable from '../../../common/table/GTable';
 import GButton from '../../../common/button/GButton';
 import AddRole from './add-role/AddRole';
@@ -40,8 +40,9 @@ export default function RoleManagement() {
                 action: "Edit/Remove"
             })
         })
-        setRoleManagementRows( tempRoleManagementRows)
+        setRoleManagementRows(tempRoleManagementRows)
     }, [roles])
+
 
     return (
         <Box >
@@ -52,7 +53,7 @@ export default function RoleManagement() {
                             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
-                            <AddRole open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
+                            {open && <AddRole open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
                             <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} />
                         </Box>
                     </>

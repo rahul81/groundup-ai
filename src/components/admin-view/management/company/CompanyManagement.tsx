@@ -62,8 +62,6 @@ export default function CompanyManagement() {
 
 
     const rowClicked = (data: CompanyRowsTypes) => {
-        console.log('rowClicked')
-        console.log(data)
         setEditCompanyData(data)
         setOpenEditDialog(true)
     }

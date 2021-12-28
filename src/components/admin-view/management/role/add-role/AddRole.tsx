@@ -5,16 +5,15 @@ import RoleFormValidation from './RoleFormValidation'
 import { Grid, InputLabel } from '@mui/material'
 import { Box } from '@mui/system';
 import GCheckbox from '../../../../common/checkobx/GCheckbox';
+import { priviledgesActionCreators } from '../../../../../store/action-creators';
+import { priviledgesState } from '../../../../../store/reducers/priviledgesReducer';
+import { RootState } from '../../../../../store/reducers';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 interface RoleFormFields {
     role: string;
-    maintenance: boolean;
-    machineIdling: boolean;
-    approvedRejectedBooking: boolean;
-    rescheduleBooking: boolean;
-    canelledBooking: boolean;
-    updateBooking: boolean;
-    newbooking: boolean;
 }
 
 interface AddRoleProps {
@@ -28,26 +27,32 @@ interface CheckBoxFields {
     label: string;
 }
 
-const checkBoxes: CheckBoxFields[] = [
-    { id: "newbooking", label: "New Booking" },
-    { id: "updateBooking", label: "Update Booking" },
-    { id: "canelledBooking", label: "Cancelled Booking" },
-    { id: "rescheduleBooking", label: "Reschedule Booking" },
-    { id: "approvedRejectedBooking", label: "Approved/ Rejected Booking" },
-    { id: "machineIdling", label: "Machine Idling" },
-    { id: "maintenance", label: "Maintenance" },]
-
 
 export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps) {
+    const dispatch = useDispatch();
+    const { getPriviledges } = bindActionCreators(priviledgesActionCreators, dispatch)
+    const { priviledges, priviledgesError, priviledgesLoading }: priviledgesState = useSelector((state: RootState) => state.priviledges);
+
+    const [allPriviledges, setPriviledges] = useState<CheckBoxFields[]>([]);
+    const tempPriviledges: CheckBoxFields[] = []
+
+    useEffect(() => {
+        getPriviledges()
+    }, [])
+
+    
+    useEffect(() => {
+        console.log(priviledges);
+        (priviledges || []).map((priviledge, index) => {
+            tempPriviledges.push(
+                { id: priviledge['_id'], label: priviledge['name'] }
+            )
+        })
+        setPriviledges(tempPriviledges)
+    }, [priviledges])
+
     const initialValues: RoleFormFields = {
         role: '',
-        maintenance: true,
-        machineIdling: true,
-        approvedRejectedBooking: true,
-        rescheduleBooking: true,
-        canelledBooking: true,
-        updateBooking: true,
-        newbooking: true
     };
 
     const formik = useFormik({
@@ -55,6 +60,7 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
         validateOnChange: false,
         validationSchema: RoleFormValidation,
         onSubmit: (data) => {
+            console.log(data)
             handleSubmit(data)
         },
     });
@@ -66,7 +72,7 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
                 <InputLabel id="notification">Notification</InputLabel>
                 <Grid xs={12} container>
 
-                    {checkBoxes.map((item, index) => {
+                    {allPriviledges.map((item, index) => {
                         return (
                             <Grid xs={6}>
                                 <Box className="item">
