@@ -12,7 +12,6 @@ import { Alert, LinearProgress } from '@mui/material';
 import { companyState } from '../../../../../store/reducers/companyReducer';
 import { useEffect, useState } from 'react';
 import { roleState } from '../../../../../store/reducers/roleReducer';
-import GToast from '../../../../common/toast/GToast';
 
 interface UserFormFields {
     username: string;
@@ -83,8 +82,8 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
 
     return (
         <>
-            {loading === false && error !== "" && <GToast severity="error" message={error} notificationToggleState={notificationToggleState} open={notificationOpen} />}
-            {loading === false && error === "" && <GToast severity="success" message="User added successfully" notificationToggleState={notificationToggleState} open={notificationOpen} />}
+            {/* {loading === false && error !== "" && <GToast severity="error" message={error} notificationToggleState={notificationToggleState} open={notificationOpen} />} */}
+            {/* {loading === false && error === "" && <GToast severity="success" message="User added successfully" notificationToggleState={notificationToggleState} open={notificationOpen} />} */}
             
             <GDialog title="User Management" open={open} showDialog={showDialog}>
                 <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
