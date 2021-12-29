@@ -29,8 +29,7 @@ interface HeadersProps {
 
 export default function GroundUpAppBar(props: HeadersProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -81,8 +80,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
         openNotificationDrawer={openNotificationDrawer}
         setopenNotificationDrawer={setopenNotificationDrawer}
       />
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
     </Menu>
   );
 
@@ -117,7 +115,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
       <MenuItem>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show new notifications"
           color="inherit"
         >
           <Badge badgeContent={4} color="primary">
@@ -187,7 +185,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
               </Badge>
             </IconButton>
             <div style={{height: '28px', border: '1px solid rgba(0, 0, 0, 0.5)', margin:'0 .5rem 0 .7rem'}}></div>
-            <Typography style={{textTransform: 'capitalize'}}>Welcome {username}!</Typography>
+            <Typography onClick={handleProfileMenuOpen} style={{textTransform: 'capitalize'}}>Welcome {username}!</Typography>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
