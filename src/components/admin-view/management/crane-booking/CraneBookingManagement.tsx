@@ -11,7 +11,7 @@ export default function CraneBookingManagement() {
         <Box className="crane-booking-management-view">
             <Typography className="heading" variant="h5" component="h2">Crane Booking Management</Typography>
             <Divider/>
-            <GButton title='Add Sub Contractors' size='small' className='crane-management-btn add-button' />
+            <GButton title='Add Crane' size='small' className='crane-management-btn add-button' />
             <GTable rowClicked={(data: any) => {}} rows={CraneUsageRows} columns={CraneManagementColumns} />
         </Box>
     )

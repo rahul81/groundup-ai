@@ -17,7 +17,7 @@ import { SnackbarProvider } from 'notistack';
 ReactDOM.render(
 
   <React.StrictMode>
-    <SnackbarProvider maxSnack={30}>
+    <SnackbarProvider maxSnack={7}>
       <BrowserRouter>
         <Provider store={store}>
           <App />

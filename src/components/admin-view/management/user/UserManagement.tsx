@@ -52,9 +52,9 @@ export default function UserManagement() {
         (users || []).map((user, index) => {
             tempUserManagementRows.push({
                 username: user['name'],
-                company: "NA",
+                company: user['company']['name'],
                 email: user['email'],
-                userRole: "NA",
+                userRole: user['role']['name'],
                 action: "Edit/Remove",
                 _id: user['_id']
             })
