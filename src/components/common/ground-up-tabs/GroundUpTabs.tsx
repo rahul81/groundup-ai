@@ -37,10 +37,10 @@ export default function GroundUpTabs(props:TabPanelProps) {
 
   return (
     <>
-      <Tabs value={props.index} onChange={handleChange} aria-label="GroundUp Tabs" sx={{display: {xs:'none', md:'block'}}}>
+      <Tabs value={props.index} onChange={handleChange} aria-label="GroundUp Tabs" sx={{display: {xs:'none', sm:'block'}}}>
           {(tabs || []).map((item, index)=><Tab key={item.id} label={item.text} {...a11yProps(index)} />)}
       </Tabs>
-      <Tabs value={props.index} onChange={handleChange} aria-label="GroundUp Tabs" sx={{display: {xs:'block', md:'none'}}}>
+      <Tabs value={props.index} onChange={handleChange} aria-label="GroundUp Tabs" sx={{display: {xs:'block', sm:'none'}}}>
         {(tabs || []).map((item, index)=><Tab key={item.id} icon={item.icon} aria-label={item.text}/>)}
       </Tabs>
     </>

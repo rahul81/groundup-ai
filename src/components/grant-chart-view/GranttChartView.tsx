@@ -13,8 +13,7 @@ import { HOME_BOOKING_FROM_GRANTT_CHART } from '../../constants/ContextPaths';
 
 export default function GranttChartView() {
     const [date, setDate] = useState<Date | null>(new Date());
-    const [crane, setCrane] = useState('')
-    const [zone, setZone] = useState('');
+    const [crane, setCrane] = useState('');
     const history = useHistory();
 
     const dispatch = useDispatch();
@@ -35,8 +34,8 @@ export default function GranttChartView() {
                     Request New
                 </Button>
             </Box>
-            <CriteriaFilter date={date} setDate={setDate} crane={crane} setCrane={setCrane} zone={zone} setZone={setZone} />
-            <GranttChart selectedDate={date} selectedCrane={crane} selectedZone={zone} />
+            <CriteriaFilter date={date} setDate={setDate} crane={crane} setCrane={setCrane} />
+            <GranttChart selectedDate={date} selectedCrane={crane} />
         </Box>
     )
 }
