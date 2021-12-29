@@ -33,22 +33,20 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
     const { getPriviledges } = bindActionCreators(priviledgesActionCreators, dispatch)
     const { priviledges, priviledgesError, priviledgesLoading }: priviledgesState = useSelector((state: RootState) => state.priviledges);
 
-    const [allPriviledges, setPriviledges] = useState<CheckBoxFields[]>([]);
+    const [allPriviledges, setallPriviledges] = useState<CheckBoxFields[]>([]);
     const tempPriviledges: CheckBoxFields[] = []
 
     useEffect(() => {
         getPriviledges()
     }, [])
 
-    
     useEffect(() => {
-        console.log(priviledges);
         (priviledges || []).map((priviledge, index) => {
             tempPriviledges.push(
                 { id: priviledge['_id'], label: priviledge['name'] }
             )
         })
-        setPriviledges(tempPriviledges)
+        setallPriviledges(tempPriviledges)
     }, [priviledges])
 
     const initialValues: RoleFormFields = {

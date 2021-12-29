@@ -25,8 +25,8 @@ export const createNewUser = (email: string, password: string, name: string, rol
         return await axios.post(CREATE_USER, { email, name, password, company, role })
             .then(response => {
                 dispatch(createUserSuccess());
-            }).catch(error => {
-                dispatch(createUserFailed(error.message));
+            }).catch(response => {
+                console.log('response')
             });
     }
 }
