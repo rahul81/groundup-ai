@@ -49,10 +49,13 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
         setallPriviledges(tempPriviledges)
     }, [priviledges])
 
-    const initialValues: RoleFormFields = {
+    const initialValues: any = {
         role: '',
     };
-
+    
+    (allPriviledges || []).forEach(item=>{
+        initialValues[item.id] = '';
+    })
     const formik = useFormik({
         initialValues: initialValues,
         validateOnChange: false,
