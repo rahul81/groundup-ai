@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { bookingsActionCreators } from '../../store/action-creators'
 import { bindActionCreators } from 'redux'
 import { BookingsState } from '../../store/reducers/bookings'
-import { composeWithDevTools } from "redux-devtools-extension";
+import { tConvert, dateFormator } from '../../../src/util/utility'
 
 
 interface BookingManagementRowsTypes {
@@ -23,9 +23,9 @@ interface BookingManagementRowsTypes {
     timeStart: string;
     timeEnd: string;
     zone: string;
-    crane: string;
+    crane: {name: string};
     taskType: string,
-    status: string,
+    status: JSX.Element,
 }
 
 interface Data {
@@ -39,7 +39,7 @@ interface Data {
   }
 
 interface Column {
-    id: "DateString" | "TimeStart" | "TimeEnd" | "Zone" | "Crane" | "TaskType" | "Status";
+    id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
     label: string;
     minWidth?: number;
     align?: "right" | "left";
@@ -47,30 +47,30 @@ interface Column {
   }
   
   const columns: Column[] = [
-    { id: "DateString", label: "Date", minWidth:120 },
-    { id: "TimeStart", label: "Time Start", align: "left"},
+    { id: "date", label: "Date", minWidth:120 },
+    { id: "timeStart", label: "Time Start", align: "left"},
     {
-      id: "TimeEnd",
+      id: "timeEnd",
       label: "Time End",
       align: "left",
     },
     {
-      id: "Zone",
+      id: "zone",
       label: "Zone",
       align: "left",
     },
     {
-      id: "Crane",
+      id: "crane",
       label: "Crane",
       align: "left",
     },
     {
-      id: "TaskType",
+      id: "taskType",
       label: "Task Type",
       align: "left",
     },
     {
-      id: "Status",
+      id: "status",
       label: "Status",
       align: "left",
     },
@@ -78,7 +78,7 @@ interface Column {
   ];
 
 export default function BookingView() {
-    const [datas, setData] = useState<any>(null);
+    const [selectData, setSelectData] = useState<any>(null);
     const [open, setOpen] = useState(false);
 
     const history = useHistory();
@@ -88,57 +88,36 @@ export default function BookingView() {
     const { getBookings } = bindActionCreators(bookingsActionCreators, dispatch)
     const { data, loading, error }: BookingsState = useSelector((state: RootState) => state.bookings);
 
-    const [bookingManagementRows, setBookingManagementRows] = useState<Data []>([]);
-    const tempBookingManagementRows: Data[] = []
-
-    function tConvert (timeString:string) {
-      const H = +timeString.substr(0, 2);
-      const h = H % 12 || 12;
-      const ampm = (H < 12 || H === 24) ? " AM" : " PM";
-      return ( h + timeString.substr(2, 3) + ampm )
-    }
-
-    function dateFormator (date : string){
- 
-      const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-           "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
-      let dateMonth = parseInt(date.substring(5,7))
-      const selectedMonthName = months[dateMonth - 1];
-      const finalDate = date.substring(0,5) + selectedMonthName.toString() + date.substring(7,10)
-      
-      return finalDate 
-    }
+    const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes []>([]);
+    const tempBookingManagementRows: BookingManagementRowsTypes[] = []
 
     function formatData(
-      date: string,
-      timeStart: string,
-      timeEnd: string,
-      zone: string,
-      crane: { name: string },
-      taskType: string,
-      status: JSX.Element
-    ): Data {
-      const DateString = dateFormator(date.substring(0, 10).split("-").join(" "))
-      const TimeStart = tConvert(timeStart.substring(11, 16));
-      const TimeEnd = tConvert(timeEnd.substring(11, 16));
-      const Zone = zone;
-      const Crane = crane;
-      const TaskType = taskType;
-      const Status = (
-        <GButton
-          title="pending"
-          size="small"
-          color="secondary"
-          sx={{
-            width: "100%",
-            backgroundColor: "secondary.dark",
-            textTransform: "capitalize",
-          }}
-        />
-      );
+      TimeStart: string,
+      TimeEnd: string,
+      Zone: string,
+      Crane: { name: string },
+      TaskType: string,
+      Status: string
+    ): BookingManagementRowsTypes {
+      const date = dateFormator(TimeStart.substring(0, 10).split("-").join(" "))
+      const timeStart = tConvert(TimeStart.substring(11, 16));
+      const timeEnd = tConvert(TimeEnd.substring(11, 16));
+      const zone = Zone;
+      const crane = Crane;
+      const taskType = TaskType;
+      const status = <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
 
-      return { DateString, TimeStart, TimeEnd, Zone, Crane, TaskType, Status };
+        // if(Status.toLowerCase() == "rejected"){
+        //   return <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "pending") {
+        //   return  <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "unscheduled") {
+        //   <GButton  title='Unscheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else {
+        //   return <GButton  title={Status} size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // }
+
+      return { date, timeStart, timeEnd, zone, crane, taskType, status };
     }
 
     React.useEffect(() => {
@@ -150,7 +129,6 @@ export default function BookingView() {
         (data || []).map((dataOne, index) => {
             let formattedData = formatData(
               dataOne['start_time'], 
-              dataOne['start_time'],
               dataOne['end_time'],
               dataOne['zone'],
               dataOne['crane_id']['name'],
@@ -158,18 +136,18 @@ export default function BookingView() {
               dataOne['status'],
               )
             tempBookingManagementRows.push(formattedData)
+            
         })
 
         setBookingManagementRows(tempBookingManagementRows)
-        setTimeout(() => {console.log("temp",tempBookingManagementRows)}, 3000) 
     }, [data])
 
     const handleShowDialog = (status: boolean) => {
         setOpen(status);
     }
 
-    const handleSelectData = (datas: any) => {
-        setData(datas);
+    const handleSelectData = (selectData: any) => {
+        setSelectData(selectData);
         history.push(HOME_BOOKING_REVIEW);
     }
 
@@ -191,7 +169,7 @@ export default function BookingView() {
             <Filters />
             <Box>
                 <Box>
-                    <GTable rowClicked={(datas: any) => handleSelectData(datas)} rows={bookingManagementRows} columns={columns} />
+                    <GTable rowClicked={(selectData: any) => handleSelectData(selectData)} rows={bookingManagementRows} columns={columns} />
                     <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
                 </Box>
             </Box>
