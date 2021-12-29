@@ -60,7 +60,7 @@ const GranttChart = ({
         const dateMatched = selected ? (startDate &&
             startDate.getDate() == selected.getDate() &&
             startDate.getMonth() == selected.getMonth() &&
-            startDate.getFullYear() == selected.getFullYear()) : true;
+            startDate.getFullYear() == selected.getFullYear()) : false;
         const craneMatched = selectedCrane ? selectedCrane === craneName : true;
         if (
             dateMatched && craneMatched
