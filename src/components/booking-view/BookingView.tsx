@@ -6,26 +6,148 @@ import GTable from '../common/table/GTable';
 import Filters from './filters/Filters';
 import { useState } from 'react';
 import RequestNew from './request-new/RequestNew';
-import { columns, rows } from '../../mockData/BookingTable';
 import GButton from '../common/button/GButton';
 import { useHistory, useLocation } from 'react-router';
 import { HOME_BOOKING_REVIEW } from '../../constants/ContextPaths';
 import React from 'react';
+import { RootState } from '../../store/reducers';
+import { useDispatch, useSelector } from 'react-redux'
+import { bookingsActionCreators } from '../../store/action-creators'
+import { bindActionCreators } from 'redux'
+import { BookingsState } from '../../store/reducers/bookings'
+import { tConvert, dateFormator } from '../../../src/util/utility'
 
+
+interface BookingManagementRowsTypes {
+    date: string;
+    timeStart: string;
+    timeEnd: string;
+    zone: string;
+    crane: {name: string};
+    taskType: string,
+    status: JSX.Element,
+}
+
+interface Data {
+    DateString: string;
+    TimeStart: string;
+    TimeEnd: string;
+    Zone: string;
+    Crane: { name : string};
+    TaskType: string;
+    Status: JSX.Element;
+  }
+
+interface Column {
+    id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
+    label: string;
+    minWidth?: number;
+    align?: "right" | "left";
+    format?: (value: number) => string;
+  }
+  
+  const columns: Column[] = [
+    { id: "date", label: "Date", minWidth:120 },
+    { id: "timeStart", label: "Time Start", align: "left"},
+    {
+      id: "timeEnd",
+      label: "Time End",
+      align: "left",
+    },
+    {
+      id: "zone",
+      label: "Zone",
+      align: "left",
+    },
+    {
+      id: "crane",
+      label: "Crane",
+      align: "left",
+    },
+    {
+      id: "taskType",
+      label: "Task Type",
+      align: "left",
+    },
+    {
+      id: "status",
+      label: "Status",
+      align: "left",
+    },
+  
+  ];
 
 export default function BookingView() {
-    const [data, setData] = useState<any>(null);
+    const [selectData, setSelectData] = useState<any>(null);
     const [open, setOpen] = useState(false);
 
     const history = useHistory();
     const { search } = useLocation();
 
+    const dispatch = useDispatch();
+    const { getBookings } = bindActionCreators(bookingsActionCreators, dispatch)
+    const { data, loading, error }: BookingsState = useSelector((state: RootState) => state.bookings);
+
+    const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes []>([]);
+    const tempBookingManagementRows: BookingManagementRowsTypes[] = []
+
+    function formatData(
+      TimeStart: string,
+      TimeEnd: string,
+      Zone: string,
+      Crane: { name: string },
+      TaskType: string,
+      Status: string
+    ): BookingManagementRowsTypes {
+      const date = dateFormator(TimeStart.substring(0, 10).split("-").join(" "))
+      const timeStart = tConvert(TimeStart.substring(11, 16));
+      const timeEnd = tConvert(TimeEnd.substring(11, 16));
+      const zone = Zone;
+      const crane = Crane;
+      const taskType = TaskType;
+      const status = <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+
+        // if(Status.toLowerCase() == "rejected"){
+        //   return <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "pending") {
+        //   return  <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "unscheduled") {
+        //   <GButton  title='Unscheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else {
+        //   return <GButton  title={Status} size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // }
+
+      return { date, timeStart, timeEnd, zone, crane, taskType, status };
+    }
+
+    React.useEffect(() => {
+        getBookings()        
+    }, [])
+
+    React.useEffect(() => {
+        
+        (data || []).map((dataOne, index) => {
+            let formattedData = formatData(
+              dataOne['start_time'], 
+              dataOne['end_time'],
+              dataOne['zone'],
+              dataOne['crane_id']['name'],
+              dataOne['tasktype'],
+              dataOne['status'],
+              )
+            tempBookingManagementRows.push(formattedData)
+            
+        })
+
+        setBookingManagementRows(tempBookingManagementRows)
+    }, [data])
+
     const handleShowDialog = (status: boolean) => {
         setOpen(status);
     }
 
-    const handleSelectData = (data: any) => {
-        setData(data);
+    const handleSelectData = (selectData: any) => {
+        setSelectData(selectData);
         history.push(HOME_BOOKING_REVIEW);
     }
 
@@ -47,7 +169,7 @@ export default function BookingView() {
             <Filters />
             <Box>
                 <Box>
-                    <GTable rowClicked={(data: any) => handleSelectData(data)} rows={rows} columns={columns} />
+                    <GTable rowClicked={(selectData: any) => handleSelectData(selectData)} rows={bookingManagementRows} columns={columns} />
                     <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
                 </Box>
             </Box>
