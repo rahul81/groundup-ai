@@ -54,7 +54,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     }, [])
 
     useEffect(() => {
-        const tempCompanies:GSelectOption[] =[];
+        const tempCompanies: GSelectOption[] = [];
         (company || []).map((companyDetails) => {
             tempCompanies.push({ key: `${companyDetails['_id']}`, value: `${companyDetails['name']}` })
         })
@@ -62,7 +62,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     }, [company])
 
     useEffect(() => {
-        const tempRoles:GSelectOption[] =[];
+        const tempRoles: GSelectOption[] = [];
         (roles || []).map((roleDetails) => {
             tempRoles.push({ key: `${roleDetails['_id']}`, value: `${roleDetails['name']}` })
         })
@@ -82,9 +82,6 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
 
     return (
         <>
-            {/* {loading === false && error !== "" && <GToast severity="error" message={error} notificationToggleState={notificationToggleState} open={notificationOpen} />} */}
-            {/* {loading === false && error === "" && <GToast severity="success" message="User added successfully" notificationToggleState={notificationToggleState} open={notificationOpen} />} */}
-            
             <GDialog title="User Management" open={open} showDialog={showDialog}>
                 <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                     <GFormInput<UserFormFields> formik={formik} id="username" label="User Name" />
