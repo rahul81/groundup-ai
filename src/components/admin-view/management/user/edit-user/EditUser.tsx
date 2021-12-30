@@ -59,6 +59,7 @@ const EditUser = ({ open, showDialog, handleSubmit, editUserData = { username: '
         onSubmit: async(data) => {
             handleSubmit()
             await updateUser(editUserData._id, formik.values.email, formik.values.username, formik.values.role)
+            fetchUsers()
         },
         validateOnChange: false,
     })

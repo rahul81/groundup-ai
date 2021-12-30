@@ -11,7 +11,7 @@ import { companyState } from '../../../../store/reducers/companyReducer';
 import { bindActionCreators } from 'redux';
 import { companyActionCreators } from '../../../../store/action-creators'
 import { useDispatch, useSelector } from 'react-redux';
-import {  } from '../../../../store/action-creators/companyActionCreators';
+import { } from '../../../../store/action-creators/companyActionCreators';
 import EditCompany from './edit-company/EditCompany';
 
 interface CompanyRowsTypes {
@@ -65,6 +65,11 @@ export default function CompanyManagement() {
         setEditCompanyData(data)
         setOpenEditDialog(true)
     }
+
+    const deleteCompanyByID = async (companyID: number) => {
+        await deleteCompany(companyID);
+        fetchCompany();
+    }
     return (
         <>
             <Box >
@@ -76,7 +81,7 @@ export default function CompanyManagement() {
                                 <Divider />
                                 <GButton title='Add Comapny' size='small' className='company-management-btn add-button' onClick={() => setOpen(true)} />
                                 <AddCompany open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                                <GTable rowClicked={(data: any) => { }} editlicked={rowClicked} deleteClicked={(data) => deleteCompany(data)} rows={companyManagementRows} columns={CompanyColumns} />
+                                <GTable rowClicked={(data: any) => { }} editlicked={rowClicked} deleteClicked={deleteCompanyByID} rows={companyManagementRows} columns={CompanyColumns} />
                             </Box>
                         </>
                 }

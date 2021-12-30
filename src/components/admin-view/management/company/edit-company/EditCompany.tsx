@@ -22,7 +22,7 @@ interface CompanyFormFields {
 const EditCompany = ({ open, showDialog, handleSubmit, EditCompanyData = { company: '', address: '', number: 0, _id: 0 } }: EditCompanyProps) => {
 
     const dispatch = useDispatch();
-    const { editCompany } = bindActionCreators(companyActionCreators, dispatch)
+    const { editCompany, fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
 
     const initialState = {
         company: EditCompanyData.company,
@@ -32,9 +32,10 @@ const EditCompany = ({ open, showDialog, handleSubmit, EditCompanyData = { compa
 
     const formik = useFormik({
         initialValues: initialState,
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
             handleSubmit()
-            editCompany(EditCompanyData?._id, formik.values.company, formik.values.address, formik.values.phone)
+            await editCompany(EditCompanyData?._id, formik.values.company, formik.values.address, formik.values.phone);
+            fetchCompany()
         },
         validateOnChange: false,
     })

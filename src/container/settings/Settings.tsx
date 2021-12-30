@@ -21,8 +21,11 @@ export default function Settings() {
                 {text:'User Management', id: USER_ADMIN_USER_MANAGEMENT },
                 {text:'Role Management', id: USER_ADMIN_ROLE_MANAGEMENT },
                 {text:'Company Management', id: USER_ADMIN_COMPANY_MANAGEMENT },
+                {text:'Material Management', id: USER_ADMIN_MATERIAL_MANAGEMENT },
                 {text:'Activity Management', id: USER_ADMIN_ACTIVITY_MANAGEMENT },
+                {text:'Maintenance Management', id: USER_ADMIN_MAINTENANCE_MANAGEMENT },
                 {text:'Crane Booking Management', id: USER_ADMIN_CRANE_BOOKING_MANAGEMENT },
+                {text:'Reports', id: USER_ADMIN_REPORTS_MANAGEMENT },
             ]
         }
     ]

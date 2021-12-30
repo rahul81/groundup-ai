@@ -24,15 +24,17 @@ export default function AddCompany({ open, showDialog, handleSubmit }: AddCompan
     const initialValues: CompanyFormFields = { company: '', address: '', phone: 0 };
 
     const dispatch = useDispatch();
-    const { createCompany } = bindActionCreators(companyActionCreators, dispatch)
+    const { createCompany, fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
     const { error, loading } = useSelector((state: RootState) => state.createCompany)
 
     const formik = useFormik({
         initialValues: initialValues,
         validateOnChange: false,
         validationSchema: CompanyFormValidation,
-        onSubmit: (data) => {
-            createCompany(formik.values.company, formik.values.address, formik.values.phone)
+        onSubmit: async(data) => {
+            await createCompany(formik.values.company, formik.values.address, formik.values.phone);
+            handleSubmit(data);
+            fetchCompany()
         },
     });
 
