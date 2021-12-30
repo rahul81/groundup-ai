@@ -62,9 +62,9 @@ export default function UserManagement() {
         setUserManagementRows(tempUserManagementRows)
     }, [users])
 
-    const rowClicked = (data: UserManagementRowsTypes)=>{
-        setEditUserData(data); 
-        setOpenEditDialog(true); 
+    const rowClicked = (data: UserManagementRowsTypes) => {
+        setEditUserData(data);
+        setOpenEditDialog(true);
     }
 
     return (
@@ -81,7 +81,6 @@ export default function UserManagement() {
                         {openEditDialog && <EditUser editUserData={editUserData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />}
                     </>
             }
-
         </Box>
     )
 }

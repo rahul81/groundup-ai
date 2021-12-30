@@ -5,6 +5,7 @@ import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
 import priviledgesReducer from "./priviledgesReducer";
+import activityReducer from "./activityReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
@@ -23,7 +24,9 @@ const reducers = combineReducers({
     company : companyReducer,
     createCompany : createCompanyReducer,
     deleteCompany : deleteCompanyReducer,
-    editcompany : editCompanyReducer
+    editcompany : editCompanyReducer,
+
+    activity: activityReducer
 
 });
 

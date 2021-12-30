@@ -36,7 +36,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
 
     const initialValues: UserFormFields = { username: '', company: '', email: '', role: '' };
     const dispatch = useDispatch();
-    const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
+    const { createNewUser, fetchUsers } = bindActionCreators(userActionCreators, dispatch)
     const { error, loading }: CreateUserState = useSelector((state: RootState) => state.createUser);
 
     const { fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
@@ -73,10 +73,11 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         initialValues: initialValues,
         validateOnChange: false,
         validationSchema: AddUserFormValidation,
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
             handleSubmit(data)
-            createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
+            await createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
             setNotificationOpen(true)
+            fetchUsers()
         },
     });
 

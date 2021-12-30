@@ -20,3 +20,7 @@ export const UPDATE_COMPANY = '/company/update/';
 
 export const BOOKINGS = '/bookings';
 
+// Crane
+export const GET_LIFTTYPES = '/lifttypes';
+export const CREATE_LIFTTYPES = '/lifttype/create';
+
