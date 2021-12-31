@@ -5,8 +5,6 @@ import RoleFormValidation from './RoleFormValidation'
 import { Checkbox, Grid, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 import { roleActionCreators } from '../../../../../store/action-creators';
-import { roleState } from '../../../../../store/reducers/roleReducer';
-import { RootState } from '../../../../../store/reducers';
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -20,38 +18,14 @@ interface AddRoleProps {
     open: boolean;
     showDialog: (status: boolean) => void;
     handleSubmit: (data: any) => void;
-    roles: any;
+    accessPermissionTable: any;
 }
 
-interface CheckBoxFields {
-    id: string;
-    label: string;
-}
-
-const notificationSettings: CheckBoxFields[] = [
-    { id: '421422221', label: "New Booking" },
-    { id: '142222222', label: "Update Booking" },
-    { id: '214t32312', label: "Cancelled Booking" },
-    { id: '421412222', label: "Reschedule Booking" },
-    { id: '325423523', label: "Approved/ Rejected Booking" },
-    { id: '412432432', label: "Maintenance" },
-    { id: '523342523', label: "Machine Idling" }
-]
-
-export default function AddRole({ open, showDialog, handleSubmit, roles }: AddRoleProps) {
-    const dispatch = useDispatch();
-    const { fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
-
-    useEffect(() => {
-        console.log(roles)
-    }, [])
+export default function AddRole({ open, showDialog, handleSubmit, accessPermissionTable }: AddRoleProps) {
 
     const initialValues: any = {
         role: '',
-        permissions: [
-            { name: 'User Permission', create: true, read: true, update: true, view: true },
-            { name: 'Role Management', create: true, read: true, update: false, view: true, approval: true }
-        ],
+        permissions: accessPermissionTable,
         notificationSetting: [
             { name: 'Machine Idling', value: true },
             { name: 'Maintenance', value: true },
@@ -116,11 +90,11 @@ export default function AddRole({ open, showDialog, handleSubmit, roles }: AddRo
                             </TableRow>
                         </TableHead>
                         <TableBody>
+                            {console.log(formik.values)}
                             {formik.values.permissions.map((row: any) => (
                                 <TableRow
                                     key={row.name}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>

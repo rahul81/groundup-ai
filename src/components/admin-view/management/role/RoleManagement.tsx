@@ -28,6 +28,7 @@ export default function RoleManagement() {
 
     const [roleManagementRows, setRoleManagementRows] = useState<RoleRowsTypes[]>([]);
     const tempRoleManagementRows: RoleRowsTypes[] = []
+    const [accessPermissionTable, setaccessPermissionTable] = useState([]);
 
     useEffect(() => {
         fetchRoles()
@@ -41,6 +42,20 @@ export default function RoleManagement() {
             })
         })
         setRoleManagementRows(tempRoleManagementRows)
+
+        let tempAccessPermissionTable: any = [];
+        (roles || []).map((role: any) => {
+            tempAccessPermissionTable.push({
+                name: role['name'],
+                create: true,
+                read: true,
+                update: false,
+                view: true,
+                approval: false
+            })
+        })
+        console.log(tempAccessPermissionTable)
+        setaccessPermissionTable(tempAccessPermissionTable)
     }, [roles])
 
 
@@ -53,7 +68,7 @@ export default function RoleManagement() {
                             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
-                            {open && <AddRole roles={roles} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
+                            {open && <AddRole accessPermissionTable={accessPermissionTable} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
                             <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} />
                         </Box>
                     </>
