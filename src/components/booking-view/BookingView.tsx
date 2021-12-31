@@ -28,6 +28,16 @@ interface BookingManagementRowsTypes {
     status: JSX.Element,
 }
 
+interface Data {
+    DateString: string;
+    TimeStart: string;
+    TimeEnd: string;
+    Zone: string;
+    Crane: { name : string};
+    TaskType: string;
+    Status: JSX.Element;
+  }
+
 interface Column {
     id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
     label: string;
@@ -81,22 +91,6 @@ export default function BookingView() {
     const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes []>([]);
     const tempBookingManagementRows: BookingManagementRowsTypes[] = []
 
-    function Button (Status: string):JSX.Element {
-
-      let button;
-
-      if(Status.toLowerCase() == "rejected"){
-        button = <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
-      } else if (Status.toLowerCase() == "pending") {
-        button = <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
-      } else if (Status.toLowerCase() == "scheduled") {
-        button = <GButton  title='Scheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
-      } else {
-        button = <GButton  title={Status} size='small' color='primary' sx={{width:'100%', textTransform:'capitalize'}} />
-      }
-      return button
-    }
-
     function formatData(
       TimeStart: string,
       TimeEnd: string,
@@ -111,7 +105,17 @@ export default function BookingView() {
       const zone = Zone;
       const crane = Crane;
       const taskType = TaskType;
-      const status = Button(Status)
+      const status = <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+
+        // if(Status.toLowerCase() == "rejected"){
+        //   return <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "pending") {
+        //   return  <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // } else if (Status.toLowerCase() == "unscheduled") {
+        //   <GButton  title='Unscheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+        // } else {
+        //   return <GButton  title={Status} size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+        // }
 
       return { date, timeStart, timeEnd, zone, crane, taskType, status };
     }
@@ -123,7 +127,7 @@ export default function BookingView() {
     React.useEffect(() => {
         
         (data || []).map((dataOne, index) => {
-            let formattedData = data && formatData(
+            let formattedData = formatData(
               dataOne['start_time'], 
               dataOne['end_time'],
               dataOne['zone'],
@@ -133,12 +137,9 @@ export default function BookingView() {
               )
             tempBookingManagementRows.push(formattedData)
             
-            
-            
         })
 
         setBookingManagementRows(tempBookingManagementRows)
-        console.log("bookData",bookingManagementRows);
     }, [data])
 
     const handleShowDialog = (status: boolean) => {

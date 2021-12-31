@@ -14,6 +14,5 @@ export const GET_COMPANY = '/companies';
 export const CREATE_COMPANY = '/company/create';
 export const DELETE_COMPANY = '/company/delete/';
 
-// Crane Booking
 export const BOOKINGS = '/bookings';
-export const REQUEST_NEW = '/booking/create'
+
