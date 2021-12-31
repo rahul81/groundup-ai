@@ -53,7 +53,7 @@ export default function RoleManagement() {
                             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
-                            {open && <AddRole open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
+                            {open && <AddRole roles={roles} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
                             <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} />
                         </Box>
                     </>
