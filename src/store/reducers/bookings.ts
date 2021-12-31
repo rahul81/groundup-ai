@@ -1,4 +1,4 @@
-import { BookingsActionTypes } from '../action-types/bookingsActionTypes';
+import { BookingsActionTypes, RequestNewActionsTypes } from '../action-types/bookingsActionTypes';
 import { Action } from '../actions/bookingsAction';
 
 
@@ -26,3 +26,27 @@ const bookingReducer = (state: any = initialState, action: Action) => {
 }
 
 export default bookingReducer;
+
+//Request New 
+
+export interface RequestNewState {
+    data : [],
+    error : string
+}
+
+export const RequestNewinitialState :  RequestNewState = {
+    data : [],
+    error : ''
+}
+
+export const requestNewReducer = (state: any = RequestNewinitialState, action: Action) => {
+    switch (action.type) {
+        case RequestNewActionsTypes.REQUEST_NEW:
+            return { ...state,  data: [], error: action.payload };
+        case RequestNewActionsTypes.REQUEST_NEW_FAILED:
+            return { ...state,  data: action.payload, error: '' };
+        default:
+            return state;
+    }
+}
+
