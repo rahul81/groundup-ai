@@ -26,3 +26,10 @@ export const CREATE_LIFTTYPES = '/lifttype/create';
 export const UPDATE_LIFTTYPES = '/lifttype/update/';
 export const DELETE_LIFTTYPES = '/lifttype/delete/';
 
+// Crane
+export const GET_CRANE = '/cranes';
+export const CREATE_CRANE = '/crane/create';
+export const DELETE_CRANE = '/crane/delete/';
+export const EDIT_CRANE = '/crane/update/';
+
+

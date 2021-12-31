@@ -42,6 +42,7 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
         validateOnChange: false,
         validationSchema: RoleFormValidation,
         onSubmit: (data) => {
+            console.log(data)
             handleSubmit(data)
         },
     });

@@ -6,6 +6,7 @@ import roleReducer from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
 import priviledgesReducer from "./priviledgesReducer";
 import activityReducer, { createActivityReducer, deleteActivityReducer, updateActivityReducer } from "./activityReducer";
+import craneReducer, { createCraneReducer, deleteCraneReducer, editCraneReducer } from "./craneReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
@@ -29,7 +30,12 @@ const reducers = combineReducers({
     activity: activityReducer,
     createActivity : createActivityReducer,
     updateActivity : updateActivityReducer,
-    deleteActivity : deleteActivityReducer
+    deleteActivity : deleteActivityReducer,
+
+    crane : craneReducer,
+    createCrane : createCraneReducer,
+    editCrane : editCraneReducer,
+    deleteCrane : deleteCraneReducer
 
 });
 

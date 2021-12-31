@@ -5,3 +5,4 @@ export * as companyActionCreators from './companyActionCreators';
 export * as bookingsActionCreators from './bookingsActionCreators';
 export * as priviledgesActionCreators from './priviledgesActionCreators';
 export * as  activityActionCreator from './activityActionCreator';
+export * as  craneActionCreator from './craneActionCreator';
