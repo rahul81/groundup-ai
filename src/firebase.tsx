@@ -21,7 +21,6 @@ export const getTokenFirebase = (setTokenFound: any) => {
 
 export default getTokenFirebase;
 
-
 export const onMessageListener = () =>
   new Promise((resolve) => {
     messaging.onMessage((payload) => {

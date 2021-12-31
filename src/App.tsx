@@ -11,6 +11,7 @@ import Settings from './container/settings/Settings';
 import theme from './Theme';
 import Sample from './container/sample/Sample';
 import HttpInterceptor from './HttpInterceptor';
+import './firebase'
 
 function App() {
   return (

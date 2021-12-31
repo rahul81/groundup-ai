@@ -23,7 +23,6 @@ function NotificationItem({ category, time, message, index, removeNotification, 
     console.log('payload');
   }).catch(err => console.log('failed: ', err));
 
-
   return (
     <React.Fragment>
       <Box className="notification-item">
