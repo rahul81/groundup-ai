@@ -1,4 +1,4 @@
-import { BookingsActionTypes } from '../action-types/bookingsActionTypes'
+import { BookingsActionTypes, RequestNewActionsTypes } from '../action-types/bookingsActionTypes'
 
 interface BookingsAction {
     type: BookingsActionTypes.ALL_BOOKINGS
@@ -24,4 +24,31 @@ export const bookingsFailed = (message: string): BookingsFailed => {
     }
 }
 
-export type Action = BookingsAction | BookingsFailed;
+
+interface RequestNewAction {
+    type : RequestNewActionsTypes.REQUEST_NEW,
+    payload: string
+}
+
+interface RequestNewFailed {
+    type : RequestNewActionsTypes.REQUEST_NEW_FAILED,
+    payload: string
+}
+
+export const requestNewSuccess = (data:any): RequestNewAction => {
+    return{
+        type : RequestNewActionsTypes.REQUEST_NEW,
+        payload: data
+    }
+    
+}
+
+export const requestNewFailed = (message:string): RequestNewFailed => {
+    return{
+        type : RequestNewActionsTypes.REQUEST_NEW_FAILED,
+        payload: message
+    }
+    
+}
+
+export type Action = BookingsAction | BookingsFailed | RequestNewAction | RequestNewFailed;
