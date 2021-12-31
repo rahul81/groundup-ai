@@ -19,10 +19,10 @@ export const fetchCrane = (): AppThunk<void> => {
     }
 }
 
-export const createNewCrane = (model_no: string, available_start_time: string, available_end_time: string, weekdays: []): AppThunk<void> => {
+export const createNewCrane = ( available_start_time: string, available_end_time: string): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(createCrane());
-        return await axios.post(CREATE_CRANE, { model_no, available_start_time, available_end_time, weekdays })
+        return await axios.post(CREATE_CRANE, { model_no: "1000", available_start_time, available_end_time })
             .then(response => {
                 dispatch(createCraneSuccess());
             }).catch(error => {

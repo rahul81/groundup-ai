@@ -1,6 +1,11 @@
 import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { craneActionCreator } from '../../../../../store/action-creators';
+import { RootState } from '../../../../../store/reducers';
+import { CreateCraneState } from '../../../../../store/reducers/craneReducer';
 import GFormDatePicker from '../../../../common/date-picker/GDatePicker';
 import GDialog from '../../../../common/dialog/GDialog'
 import { GFormInput } from '../../../../common/input/GInput';
@@ -9,7 +14,6 @@ import { GFormSelectCheckbox } from '../../../../common/select/GSelect'
 interface CraneFormFields {
     startTime: string;
     endTime: string;
-
 }
 
 const bookingDays = [
@@ -29,6 +33,12 @@ export interface AddCraneProps {
 }
 
 const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
+
+    const dispatch = useDispatch();
+    const { createNewCrane, fetchCrane } = bindActionCreators(craneActionCreator, dispatch)
+
+    const { createCraneLoading, createCraneError }: CreateCraneState = useSelector((state: RootState) => state.createCrane);
+
     const initialValues: any = {
         startTime: "",
         endTime: "",
@@ -44,9 +54,11 @@ const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
     const formik = useFormik({
         initialValues: initialValues,
         validateOnChange: false,
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
             handleSubmit(data)
             console.log(data)
+            await createNewCrane(formik.values.startTime, formik.values.endTime);
+            fetchCrane()
         },
     });
 
@@ -54,7 +66,7 @@ const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
         <GDialog title="Add Crane" open={open} showDialog={showDialog} >
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                 <Grid xs={12} container>
-     
+
                     <Grid xs={12} container>
                         <Grid xs={4}>
                             <GFormSelectCheckbox formik={formik} label='Booking Days' id="bookingdays" options={bookingDays} />
