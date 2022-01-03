@@ -12,21 +12,25 @@ import 'jquery/dist/jquery.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
+import theme from './Theme';
+import { ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
-
   <React.StrictMode>
-    <SnackbarProvider maxSnack={7}>
       <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={7}>
         <Provider store={store}>
           <App />
         </Provider>
+        </SnackbarProvider>
+      </ThemeProvider>
       </BrowserRouter>
-    </SnackbarProvider>
   </React.StrictMode>
   ,
   document.getElementById('root')
 );
 
 reportWebVitals();
+
