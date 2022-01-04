@@ -4,6 +4,7 @@ import axios from 'axios';
 import { GET_CRANE, EDIT_CRANE, DELETE_CRANE, CREATE_CRANE } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
+import { weekDays } from '../../components/admin-view/management/crane-booking/add-crane/AddCrane';
 
 export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 
@@ -19,10 +20,10 @@ export const fetchCrane = (): AppThunk<void> => {
     }
 }
 
-export const createNewCrane = ( available_start_time: string, available_end_time: string): AppThunk<void> => {
+export const createNewCrane = ( available_start_time: string, available_end_time: string, weekdays : weekDays[]): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(createCrane());
-        return await axios.post(CREATE_CRANE, { model_no: "1000", available_start_time, available_end_time })
+        return await axios.post(CREATE_CRANE, { model_no: "1000", available_start_time, available_end_time,weekdays })
             .then(response => {
                 dispatch(createCraneSuccess());
             }).catch(error => {

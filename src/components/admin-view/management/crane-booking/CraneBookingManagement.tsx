@@ -43,8 +43,8 @@ export default function CraneBookingManagement() {
         (cranes || []).map((crane: any) => {
             tempCrane.push({
                 crane: crane['name'],
-                bookingHours: crane['createdAt'],
-                bookingDays: crane['weekdays'],
+                bookingHours: `${crane['available_start_time'] + " - " + crane['available_end_time']}`,
+                bookingDays: crane['weekdays'].toString(),
                 action: "Edit/Remove",
                 _id: crane['_id']
             })

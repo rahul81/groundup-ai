@@ -78,14 +78,16 @@ export function GFormSelectCheckbox<T extends FormikValues>({ formik, id, label,
                 inputProps={{ 'aria-label': 'Without label' }}
             >
                 {(options || []).map(item =>
+                    <>
                     < GCheckbox
                         selected={item.selected}
                         formik={formik}
                         id={item.selected}
                         label={item.text} />
+                    </>
                 )}
             </TextField>
-            {formik.touched[id] && formik.errors[id] && 
+            {formik.touched[id] && formik.errors[id] &&
                 <Typography variant="error" component="div">
                     {formik.errors[id]}
                 </Typography>
@@ -128,3 +130,4 @@ export default function GSelect({id, placeholder, label, value, options, onChang
             </div>
     )
 }
+
