@@ -1,30 +1,44 @@
 import { Box } from '@mui/system'
 import { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { GDatePicker } from '../../../common/date-picker/GDatePicker';
 import GSelect, { GSelectOption } from '../../../common/select/GSelect';
+import { RootState } from '../../../../store/reducers';
 
-export default function CriteriaFilter() {
-    const [crane, setCrane] = useState('')
-    const [zone, setZone] = useState('');
-    const [date, setDate] = useState<Date | null>(null);
+export default function CriteriaFilter({
+    date,
+    setDate,
+    crane,
+    setCrane
+}: any) {
 
-    const cranes: GSelectOption[] = [
-        { key: "crane1", value: "Crane1" },
-        { key: "crane2", value: "Crane2" },
-        { key: "crane3", value: "Crane3" }
-    ];
-    const zones: GSelectOption[] = [
-        { key: "zone1", value: "Zone1" },
-        { key: "zone2", value: "Zone2" },
-        { key: "zone3", value: "Zone3" }
-    ];
 
-    const handleChangeCrane = (value: string) => {
-        setCrane(value);
-    };
-    const handleChangeZone = (value: string) => {
-        setZone(value);
-    };
+
+    const selectDistinctCranes = (items: any[]) => {
+        let lookup: any = {};
+        let result: GSelectOption[] = [];
+
+        for (let item, i = 0; item = items[i++];) {
+            let name = item.crane_id.name;
+
+            if (!(name in lookup)) {
+                lookup[name] = 1;
+                result.push({
+                    key: name, value: name
+                });
+            }
+        }
+        return result;
+    }
+
+
+    const reduxState = useSelector((state: RootState) => {
+        const { bookings: { data = [] } = {} } = state || {};
+        return {
+            bookings: data,
+            cranes: selectDistinctCranes(data.filter((booking: { crane_id: any }) => booking.crane_id)),
+        }
+    });
 
     return (
         <>
@@ -32,10 +46,7 @@ export default function CriteriaFilter() {
                 <GDatePicker date={date} onChange={setDate} dateDelete={true} />
             </Box>
             <Box className="dropdown" mr={1}>
-                <GSelect id="crane" placeholder="Select Crane" options={cranes} onChange={handleChangeCrane} value={crane} />
-            </Box>
-            <Box className="dropdown" mr={1}>
-                <GSelect id="zone" placeholder="Select Zone" options={zones} onChange={handleChangeZone} value={zone} />
+                <GSelect id="crane" placeholder="Select Crane" options={reduxState.cranes} onChange={setCrane} value={crane} />
             </Box>
         </>
     )
