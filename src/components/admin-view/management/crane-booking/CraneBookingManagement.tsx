@@ -11,6 +11,7 @@ import GTable from '../../../common/table/GTable'
 import '../../admin-view.scss'
 import AddCrane from './add-crane/AddCrane'
 import './crane-booking.scss'
+import EditCrane from './edit-crane/EditCrane'
 
 interface CraneUsageRows {
     crane: string;
@@ -22,6 +23,13 @@ interface CraneUsageRows {
 
 
 export default function CraneBookingManagement() {
+
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const handleShowEditDialog = (status: boolean) => {
+        setOpenEditDialog(status);
+    }
+    const [editCraneData, setEditCraneData] = useState();
+
 
     const dispatch = useDispatch();
     const { fetchCrane, removeCrane } = bindActionCreators(craneActionCreator, dispatch)
@@ -57,6 +65,10 @@ export default function CraneBookingManagement() {
         fetchCrane()
     }
 
+    const editClicked = (data: any) => {
+        setEditCraneData(data);
+        setOpenEditDialog(true);
+    }
 
     return (
         <Box>
@@ -65,9 +77,11 @@ export default function CraneBookingManagement() {
                     <Typography className="heading" variant="h5" component="h2">Crane Booking Management</Typography>
                     <Divider />
                     <GButton title='Add Crane' size='small' className='crane-management-btn add-button' onClick={() => setOpen(true)} />
-                    <GTable rowClicked={(data: any) => { }} rows={allCranes} deleteClicked={deleteCrane} columns={CraneManagementColumns} />
+                    <GTable rowClicked={(data: any) => { }} rows={allCranes} deleteClicked={deleteCrane} editlicked={editClicked} columns={CraneManagementColumns} />
                     {/*  Dialogs */}
                     <AddCrane open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
+                    {openEditDialog && <EditCrane editCraneData={editCraneData} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />}
+
                 </Box>}
         </Box>
     )

@@ -1,6 +1,5 @@
 import { Grid } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { craneActionCreator } from '../../../../../store/action-creators';
@@ -8,24 +7,29 @@ import { RootState } from '../../../../../store/reducers';
 import { CreateCraneState } from '../../../../../store/reducers/craneReducer';
 import GFormDatePicker from '../../../../common/date-picker/GDatePicker';
 import GDialog from '../../../../common/dialog/GDialog'
+import Notification from '../../../../common/notification/Notification';
 import { GFormSelectCheckbox } from '../../../../common/select/GSelect'
 
-interface CraneFormFields {
+export interface CraneFormFields {
     startTime: string;
     endTime: string;
 }
 
 export interface weekDays {
-    monday : string;
-    tuesday : string;
-    wednesday : string;
-    thursday : string;
-    friday : string;
-    saturday : string;
-    sunday : string;
+    monday: string;
+    tuesday: string;
+    wednesday: string;
+    thursday: string;
+    friday: string;
+    saturday: string;
+    sunday: string;
 }
 
-const bookingDays = [
+export interface bookingDaysTypes {
+    text: string, selected: string
+}
+
+export const bookingDays:bookingDaysTypes[] = [
     { text: "Monday", selected: 'monday' },
     { text: "Tuesday", selected: 'tuesday' },
     { text: "Wednesay", selected: 'wednesday' },
@@ -42,11 +46,16 @@ export interface AddCraneProps {
 }
 
 const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
+    const { setNotification } = Notification()
 
     const dispatch = useDispatch();
     const { createNewCrane, fetchCrane } = bindActionCreators(craneActionCreator, dispatch)
 
     const { createCraneLoading, createCraneError }: CreateCraneState = useSelector((state: RootState) => state.createCrane);
+
+    const craneNotification = (message: string) => {
+        setNotification(message)
+    }
 
     const initialValues: any = {
         startTime: "",
@@ -77,16 +86,22 @@ const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
                 minute: '2-digit'
             });
 
-            let bookingDaysArray:weekDays[] = []
-            
-            bookingDays.forEach((element:any) => {               
-            if(formik.values[element.selected] === true ){
-                bookingDaysArray.push((element.selected).charAt(0).toUpperCase() + element.selected.slice(1)) 
-            }
-            })
+            let bookingDaysArray: weekDays[] = []
 
-            await createNewCrane(startTime, endTime,bookingDaysArray);
+            bookingDays.forEach((element: any) => {
+                if (formik.values[element.selected] === true) {
+                    bookingDaysArray.push((element.selected).charAt(0).toUpperCase() + element.selected.slice(1))
+                }
+            })
+            await createNewCrane(startTime, endTime, bookingDaysArray);
             fetchCrane()
+            if (createCraneLoading === false && createCraneError !== '') {
+                craneNotification('Crane created successfully')
+            } else {
+                craneNotification(createCraneError)
+                console.log('createCraneError')
+                console.log(createCraneError)
+            }
         },
     });
 

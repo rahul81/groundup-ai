@@ -54,7 +54,7 @@ export default function UserManagement() {
                 username: user['name'],
                 company: user['company']['name'],
                 email: user['email'],
-                userRole: user['role']['name'],
+                userRole: user['role'][0]['name'],
                 action: "Edit/Remove",
                 _id: user['_id']
             })
