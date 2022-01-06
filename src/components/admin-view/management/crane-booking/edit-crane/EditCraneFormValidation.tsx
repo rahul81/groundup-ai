@@ -1,16 +1,12 @@
 import * as Yup from "yup";
 
-export const EditUserFormValidation = Yup.object().shape({
-    email: Yup
+export const EditCraneFormValidation = Yup.object().shape({
+    startTime: Yup
         .string()
-        .email('Enter a valid email')
-        .required('Email is required'),
-    username: Yup
+        .required('Start Time required'),
+    endTime: Yup
         .string()
-        .required('User Name is required'),
-    role: Yup
-        .string()
-        .required("Role is required")
+        .required('End Time required')
 });
 
-export default EditUserFormValidation
+export default EditCraneFormValidation

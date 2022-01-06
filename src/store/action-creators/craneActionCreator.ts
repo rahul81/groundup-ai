@@ -34,10 +34,12 @@ export const createNewCrane = (available_start_time: string, available_end_time:
     }
 }
 
-export const updateCrane = (id: number, available_start_time: string, available_end_time: string, weekdays: []): AppThunk<void> => {
+export const updateCrane = (id: number, available_start_time: string, available_end_time: string, weekdays?: []): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(EditCraneAction());
-        return await axios.put(EDIT_CRANE + id, { available_start_time, available_end_time, weekdays })
+        return await axios.put(EDIT_CRANE + id, {
+            available_start_time, available_end_time, weekdays: ["Thursday", "Friday", "Monday", "Sunday"]
+        })
             .then(response => {
                 dispatch(EditCraneSuccessAction());
             }).catch(error => {

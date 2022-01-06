@@ -94,14 +94,13 @@ const AddCrane = ({ open, showDialog, handleSubmit }: AddCraneProps) => {
                 }
             })
             await createNewCrane(startTime, endTime, bookingDaysArray);
-            fetchCrane()
-            if (createCraneLoading === false && createCraneError !== '') {
+
+            if (createCraneLoading === false && createCraneError === '') {
                 craneNotification('Crane created successfully')
             } else {
-                craneNotification(createCraneError)
-                console.log('createCraneError')
-                console.log(createCraneError)
+                craneNotification("Something went wrong")
             }
+            fetchCrane()
         },
     });
 

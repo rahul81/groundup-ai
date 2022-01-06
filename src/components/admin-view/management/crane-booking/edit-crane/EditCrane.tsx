@@ -10,6 +10,7 @@ import GFormDatePicker from '../../../../common/date-picker/GDatePicker'
 import GDialog from '../../../../common/dialog/GDialog'
 import { GFormSelectCheckbox } from '../../../../common/select/GSelect'
 import { weekDays } from '../add-crane/AddCrane'
+import { EditCraneFormValidation } from './EditCraneFormValidation'
 
 export interface bookingDaysTypes {
     text: string, selected: string
@@ -32,16 +33,28 @@ interface EditCraneProps {
     editCraneData: any;
 }
 
-
 export interface GSelectOption {
     key: string;
     value: string;
 }
+
+interface EditCraneFormFields {
+    startTime: number;
+    endTime: number;
+    monday: boolean;
+    tuesday: boolean;
+    wednesday: boolean;
+    thursday: boolean;
+    friday: boolean;
+    saturday: boolean;
+    sunday: boolean;
+}
+
 const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneProps) => {
 
     const dispatch = useDispatch();
 
-    const { updateCrane } = bindActionCreators(craneActionCreator, dispatch)
+    const { updateCrane, fetchCrane } = bindActionCreators(craneActionCreator, dispatch)
     const { editCraneError, editCraneLoading }: EditCraneState = useSelector((state: RootState) => state.editCrane);
 
     let splittedTime = editCraneData.bookingHours?.split(' ');
@@ -51,6 +64,8 @@ const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneP
 
     let startTime = new Date().setHours(startTimeHourMinute[0], startTimeHourMinute[1]);
     let endTime = new Date().setHours(endTimeHourMinute[0], endTimeHourMinute[1]);
+
+    console.log(startTime)
 
     const initialState = {
         startTime: startTime,
@@ -89,8 +104,15 @@ const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneP
                 // }
             })
 
+
+            console.log(editCraneData.bookingDays.split(','))
+            // await updateCrane(editCraneData['_id'], startTime, endTime, editCraneData.bookingDays.split(','))
+            await updateCrane(editCraneData['_id'], startTime, endTime)
+            await fetchCrane()
+
         },
         validateOnChange: false,
+        validationSchema: EditCraneFormValidation
     })
 
 
@@ -106,11 +128,11 @@ const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneP
 
                     <Grid xs={12} container>
                         <Grid xs={4}>
-                            <GFormDatePicker formik={formik} id="startTime" label="Time Start" timeonly={true} />
+                            <GFormDatePicker<EditCraneFormFields> formik={formik} id="startTime" label="Time Start" timeonly={true} />
                         </Grid>
 
                         <Grid xs={4}>
-                            <GFormDatePicker formik={formik} id="endTime" label="End Start" timeonly={true} />
+                            <GFormDatePicker<EditCraneFormFields> formik={formik} id="endTime" label="End Start" timeonly={true} />
                         </Grid>
                     </Grid>
                 </Grid>
