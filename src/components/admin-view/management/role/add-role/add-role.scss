@@ -1,0 +1,18 @@
+.permission-container{
+    box-shadow: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    .permission-table{
+        th,td:not(:last-of-type){
+            border-right: 1px solid #e0e0e0 !important;
+        }
+        thead th:last-child{
+            border-right: none !important;
+        }
+        td{
+            text-align: center;
+        }
+    }
+}

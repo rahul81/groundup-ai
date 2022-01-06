@@ -28,14 +28,20 @@ interface AddUserProps {
 
 
 export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps) {
+
+    const [notificationOpen, setNotificationOpen] = useState(false);
+    const notificationToggleState = () => {
+        setNotificationOpen(!notificationOpen);
+    };
+
     const initialValues: UserFormFields = { username: '', company: '', email: '', role: '' };
     const dispatch = useDispatch();
-    const { createNewUser } = bindActionCreators(userActionCreators, dispatch)
+    const { createNewUser, fetchUsers } = bindActionCreators(userActionCreators, dispatch)
     const { error, loading }: CreateUserState = useSelector((state: RootState) => state.createUser);
-    
+
     const { fetchCompany } = bindActionCreators(companyActionCreators, dispatch)
     const { company }: companyState = useSelector((state: RootState) => state.company);
-    
+
     const { fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
     const { roles }: roleState = useSelector((state: RootState) => state.role);
 
@@ -48,7 +54,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     }, [])
 
     useEffect(() => {
-        const tempCompanies:GSelectOption[] =[];
+        const tempCompanies: GSelectOption[] = [];
         (company || []).map((companyDetails) => {
             tempCompanies.push({ key: `${companyDetails['_id']}`, value: `${companyDetails['name']}` })
         })
@@ -56,7 +62,7 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
     }, [company])
 
     useEffect(() => {
-        const tempRoles:GSelectOption[] =[];
+        const tempRoles: GSelectOption[] = [];
         (roles || []).map((roleDetails) => {
             tempRoles.push({ key: `${roleDetails['_id']}`, value: `${roleDetails['name']}` })
         })
@@ -67,8 +73,11 @@ export default function AddUser({ open, showDialog, handleSubmit }: AddUserProps
         initialValues: initialValues,
         validateOnChange: false,
         validationSchema: AddUserFormValidation,
-        onSubmit: (data) => {
-            createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
+        onSubmit: async (data) => {
+            handleSubmit(data)
+            await createNewUser(formik.values.email, 'password', formik.values.username, formik.values.role, formik.values.company)
+            setNotificationOpen(true)
+            fetchUsers()
         },
     });
 

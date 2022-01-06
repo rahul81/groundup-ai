@@ -1,10 +1,22 @@
 import { MenuItem, InputLabel, TextField, Typography } from '@mui/material'
 import { FormikProps, FormikValues } from 'formik';
+import GCheckbox from '../checkobx/GCheckbox';
 import './g-select.scss'
 
 export interface GSelectOption{
     key:string;
     value:string;
+}
+interface GFormSelectCheckboxProps<T extends FormikValues>{
+    formik: FormikProps<T>;
+    id: string;
+    label?: string;
+    options: GSelectOptionCheckbox[];
+}
+
+export interface GSelectOptionCheckbox{
+    text:string,
+    selected:string
 }
 
 interface GFormSelectProps<T extends FormikValues>{
@@ -42,7 +54,40 @@ export function GFormSelect<T extends FormikValues>({formik, id, label, options}
                 </MenuItem>
                 {(options || []).map(item=><MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>)}
             </TextField>
-            {formik.touched[id] && formik.errors[id] && 
+            {formik.touched[id] && formik.errors[id] &&
+                <Typography variant="error" component="div">
+                    {formik.errors[id]}
+                </Typography>
+            }
+        </div>
+    )
+}
+
+export function GFormSelectCheckbox<T extends FormikValues>({ formik, id, label, options }: GFormSelectCheckboxProps<T>) {
+    const { setFieldValue } = formik;
+    return (
+        <div className="custom-select">
+            <InputLabel id="custom-input-label">{label}</InputLabel>
+            <TextField
+                select
+                value={formik.values[id]}
+                onChange={(e) => {
+                    setFieldValue(id, e.target.value, true);
+                }}
+                error={formik.touched[id] && Boolean(formik.errors[id])}
+                inputProps={{ 'aria-label': 'Without label' }}
+            >
+                {(options || []).map(item =>
+                    <>
+                    < GCheckbox
+                        selected={item.selected}
+                        formik={formik}
+                        id={item.selected}
+                        label={item.text} />
+                    </>
+                )}
+            </TextField>
+            {formik.touched[id] && formik.errors[id] &&
                 <Typography variant="error" component="div">
                     {formik.errors[id]}
                 </Typography>
@@ -82,6 +127,7 @@ export default function GSelect({id, placeholder, label, value, options, onChang
                 </MenuItem>
                 {(options || []).map(item=><MenuItem key={item.key} value={item.key}>{item.value}</MenuItem>)}
             </TextField>}
-      </div>
+            </div>
     )
 }
+

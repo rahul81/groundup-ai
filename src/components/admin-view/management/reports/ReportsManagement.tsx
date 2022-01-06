@@ -65,7 +65,7 @@ export default function ReportsManagement() {
 
     return (
         <Box className="reports-view">
-            <Typography className="heading" variant="h5" component="h2">Reports Management</Typography>
+            <Typography className="heading" variant="h5" component="h2">Reports Management [ W.I.P ]</Typography>
             <Divider/>
             <form onSubmit={formik.handleSubmit}>
             {(allNotifications || []).map((notif) => <Box className="sub-section">

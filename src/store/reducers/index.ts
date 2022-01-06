@@ -3,7 +3,10 @@ import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } fr
 import bookingReducer from "./bookings";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
-import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
+import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
+import priviledgesReducer from "./priviledgesReducer";
+import activityReducer, { createActivityReducer, deleteActivityReducer, updateActivityReducer } from "./activityReducer";
+import craneReducer, { createCraneReducer, deleteCraneReducer, editCraneReducer } from "./craneReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
@@ -17,9 +20,22 @@ const reducers = combineReducers({
     removeUser : deleteUserReducer,
     editUser : editUserReducer,
 
+    priviledges : priviledgesReducer,
+
     company : companyReducer,
     createCompany : createCompanyReducer,
-    deleteCompany : deleteCompanyReducer
+    deleteCompany : deleteCompanyReducer,
+    editcompany : editCompanyReducer,
+
+    activity: activityReducer,
+    createActivity : createActivityReducer,
+    updateActivity : updateActivityReducer,
+    deleteActivity : deleteActivityReducer,
+
+    crane : craneReducer,
+    createCrane : createCraneReducer,
+    editCrane : editCraneReducer,
+    deleteCrane : deleteCraneReducer
 
 });
 

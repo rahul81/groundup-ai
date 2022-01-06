@@ -288,10 +288,6 @@ export const CraneManagementColumns: Columns[] = [
     label: "Crane",
   },
   {
-    id: "zone",
-    label: "Zone",
-  },
-  {
     id: "bookingHours",
     label: "Booking Hours",
   },
@@ -308,7 +304,6 @@ export const CraneManagementColumns: Columns[] = [
 interface CraneUsageRows {
   crane: string;
   bookingHours: string;
-  zone: string;
   bookingDays: string;
   action: string;
 }
@@ -316,28 +311,24 @@ interface CraneUsageRows {
 export const CraneUsageRows : CraneUsageRows[] = [
   {
     crane: "Crane A",
-    zone: "Zone 1",
     bookingHours: "8Pm -5Pm",
     bookingDays: "Mon,Tue,Wed,Thur,Fri,Sat",
     action: "Edit/Remove",
   },
   {
     crane: "Crane B",
-    zone: "Zone 2",
     bookingHours: "8Pm -5Pm",
     bookingDays: "Mon,Tue,Wed,Thur,Fri,Sat",
     action: "Edit/Remove",
   },
   {
     crane: "Crane A",
-    zone: "Zone 1",
     bookingHours: "8Pm -5Pm",
     bookingDays: "Mon,Tue,Wed,Thur,Fri,Sat",
     action: "Edit/Remove",
   },
   {
     crane: "Crane C",
-    zone: "Zone 2",
     bookingHours: "8Pm -5Pm",
     bookingDays: "Mon,Tue,Wed,Thur,Fri,Sat",
     action: "Edit/Remove",
