@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 import { roleActionCreators } from '../../../../../store/action-creators';
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import './add-role.scss';
+import '../add-role/add-role.scss';
 import { RootState } from '../../../../../store/reducers'
 import { CreateRoleState } from '../../../../../store/reducers/roleReducer';
 import { fetchRoles } from '../../../../../store/action-creators/roleActionCreators';
@@ -20,16 +20,18 @@ interface EditRoleProps {
     showDialog: (status: boolean) => void;
     handleSubmit: (data: any) => void;
     accessPermissionTable: any;
+    editRoleName: string;
+    editRoleId: number;
 }
 
-export default function EditRole({ open, showDialog, handleSubmit, accessPermissionTable }: EditRoleProps) {
+export default function EditRole({ open, showDialog, handleSubmit, accessPermissionTable, editRoleName, editRoleId }: EditRoleProps) {
 
     const dispatch = useDispatch()
-    const { createNewRole, fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
+    const { updateRole, fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
     const { createRoleError, createRoleLoading }: CreateRoleState = useSelector((state: RootState) => state.createRole)
 
     const initialValues: any = {
-        role: '',
+        role: editRoleName,
         permissions: accessPermissionTable,
         notificationSetting: [
             { name: 'Machine Idling', value: true },
@@ -50,18 +52,18 @@ export default function EditRole({ open, showDialog, handleSubmit, accessPermiss
             let priviledges: any = []
             formik.values.permissions.map((permission: any) => {
                 priviledges.push({
-                    page_name: permission.name,
+                    page_name: permission.page_name,
                     access: {
-                        view: true,
-                        create: true,
-                        approval: true,
-                        access: true,
-                        update: true
+                        approval: permission.access.approval,
+                        view: permission.access.view,
+                        update: permission.access.update,
+                        read: permission.access.read,
+                        create: permission.access.create,
                     }
                 })
             })
 
-            await createNewRole(formik.values.role, priviledges);
+            await updateRole(editRoleId, formik.values.role, priviledges);
             await fetchRoles()
             handleSubmit(data)
         },
@@ -112,16 +114,16 @@ export default function EditRole({ open, showDialog, handleSubmit, accessPermiss
                         <TableBody>
                             {formik.values.permissions.map((row: any) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={row.page_name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell component="th" scope="row">
-                                        {row.name}
+                                        {row.page_name}
                                     </TableCell>
-                                    <TableCell align="right"><Checkbox checked={row.create} onChange={() => changePermission(row, 'create')} /></TableCell>
-                                    <TableCell align="right"><Checkbox checked={row.read} onChange={() => changePermission(row, 'read')} /></TableCell>
-                                    <TableCell align="right"><Checkbox checked={row.update} onChange={() => changePermission(row, 'update')} /></TableCell>
-                                    <TableCell align="right"><Checkbox checked={row.view} onChange={() => changePermission(row, 'view')} /></TableCell>
-                                    <TableCell align="right">{row.approval != undefined && <Checkbox checked={row.approval} onChange={() => changePermission(row, 'approval')} />}</TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.access.create} onChange={() => changePermission(row.access, 'create')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.access.read} onChange={() => changePermission(row.access, 'read')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.access.update} onChange={() => changePermission(row.access, 'update')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.access.view} onChange={() => changePermission(row.access, 'view')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.access.approval} onChange={() => changePermission(row.access, 'approval')} /></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

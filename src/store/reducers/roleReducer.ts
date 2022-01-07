@@ -86,3 +86,30 @@ export const deleteRoleReducer = (state: DeleteRoleState = deleteInitialState, a
             return state;
     }
 }
+
+// update role
+
+export interface UpdateRoleState {
+    updateRoleLoading: boolean,
+    updateRoleError: string
+}
+
+const updateInitialState: UpdateRoleState = {
+    updateRoleLoading: true,
+    updateRoleError: ''
+}
+
+export const updateRoleReducer = (state: UpdateRoleState = updateInitialState, action: Action) => {
+    switch (action.type) {
+        case RolesActionTypes.DELETE_ROLE:
+            return { ...state, updateRoleLoading: true };
+
+        case RolesActionTypes.DELETE_ROLE_FAILED:
+            return { ...state, updateRoleLoading: false, updateRoleError: action.payload };
+
+        case RolesActionTypes.DELETE_ROLE_SUCCESS:
+            return { ...state, updateRoleLoading: false, updateRoleError: '' };
+        default:
+            return state;
+    }
+}

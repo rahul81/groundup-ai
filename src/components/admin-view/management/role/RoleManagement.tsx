@@ -13,14 +13,22 @@ import { DeleteRoleState, roleState } from '../../../../store/reducers/roleReduc
 import { RootState } from '../../../../store/reducers';
 import { Pages } from '../../../../mockData/Pages';
 import Notification from '../../../common/notification/Notification';
+import EditRole from './edit-role/EditRole';
+import { number } from 'yup';
 
 interface RoleRowsTypes {
     role: string;
+    priviledges: [];
     _id: number,
     action: string;
 }
 
 export default function RoleManagement() {
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const handleShowEditDialog = (status: boolean) => {
+        setOpenEditDialog(status);
+    }
+
     const [open, setOpen] = useState(false);
     const handleShowDialog = (status: boolean) => {
         setOpen(status);
@@ -32,7 +40,11 @@ export default function RoleManagement() {
 
     const [roleManagementRows, setRoleManagementRows] = useState<RoleRowsTypes[]>([]);
     const tempRoleManagementRows: RoleRowsTypes[] = []
-    const [accessPermissionTable, setaccessPermissionTable] = useState([]);
+    const [addRoleaccessPermissionTable, setAddRoleAccessPermissionTable] = useState([]);
+    const [editRoleAccessPermissionTable, setEditRoleAccessPermissionTable] = useState([]);
+    const [editRoleName, setEditRoleName] = useState('');
+    const [editRoleId, setEditRoleId] = useState<any>();
+
 
     const { setNotification } = Notification()
     const craneNotification = (message: string) => {
@@ -48,6 +60,7 @@ export default function RoleManagement() {
         (roles || []).map((role, index) => {
             tempRoleManagementRows.push({
                 role: role['name'],
+                priviledges : role['priviledges'],
                 _id: role['_id'],
                 action: "Edit/Remove"
             })
@@ -58,14 +71,14 @@ export default function RoleManagement() {
         (Pages || []).map((page: any) => {
             tempAccessPermissionTable.push({
                 name: page['page_name'],
-                create: true,
-                read: true,
+                approval: false,
+                view: false,
                 update: false,
-                view: true,
-                approval: false
+                read: true,
+                create: false,
             })
         })
-        setaccessPermissionTable(tempAccessPermissionTable)
+        setAddRoleAccessPermissionTable(tempAccessPermissionTable)
     }, [roles])
 
     const deleteClicked = async (roleID: any) => {
@@ -79,6 +92,12 @@ export default function RoleManagement() {
         //     craneNotification('Something went wrong')
         // }
     }
+    const editlicked = async (rowData: any) => {
+        setOpenEditDialog(true)
+        setEditRoleName(rowData['role'])
+        setEditRoleId(rowData['_id'])
+        setEditRoleAccessPermissionTable(rowData['priviledges'])
+    }
 
     return (
         <Box >
@@ -89,8 +108,11 @@ export default function RoleManagement() {
                             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
-                            {open && <AddRole accessPermissionTable={accessPermissionTable} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
-                            <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} deleteClicked={deleteClicked} />
+                            <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} editlicked={editlicked} deleteClicked={deleteClicked} />
+
+                             {/* Dialogs */}
+                            {open && <AddRole accessPermissionTable={addRoleaccessPermissionTable} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
+                            {openEditDialog && <EditRole editRoleId={editRoleId} editRoleName={editRoleName} accessPermissionTable={editRoleAccessPermissionTable} open={openEditDialog} showDialog={handleShowEditDialog} handleSubmit={() => { setOpenEditDialog(false) }} />}
                         </Box>
                     </>
             }

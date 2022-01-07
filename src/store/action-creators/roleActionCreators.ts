@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
-import { Action, fetchRole, fetchRoleFailed, fetchRoleSuccess, createRole, createRoleFailed, createRoleSuccess, deleteRole, deleteRoleFailed, deleteRoleSuccess } from '../actions/roleActions';
+import { Action, fetchRole, fetchRoleFailed, fetchRoleSuccess, createRole, createRoleFailed, createRoleSuccess, deleteRole, deleteRoleFailed, deleteRoleSuccess, editRole, editRoleFailed, editRoleSuccess } from '../actions/roleActions';
 import axios from 'axios';
-import { GET_ROLES, CREATE_ROLE, DELETE_ROLE } from '../../constants/Api';
+import { GET_ROLES, CREATE_ROLE, DELETE_ROLE, UPDATE_ROLE } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
 import { parseJsonText } from 'typescript';
@@ -34,7 +34,6 @@ export const createNewRole = (name: string, priviledges: []): AppThunk<void> => 
     }
 }
 
-
 export const removeRole = (id: number): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(deleteRole());
@@ -46,3 +45,16 @@ export const removeRole = (id: number): AppThunk<void> => {
             });
     }
 }
+
+export const updateRole = (id: number, name: string, priviledges: []): AppThunk<void> => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch(editRole());
+        return await axios.put(UPDATE_ROLE + id, { name, priviledges })
+            .then(response => {
+                dispatch(editRoleSuccess());
+            }).catch(error => {
+                dispatch(editRoleFailed(error.message));
+            });
+    }
+}
+

@@ -51,14 +51,13 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
 
             let priviledges: any = []
             formik.values.permissions.map((permission: any) => {
-                console.log(permission)
                 priviledges.push({
                     page_name: permission.name,
                     access: {
                         approval: permission.approval,
                         view: permission.view,
                         update: permission.update, 
-                        read: permission.read,
+                        read: permission.read,  
                         create: permission.create,
                     }
                 })
