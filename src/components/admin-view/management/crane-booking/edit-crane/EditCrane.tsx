@@ -67,7 +67,7 @@ const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneP
 
     console.log(startTime)
 
-    const initialState = {
+    const initialState:any = {
         startTime: startTime,
         endTime: endTime,
         monday: editCraneData.bookingDays.includes('Monday'),
@@ -99,9 +99,9 @@ const EditCrane = ({ open, showDialog, handleSubmit, editCraneData }: EditCraneP
 
             let bookingDaysArray: weekDays[] = []
 
-            bookingDays.forEach((element: any) => {
-                // if (formik.values[currentDayString] === true) {
-                // }
+            bookingDays.forEach((item: bookingDaysTypes) => {
+                if (formik.values[item.selected] == true) {
+                }
             })
 
 
