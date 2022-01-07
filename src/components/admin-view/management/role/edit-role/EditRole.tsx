@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import GDialog from '../../../../common/dialog/GDialog';
 import { GFormInput } from '../../../../common/input/GInput';
-import RoleFormValidation from './RoleFormValidation'
 import { Checkbox, Grid, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Box } from '@mui/system';
 import { roleActionCreators } from '../../../../../store/action-creators';
@@ -12,18 +11,18 @@ import { RootState } from '../../../../../store/reducers'
 import { CreateRoleState } from '../../../../../store/reducers/roleReducer';
 import { fetchRoles } from '../../../../../store/action-creators/roleActionCreators';
 
-interface RoleFormFields {
+interface EditRoleFormFields {
     role: string;
 }
 
-interface AddRoleProps {
+interface EditRoleProps {
     open: boolean;
     showDialog: (status: boolean) => void;
     handleSubmit: (data: any) => void;
     accessPermissionTable: any;
 }
 
-export default function AddRole({ open, showDialog, handleSubmit, accessPermissionTable }: AddRoleProps) {
+export default function EditRole({ open, showDialog, handleSubmit, accessPermissionTable }: EditRoleProps) {
 
     const dispatch = useDispatch()
     const { createNewRole, fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
@@ -46,20 +45,18 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
     const formik = useFormik({
         initialValues: initialValues,
         validateOnChange: false,
-        validationSchema: RoleFormValidation,
         onSubmit: async (data) => {
 
             let priviledges: any = []
             formik.values.permissions.map((permission: any) => {
-                console.log(permission)
                 priviledges.push({
                     page_name: permission.name,
                     access: {
-                        approval: permission.approval,
-                        view: permission.view,
-                        update: permission.update, 
-                        read: permission.read,
-                        create: permission.create,
+                        view: true,
+                        create: true,
+                        approval: true,
+                        access: true,
+                        update: true
                     }
                 })
             })
@@ -81,9 +78,10 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
     };
 
     return (
-        <GDialog size='large' title="Role Management" open={open} showDialog={showDialog}>
+        <GDialog size='large' title="Edit Role" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
-                <GFormInput<RoleFormFields> formik={formik} id="role" label="User Role" />
+
+                <GFormInput<EditRoleFormFields> formik={formik} id="role" label="User Role" />
                 <InputLabel id="notification">Notification</InputLabel>
                 <Grid xs={12} container>
                     {(formik.values.notificationSetting || []).map((item: any) => {
