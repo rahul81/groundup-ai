@@ -29,3 +29,28 @@ const roleReducer = (state: roleState = initialState, action: Action) => {
 }
 
 export default roleReducer;
+
+export interface CreateRoleState {
+    createRoleLoading: boolean,
+    createRoleError: string
+}
+
+export const createInitialState: CreateRoleState = {
+    createRoleLoading: true,
+    createRoleError: ''
+}
+
+export const createRoleReducer = (state: CreateRoleState = createInitialState, action: Action) => {
+    switch (action.type) {
+        case RolesActionTypes.CREATE_ROLE:
+            return { ...state, createRoleLoading: true };
+
+        case RolesActionTypes.CREATE_ROLE_FAILED:
+            return { ...state, createRoleLoading: false, createRoleError: action.payload };
+
+        case RolesActionTypes.CREATE_ROLE_SUCCESS:
+            return { ...state, createRoleLoading: false, createRoleError: '' };
+        default:
+            return state;
+    }
+}

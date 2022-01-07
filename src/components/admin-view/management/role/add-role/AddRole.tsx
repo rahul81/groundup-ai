@@ -7,8 +7,9 @@ import { Box } from '@mui/system';
 import { roleActionCreators } from '../../../../../store/action-creators';
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
 import './add-role.scss';
+import { RootState } from '../../../../../store/reducers'
+import { CreateRoleState } from '../../../../../store/reducers/roleReducer';
 
 interface RoleFormFields {
     role: string;
@@ -22,6 +23,10 @@ interface AddRoleProps {
 }
 
 export default function AddRole({ open, showDialog, handleSubmit, accessPermissionTable }: AddRoleProps) {
+
+    const dispatch = useDispatch()
+    const { createNewRole } = bindActionCreators(roleActionCreators, dispatch)
+    const { createRoleError, createRoleLoading }: CreateRoleState = useSelector((state: RootState) => state.createRole)
 
     const initialValues: any = {
         role: '',
@@ -41,8 +46,36 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
         initialValues: initialValues,
         validateOnChange: false,
         validationSchema: RoleFormValidation,
-        onSubmit: (data) => {
-            console.log(data)
+        onSubmit: async (data) => {
+
+            // let priviledges: any = [
+            //     {
+            //         "page_name": "Booking Management",
+            //         "access": {
+            //             "approval": true,
+            //             "create": true
+            //         }
+            //     }
+            // ]
+
+            let priviledges: any = []
+            formik.values.permissions.map((permission: any) => {
+                priviledges.push({
+                    page_name: permission.name,
+                    access: {
+                        view: true,
+                        create: true,
+                        approval: true,
+                        access: true,
+                        update: true
+                    }
+                })
+            })
+            
+            console.log('priviledges')
+            console.log(priviledges)
+
+            await createNewRole(formik.values.role, priviledges);
             handleSubmit(data)
         },
     });
