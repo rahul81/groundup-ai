@@ -3,3 +3,4 @@ export * as userActionCreators from './userActionCreators';
 export * as roleActionCreators from './roleActionCreators';
 export * as companyActionCreators from './companyActionCreators';
 export * as bookingsActionCreators from './bookingsActionCreators';
+export * as getCranesActionCreators from './getCranesActionCreators'

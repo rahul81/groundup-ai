@@ -123,7 +123,9 @@ export default function BookingView() {
     React.useEffect(() => {
         
         (data || []).map((dataOne, index) => {
-            let formattedData = data && formatData(
+          // if(dataOne['start_time'] != null && dataOne['end_time'] != null && dataOne['zone'] != null && dataOne['crane_id']['name'] != null && dataOne['tasktype'] != null && dataOne['status'] != null){
+          if(dataOne['crane_id'] != null){
+          let formattedData = data && formatData(
               dataOne['start_time'], 
               dataOne['end_time'],
               dataOne['zone'],
@@ -132,13 +134,10 @@ export default function BookingView() {
               dataOne['status'],
               )
             tempBookingManagementRows.push(formattedData)
-            
-            
-            
+          }    
         })
 
         setBookingManagementRows(tempBookingManagementRows)
-        console.log("bookData",bookingManagementRows);
     }, [data])
 
     const handleShowDialog = (status: boolean) => {
