@@ -14,7 +14,7 @@ export default function MaterialManagement() {
     }
     return (
         <Box className="crane-booking-management-view">
-            <Typography className="heading" variant="h5" component="h2">Material Management</Typography>
+            <Typography className="heading" variant="h5" component="h2">Material Management  [ W.I.P ]</Typography>
             <Divider />
             <GButton title='Add Materials' size='small' className='material-management-btn add-button' onClick={()=>setOpen(true)}/>
             <AddMaterial open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />

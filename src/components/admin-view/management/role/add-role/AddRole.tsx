@@ -2,52 +2,39 @@ import { useFormik } from 'formik';
 import GDialog from '../../../../common/dialog/GDialog';
 import { GFormInput } from '../../../../common/input/GInput';
 import RoleFormValidation from './RoleFormValidation'
-import { Grid, InputLabel } from '@mui/material'
+import { Checkbox, Grid, InputLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Box } from '@mui/system';
-import GCheckbox from '../../../../common/checkobx/GCheckbox';
+import { roleActionCreators } from '../../../../../store/action-creators';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import './add-role.scss';
 
 interface RoleFormFields {
     role: string;
-    maintenance: boolean;
-    machineIdling: boolean;
-    approvedRejectedBooking: boolean;
-    rescheduleBooking: boolean;
-    canelledBooking: boolean;
-    updateBooking: boolean;
-    newbooking: boolean;
 }
 
 interface AddRoleProps {
     open: boolean;
     showDialog: (status: boolean) => void;
     handleSubmit: (data: any) => void;
+    accessPermissionTable: any;
 }
 
-interface CheckBoxFields {
-    id: string;
-    label: string;
-}
+export default function AddRole({ open, showDialog, handleSubmit, accessPermissionTable }: AddRoleProps) {
 
-const checkBoxes: CheckBoxFields[] = [
-    { id: "newbooking", label: "New Booking" },
-    { id: "updateBooking", label: "Update Booking" },
-    { id: "canelledBooking", label: "Cancelled Booking" },
-    { id: "rescheduleBooking", label: "Reschedule Booking" },
-    { id: "approvedRejectedBooking", label: "Approved/ Rejected Booking" },
-    { id: "machineIdling", label: "Machine Idling" },
-    { id: "maintenance", label: "Maintenance" },]
-
-
-export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps) {
-    const initialValues: RoleFormFields = {
+    const initialValues: any = {
         role: '',
-        maintenance: true,
-        machineIdling: true,
-        approvedRejectedBooking: true,
-        rescheduleBooking: true,
-        canelledBooking: true,
-        updateBooking: true,
-        newbooking: true
+        permissions: accessPermissionTable,
+        notificationSetting: [
+            { name: 'Machine Idling', value: true },
+            { name: 'Maintenance', value: true },
+            { name: 'Approved/ Rejected Booking', value: true },
+            { name: 'Reschedule Booking', value: false },
+            { name: 'Cancelled Booking', value: false },
+            { name: 'Update Booking', value: false },
+            { name: 'New Booking', value: true }
+        ]
     };
 
     const formik = useFormik({
@@ -55,32 +42,73 @@ export default function AddRole({ open, showDialog, handleSubmit }: AddRoleProps
         validateOnChange: false,
         validationSchema: RoleFormValidation,
         onSubmit: (data) => {
+            console.log(data)
             handleSubmit(data)
         },
     });
 
+    const changePermission = (row: any, field: string) => {
+        console.log(row)
+        row[field] = !row[field];
+        formik.setValues(formik.values);
+    };
+
+    const changeNotificationSettings = (row: any) => {
+        console.log(row)
+        row['value'] = !row['value'];
+        formik.setValues(formik.values);
+    };
+
     return (
-        <GDialog size='large'  title="Role Management" open={open} showDialog={showDialog}>
+        <GDialog size='large' title="Role Management" open={open} showDialog={showDialog}>
             <form id="request-new-form" className="groundup-form" onSubmit={formik.handleSubmit}>
                 <GFormInput<RoleFormFields> formik={formik} id="role" label="User Role" />
                 <InputLabel id="notification">Notification</InputLabel>
                 <Grid xs={12} container>
-
-                    {checkBoxes.map((item, index) => {
+                    {(formik.values.notificationSetting || []).map((item: any) => {
                         return (
                             <Grid xs={6}>
-                                <Box className="item">
-                                    <GCheckbox
-                                        selected={item.id}
-                                        formik={formik}
-                                        id={item.id}
-                                        label={item.label} />
+                                <Box className="item g-checkbox">
+                                    <Checkbox checked={item.value} onChange={() => changeNotificationSettings(item)} />
+                                    <Typography variant="body1" >{item.name}</Typography>
                                 </Box>
                             </Grid>
                         )
                     })}
-
                 </Grid>
+                <hr />
+                <Typography align='left' variant="h6" component='div' mb={2}>Access Permission</Typography>
+                <TableContainer component={Paper} className='permission-container'>
+                    <Table size="small" aria-label="permission table" className='permission-table'>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Pages</TableCell>
+                                <TableCell align="right">Create</TableCell>
+                                <TableCell align="right">Read</TableCell>
+                                <TableCell align="right">Update</TableCell>
+                                <TableCell align="right">View</TableCell>
+                                <TableCell align="right">Approval</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {console.log(formik.values)}
+                            {formik.values.permissions.map((row: any) => (
+                                <TableRow
+                                    key={row.name}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row">
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.create} onChange={() => changePermission(row, 'create')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.read} onChange={() => changePermission(row, 'read')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.update} onChange={() => changePermission(row, 'update')} /></TableCell>
+                                    <TableCell align="right"><Checkbox checked={row.view} onChange={() => changePermission(row, 'view')} /></TableCell>
+                                    <TableCell align="right">{row.approval != undefined && <Checkbox checked={row.approval} onChange={() => changePermission(row, 'approval')} />}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </form >
         </GDialog >
     )

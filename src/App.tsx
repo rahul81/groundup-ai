@@ -5,10 +5,8 @@ import {
 } from "react-router-dom";
 import SignIn from './container/sign-in/SignIn';
 import Home from './container/home/Home';
-import { ThemeProvider } from '@mui/material/styles';
 import { HOME, ROOT, USER } from './constants/ContextPaths';
 import Settings from './container/settings/Settings';
-import theme from './Theme';
 import Sample from './container/sample/Sample';
 import HttpInterceptor from './HttpInterceptor';
 import { getToken, onMessageListener } from './firebase';
@@ -29,8 +27,8 @@ function App() {
   }).catch(err => console.log('failed: ', err));
 
   return (
-    <ThemeProvider theme={theme}>
-      <HttpInterceptor />
+    <>
+      <HttpInterceptor/>
       <div className="App">
         <Switch>
           <Route path={ROOT} exact>
@@ -48,7 +46,7 @@ function App() {
           </Route>
         </Switch>
       </div>
-    </ThemeProvider>
+    </>
   );
 }
 

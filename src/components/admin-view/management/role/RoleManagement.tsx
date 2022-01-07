@@ -1,7 +1,7 @@
 import { Box, Typography, Divider, Alert, LinearProgress } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import '../../admin-view.scss'
-import {  RoleColumns } from '../../../../mockData/AdminPanel';
+import { RoleColumns } from '../../../../mockData/AdminPanel';
 import GTable from '../../../common/table/GTable';
 import GButton from '../../../common/button/GButton';
 import AddRole from './add-role/AddRole';
@@ -28,6 +28,7 @@ export default function RoleManagement() {
 
     const [roleManagementRows, setRoleManagementRows] = useState<RoleRowsTypes[]>([]);
     const tempRoleManagementRows: RoleRowsTypes[] = []
+    const [accessPermissionTable, setaccessPermissionTable] = useState([]);
 
     useEffect(() => {
         fetchRoles()
@@ -40,8 +41,23 @@ export default function RoleManagement() {
                 action: "Edit/Remove"
             })
         })
-        setRoleManagementRows( tempRoleManagementRows)
+        setRoleManagementRows(tempRoleManagementRows)
+
+        let tempAccessPermissionTable: any = [];
+        (roles || []).map((role: any) => {
+            tempAccessPermissionTable.push({
+                name: role['name'],
+                create: true,
+                read: true,
+                update: false,
+                view: true,
+                approval: false
+            })
+        })
+        console.log(tempAccessPermissionTable)
+        setaccessPermissionTable(tempAccessPermissionTable)
     }, [roles])
+
 
     return (
         <Box >
@@ -52,7 +68,7 @@ export default function RoleManagement() {
                             <Typography className="heading" variant="h5" component="h2">Role Management</Typography>
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
-                            <AddRole open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
+                            {open && <AddRole accessPermissionTable={accessPermissionTable} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
                             <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} />
                         </Box>
                     </>

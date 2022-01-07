@@ -105,4 +105,39 @@ export const deleteCompanySuccessAction = (): DeleteCompanySuccess => {
     }
 }
 
-export type Action = DeleteCompanyAction | DeleteCompanySuccess | DeleteCompanyFailed | GetCompanyAction | GetCompanyFailed | GetCompanySuccess | CreateCompanyAction | CreateCompanyFailed | CreateCompanySuccess;
+
+// Edit Company
+
+interface EditCompanyAction {
+    type: CompanyActionTypes.EDIT_COMPANY,
+}
+
+interface EditCompanyFailed {
+    type: CompanyActionTypes.EDIT_COMPANY_FAILED,
+    payload: string
+}
+
+interface EditCompanySuccess {
+    type: CompanyActionTypes.EDIT_COMPANY_SUCCESS,
+}
+
+export const editCompanyAction = (): EditCompanyAction => {
+    return {
+        type: CompanyActionTypes.EDIT_COMPANY
+    }
+}
+
+export const editCompanyFailedAction = (message: string): EditCompanyFailed => {
+    return {
+        type: CompanyActionTypes.EDIT_COMPANY_FAILED,
+        payload: message
+    }
+}
+
+export const editCompanySuccessAction = (): EditCompanySuccess => {
+    return {
+        type: CompanyActionTypes.EDIT_COMPANY_SUCCESS
+    }
+}
+
+export type Action = EditCompanySuccess | EditCompanyFailed | EditCompanyAction | DeleteCompanyAction | DeleteCompanySuccess | DeleteCompanyFailed | GetCompanyAction | GetCompanyFailed | GetCompanySuccess | CreateCompanyAction | CreateCompanyFailed | CreateCompanySuccess;

@@ -10,18 +10,27 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import 'jquery/dist/jquery.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
-import {store} from './store/store'
+import { store } from './store/store'
 import { Provider } from 'react-redux'
+import theme from './Theme';
+import { ThemeProvider } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+      <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={7}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+        </SnackbarProvider>
+      </ThemeProvider>
+      </BrowserRouter>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
 reportWebVitals();
+
