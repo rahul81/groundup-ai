@@ -4,6 +4,7 @@ import bookingReducer from "./bookings";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
+import notificationReducer from "./notificationReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
@@ -19,7 +20,9 @@ const reducers = combineReducers({
 
     company : companyReducer,
     createCompany : createCompanyReducer,
-    deleteCompany : deleteCompanyReducer
+    deleteCompany : deleteCompanyReducer,
+
+    notification: notificationReducer
 
 });
 
