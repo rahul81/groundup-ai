@@ -1,9 +1,10 @@
 import { Dispatch } from 'redux';
-import { Action, fetchRole, fetchRoleFailed, fetchRoleSuccess, createRole, createRoleFailed, createRoleSuccess } from '../actions/roleActions';
+import { Action, fetchRole, fetchRoleFailed, fetchRoleSuccess, createRole, createRoleFailed, createRoleSuccess, deleteRole, deleteRoleFailed, deleteRoleSuccess } from '../actions/roleActions';
 import axios from 'axios';
-import { GET_ROLES, CREATE_ROLE } from '../../constants/Api';
+import { GET_ROLES, CREATE_ROLE, DELETE_ROLE } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
+import { parseJsonText } from 'typescript';
 
 export type AppThunk<R> = ThunkAction<R, RootState, null, Action>;
 
@@ -27,6 +28,21 @@ export const createNewRole = (name: string, priviledges: []): AppThunk<void> => 
                 dispatch(createRoleSuccess());
             }).catch(error => {
                 dispatch(createRoleFailed(error.message));
+                console.log(error.request.response.json())
+                console.log('work   ing')
+            });
+    }
+}
+
+
+export const removeRole = (id: number): AppThunk<void> => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch(deleteRole());
+        return await axios.delete(DELETE_ROLE + id, {})
+            .then(response => {
+                dispatch(deleteRoleSuccess());
+            }).catch(error => {
+                dispatch(deleteRoleFailed(error.message));
             });
     }
 }

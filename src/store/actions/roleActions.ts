@@ -68,4 +68,38 @@ export const createRoleSuccess = (): CreateRoleSuccess => {
     }
 }
 
-export type Action = CreateRoleAction | CreateRoleFailed | CreateRoleSuccess | GetRoleAction | GetRoleFailed | GetRoleSuccess;
+// delete role
+
+interface DeleteRoleAction {
+    type: RolesActionTypes.DELETE_ROLE,
+}
+
+interface DeleteRoleFailed {
+    type: RolesActionTypes.DELETE_ROLE_FAILED,
+    payload: string
+}
+
+interface DeleteRoleSuccess {
+    type: RolesActionTypes.DELETE_ROLE_SUCCESS
+}
+
+export const deleteRole = (): DeleteRoleAction => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE
+    }
+}
+
+export const deleteRoleFailed = (message: string): DeleteRoleFailed => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE_FAILED,
+        payload: message
+    }
+}
+
+export const deleteRoleSuccess = (): DeleteRoleSuccess => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE_SUCCESS
+    }
+}
+
+export type Action = DeleteRoleSuccess | DeleteRoleFailed | DeleteRoleAction | CreateRoleAction | CreateRoleFailed | CreateRoleSuccess | GetRoleAction | GetRoleFailed | GetRoleSuccess;

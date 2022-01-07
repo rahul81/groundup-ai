@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './add-role.scss';
 import { RootState } from '../../../../../store/reducers'
 import { CreateRoleState } from '../../../../../store/reducers/roleReducer';
+import { fetchRoles } from '../../../../../store/action-creators/roleActionCreators';
 
 interface RoleFormFields {
     role: string;
@@ -25,7 +26,7 @@ interface AddRoleProps {
 export default function AddRole({ open, showDialog, handleSubmit, accessPermissionTable }: AddRoleProps) {
 
     const dispatch = useDispatch()
-    const { createNewRole } = bindActionCreators(roleActionCreators, dispatch)
+    const { createNewRole, fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
     const { createRoleError, createRoleLoading }: CreateRoleState = useSelector((state: RootState) => state.createRole)
 
     const initialValues: any = {
@@ -48,16 +49,6 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
         validationSchema: RoleFormValidation,
         onSubmit: async (data) => {
 
-            // let priviledges: any = [
-            //     {
-            //         "page_name": "Booking Management",
-            //         "access": {
-            //             "approval": true,
-            //             "create": true
-            //         }
-            //     }
-            // ]
-
             let priviledges: any = []
             formik.values.permissions.map((permission: any) => {
                 priviledges.push({
@@ -71,23 +62,19 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
                     }
                 })
             })
-            
-            console.log('priviledges')
-            console.log(priviledges)
 
             await createNewRole(formik.values.role, priviledges);
+            await fetchRoles()
             handleSubmit(data)
         },
     });
 
     const changePermission = (row: any, field: string) => {
-        console.log(row)
         row[field] = !row[field];
         formik.setValues(formik.values);
     };
 
     const changeNotificationSettings = (row: any) => {
-        console.log(row)
         row['value'] = !row['value'];
         formik.setValues(formik.values);
     };
@@ -124,7 +111,6 @@ export default function AddRole({ open, showDialog, handleSubmit, accessPermissi
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {console.log(formik.values)}
                             {formik.values.permissions.map((row: any) => (
                                 <TableRow
                                     key={row.name}

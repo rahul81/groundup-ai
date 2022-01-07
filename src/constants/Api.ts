@@ -9,6 +9,7 @@ export const UPDATE_USER = '/user/update/';
 // Roles
 export const GET_ROLES = '/role';
 export const CREATE_ROLE = '/role/create';
+export const DELETE_ROLE = '/role/delete/';
 
 // Manage Priviledges
 export const GET_PRIVLIEDGES = '/priviledges';

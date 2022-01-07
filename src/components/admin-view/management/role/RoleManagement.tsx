@@ -9,12 +9,14 @@ import './role-management.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { roleActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux';
-import { roleState } from '../../../../store/reducers/roleReducer';
+import { DeleteRoleState, roleState } from '../../../../store/reducers/roleReducer';
 import { RootState } from '../../../../store/reducers';
 import { Pages } from '../../../../mockData/Pages';
+import Notification from '../../../common/notification/Notification';
 
 interface RoleRowsTypes {
     role: string;
+    _id: number,
     action: string;
 }
 
@@ -24,24 +26,29 @@ export default function RoleManagement() {
         setOpen(status);
     }
     const dispatch = useDispatch();
-    const { fetchRoles } = bindActionCreators(roleActionCreators, dispatch)
+    const { fetchRoles, removeRole } = bindActionCreators(roleActionCreators, dispatch)
     const { roles, error, loading }: roleState = useSelector((state: RootState) => state.role);
+    const { deleteRoleError, deleteRoleLoading }: DeleteRoleState = useSelector((state: RootState) => state.deleteRole);
 
     const [roleManagementRows, setRoleManagementRows] = useState<RoleRowsTypes[]>([]);
     const tempRoleManagementRows: RoleRowsTypes[] = []
     const [accessPermissionTable, setaccessPermissionTable] = useState([]);
 
+    const { setNotification } = Notification()
+    const craneNotification = (message: string) => {
+        setNotification(message)
+    }
+
     useEffect(() => {
         fetchRoles()
-        console.log(roles)
     }, [])
 
     useEffect(() => {
 
         (roles || []).map((role, index) => {
-            console.log(role)
             tempRoleManagementRows.push({
                 role: role['name'],
+                _id: role['_id'],
                 action: "Edit/Remove"
             })
         })
@@ -58,10 +65,20 @@ export default function RoleManagement() {
                 approval: false
             })
         })
-        console.log(tempAccessPermissionTable)
         setaccessPermissionTable(tempAccessPermissionTable)
     }, [roles])
 
+    const deleteClicked = async (roleID: any) => {
+        await removeRole(roleID);
+        await fetchRoles()
+
+        // if (deleteRoleError === "" && deleteRoleLoading === false) {
+        //     craneNotification('Role deleted successfuly')
+        //     await fetchRoles()
+        // } else {
+        //     craneNotification('Something went wrong')
+        // }
+    }
 
     return (
         <Box >
@@ -73,7 +90,7 @@ export default function RoleManagement() {
                             <Divider />
                             <GButton title='Add Role' size='small' className='role-management-btn add-button' onClick={() => setOpen(true)} />
                             {open && <AddRole accessPermissionTable={accessPermissionTable} open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />}
-                            <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} />
+                            <GTable rowClicked={(data: any) => { }} rows={roleManagementRows} columns={RoleColumns} deleteClicked={deleteClicked} />
                         </Box>
                     </>
             }
