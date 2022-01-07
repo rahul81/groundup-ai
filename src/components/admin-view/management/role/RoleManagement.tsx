@@ -11,6 +11,7 @@ import { roleActionCreators } from '../../../../store/action-creators'
 import { bindActionCreators } from 'redux';
 import { roleState } from '../../../../store/reducers/roleReducer';
 import { RootState } from '../../../../store/reducers';
+import { Pages } from '../../../../mockData/Pages';
 
 interface RoleRowsTypes {
     role: string;
@@ -32,10 +33,13 @@ export default function RoleManagement() {
 
     useEffect(() => {
         fetchRoles()
+        console.log(roles)
     }, [])
 
     useEffect(() => {
+
         (roles || []).map((role, index) => {
+            console.log(role)
             tempRoleManagementRows.push({
                 role: role['name'],
                 action: "Edit/Remove"
@@ -44,9 +48,9 @@ export default function RoleManagement() {
         setRoleManagementRows(tempRoleManagementRows)
 
         let tempAccessPermissionTable: any = [];
-        (roles || []).map((role: any) => {
+        (Pages || []).map((page: any) => {
             tempAccessPermissionTable.push({
-                name: role['name'],
+                name: page['page_name'],
                 create: true,
                 read: true,
                 update: false,

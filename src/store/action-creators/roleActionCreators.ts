@@ -12,7 +12,7 @@ export const fetchRoles = (): AppThunk<void> => {
         dispatch(fetchRole());
         return await axios.get(GET_ROLES, {})
             .then(response => {
-                dispatch(fetchRoleSuccess(response.data.data.role));
+                dispatch(fetchRoleSuccess(response.data.data));
             }).catch(error => {
                 dispatch(fetchRoleFailed(error.message));
             });
