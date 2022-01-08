@@ -14,8 +14,12 @@ interface NotificationActionSuccess {
     payload: any
 }
 
+interface DeleteNotification {
+    type: NotificationActionTypes.DELETE_NOTIFICATION
+    payload: Array<any>
+}
 
-export type Action = NotificationAction | NotificationActionFailed | NotificationActionSuccess;
+export type Action = NotificationAction | NotificationActionFailed | NotificationActionSuccess | DeleteNotification;
 
 export const getNotification = (): NotificationAction => {
     return {
@@ -34,5 +38,12 @@ export const getNotificationFailed = (error: string): NotificationActionFailed =
     return {
         type: NotificationActionTypes.GET_NOTIFICATION_FAILED,
         payload: error
+    }
+}
+
+export const deleteNotifcation = (notifications: Array<any>) : DeleteNotification => {
+    return {
+        type : NotificationActionTypes.DELETE_NOTIFICATION,
+        payload: notifications
     }
 }

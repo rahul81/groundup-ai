@@ -3,17 +3,30 @@ import React, { useState } from "react";
 import "./notificationitem.scss";
 import CloseIcon from "@mui/icons-material/Close";
 import { Typography } from "@mui/material";
+import { bindActionCreators } from "redux";
+import { useDispatch } from 'react-redux';
+import { notificationActionCreator } from "../../../../store/action-creators";
 
 interface NotificationItemProps {
   category: string;
   time: string;
   message: string;
   index: number,
-  removeNotification: React.Dispatch<React.SetStateAction<Array<string>>>
   notifications: string[],
 };
 
-function NotificationItem({ category, time, message, index, removeNotification, notifications }: NotificationItemProps) {
+function NotificationItem({ category, time, message, index, notifications }: NotificationItemProps) {
+
+  const dispatch = useDispatch()
+  const { resetNotification } = bindActionCreators(notificationActionCreator, dispatch)
+
+  const removeNotification = () => {
+
+    const temp = notifications.filter((_, idx) => idx !== index)
+
+    console.log("filtered array >> ", temp)
+    resetNotification(temp)
+  }
 
   return (
     <React.Fragment>
@@ -21,9 +34,7 @@ function NotificationItem({ category, time, message, index, removeNotification, 
         <div className="notification-drawer-category">
           <Typography className="notification-drawer-category heading" variant="caption" >{category}</Typography>
           <div className="notification-close-icon">
-            <CloseIcon onClick={() => {
-              removeNotification(notifications.filter((_, i) => i !== index))
-            }} fontSize="small" />
+            <CloseIcon  fontSize="small" onClick={() => removeNotification()}/>
           </div>
         </div>
         <Typography className="heading" variant="subtitle2" >{message}</Typography>

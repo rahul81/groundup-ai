@@ -20,6 +20,7 @@ import { useHistory } from 'react-router';
 import { USER_ADMIN, USER_ADMIN_USER_MANAGEMENT, USER_NOTIFICATION } from '../../../constants/ContextPaths';
 import clsx from 'clsx';
 import NotificationDrawer from "../notification-drawer/NotificationDrawer";
+import { NotificationState } from '../../../store/reducers/notificationReducer';
 
 interface HeadersProps {
   handleDrawerToggle: ()=>void;
@@ -37,6 +38,8 @@ export default function GroundUpAppBar(props: HeadersProps) {
   const history = useHistory();
 
   const {username} = useSelector((state: RootState) => state.login);
+  const { notification = [] }: NotificationState = useSelector((state: RootState) => state.notification)
+
 
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -180,7 +183,7 @@ export default function GroundUpAppBar(props: HeadersProps) {
               color="inherit"
               onClick={()=>toggleNotificationDrawer()}
             >
-              <Badge badgeContent={17} color="primary">
+              <Badge badgeContent={notification.length} color="primary">
                 <NotificationsNoneIcon />
               </Badge>
             </IconButton>

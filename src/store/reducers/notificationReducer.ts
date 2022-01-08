@@ -1,18 +1,18 @@
 import { NotificationActionTypes } from '../action-types/notificationActionTypes';
 import { Action } from '../actions/notificationActions';
 
-export interface NotificatioState {
+export interface NotificationState {
     notification: any;
     getNotificationLoading: boolean;
     notificationError: string;
 }
-export const initialState: NotificatioState = {
+export const initialState: NotificationState = {
     notification: [],
     getNotificationLoading: true,
     notificationError: ''
 }
 
-const notificationReducer = (state: NotificatioState = initialState, action: Action) => {
+const notificationReducer = (state: NotificationState = initialState, action: Action) => {
     console.log('inside notificationReducer actipon creator')
     console.log(action)
     switch (action.type) {
@@ -22,6 +22,8 @@ const notificationReducer = (state: NotificatioState = initialState, action: Act
             return { ...state, getNotificationLoading: false };
         case NotificationActionTypes.GET_NOTIFICATION_SUCCESS:
             return { ...state, getNotificationLoading: true, notification: [...state.notification, action.payload] };
+        case NotificationActionTypes.DELETE_NOTIFICATION:
+            return { ...state, notification: action.payload };
         default:
             return state;
     }
