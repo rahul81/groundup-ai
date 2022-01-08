@@ -21,7 +21,7 @@ export const getBookings = (): AppThunk<void> => {
     }
 }
 
-export const requestNew = (crane_id: string, user_id: string, start_time: string, end_time: string, model_no: string, zone: string, status: string, status_note: string, lifttype_id: string): AppThunk<void> => {
+export const requestNew = (crane_id: string, user_id: string, start_time: string, end_time: string, model_no: number, zone: string, status: string, status_note: string, lifttype_id: string): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
 
         return await axios.post(REQUEST_NEW, { crane_id, user_id, start_time, end_time, model_no, zone, status, status_note, lifttype_id })
@@ -33,3 +33,4 @@ export const requestNew = (crane_id: string, user_id: string, start_time: string
             });
     }
 }
+

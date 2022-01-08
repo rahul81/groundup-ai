@@ -14,7 +14,7 @@ export const initialState: BookingsState = {
     error: ''
 }
 
-const bookingReducer = (state: any = initialState, action: Action) => {
+export const bookingReducer = (state: any = initialState, action: Action) => {
     switch (action.type) {
         case BookingsActionTypes.BOOKINGS_FAILED:
             return { ...state, loading: false, users: [], error: action.payload };
@@ -25,7 +25,7 @@ const bookingReducer = (state: any = initialState, action: Action) => {
     }
 }
 
-export default bookingReducer;
+
 
 //Request New 
 

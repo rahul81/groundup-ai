@@ -16,5 +16,6 @@ export const DELETE_COMPANY = '/company/delete/';
 
 // Crane Booking
 export const BOOKINGS = '/bookings';
-export const REQUEST_NEW = '/crane/create'
+export const REQUEST_NEW = '/booking/create'
 export const GET_ALL_CRANES = '/cranes'
+export const GET_ALL_LIFT = '/lifttypes'

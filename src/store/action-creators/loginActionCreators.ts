@@ -12,6 +12,7 @@ export const loginUser = (email:string, password:string): AppThunk<void> =>{
         return await axios.post(LOGIN_USER, {email, password})
         .then(response=>{
             localStorage.setItem('token', response.data.token)
+            localStorage.setItem('userId', response.data.user._id)
             dispatch(loginUserSuccess(email));
         }).catch(error=>{
             dispatch(loginUserFailed(email));

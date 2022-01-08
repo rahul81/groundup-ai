@@ -1,25 +1,25 @@
 import { GetCraneActionTypes } from '../action-types/getCraneActionTypes';
-import {Action } from '../actions/GetCranesActions';
+import {Action } from '../actions/getCranesActions';
 
 
 export interface getCranesState {
-    data: [],
-    loading: boolean,
-    error: string
+    cranedata: [],
+    craneloading: boolean,
+    craneerror: string
 }
 
 export const initialState: getCranesState = {
-    data: [],
-    loading: true,
-    error: ''
+    cranedata: [],
+    craneloading: true,
+    craneerror: ''
 }
 
 const getCranesReducer = (state: any = initialState, action: Action) => {
     switch (action.type) {
         case GetCraneActionTypes.ALL_CRANES:
-            return { ...state, loading: false, users: [], error: action.payload };
+            return { ...state, craneloading: false, cranedata: action.payload, craneerror: '' };
         case GetCraneActionTypes.CRANES_FAILED:
-            return { ...state, loading: false, data: action.payload, error: '' };
+            return { ...state, craneloading: false, cranedata: [], craneerror: action.payload };
         default:
             return state;
     }

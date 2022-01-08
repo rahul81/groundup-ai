@@ -1,20 +1,20 @@
 import {
-  DialogProps,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Input,
-  InputLabel,
-  FormControl,
-  MenuItem,
-  Select,
-  NativeSelect,
-  IconButton,
-  Typography,
-  Grid,
+    DialogProps,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    Input,
+    InputLabel,
+    FormControl,
+    MenuItem,
+    Select,
+    NativeSelect,
+    IconButton,
+    Typography,
+    Grid,
 } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useState } from "react";
@@ -30,123 +30,182 @@ import { bindActionCreators } from "redux";
 import { RootState } from "../../../store/reducers";
 import { getCranesActionCreators } from "../../../store/action-creators";
 import { getCranesState } from "../../../store/reducers/getCranesReducer";
+import { getLiftActionCreators } from "../../../store/action-creators";
+import { getLiftState } from "../../../store/reducers/liftReducer";
+import { bookingsActionCreators } from '../../../store/action-creators'
+import { RequestNewState } from '../../../store/reducers/bookings'
 
 interface RequestNewFormFields {
-  contractor: string;
-  crane: string | number;
+    contractor: string;
+    crane: string;
 }
 
 interface RequestNewProps {
-  open: boolean;
-  showDialog: (status: boolean) => void;
-  handleSubmit: (data: any) => void;
+    open: boolean;
+    showDialog: (status: boolean) => void;
+    handleSubmit: (data: any) => void;
 }
 
 interface GetAllCranesDataTypes {
-  _id: string;
-  name: string;
-  model_no: number;
-  available: boolean;
-  idle: boolean;
-  available_start_time: string;
-  available_end_time: string;
-  weekdays: [];
-  createdAt: string;
-  updatedAt: string;
+    _id : string,
+    name : string
+}
+
+interface CraneOptionsTypes {
+    _id: string,
+    key: string,
+    value: string
+}
+
+interface GetAllLiftsDataTypes {
+    _id : string,
+    name : string
+}
+
+interface LiftOptionsTypes {
+    _id: string,
+    key: string,
+    value: string
+}
+
+const J = {
+	"crane_id": "61b346a9a124c52435027771",
+	"user_id": "61ab61bb2e5e946ce9faccaf",
+	"start_time": "2021-12-31T04:42:18.017Z",
+	"end_time": "2021-12-31T05:17:18.017Z",
+	"model_no": 1900,
+	"zone": "Zone-6",
+	"status": "Completed",
+	"status_note": "Lazy",
+    "lifttype_id": "61cd390b92e11106d4ed402e"
 }
 
 export default function RequestNew({
-  open,
-  showDialog,
-  handleSubmit,
+    open,
+    showDialog,
+    handleSubmit,
 }: RequestNewProps) {
-  const dispatch = useDispatch();
-  const { getCranes } = bindActionCreators(getCranesActionCreators, dispatch);
-  const { data, loading, error }: getCranesState = useSelector(
-    (state: RootState) => state.bookings
-  );
 
-  const [cranesData, setCranesData] = useState<GetAllCranesDataTypes[]>([]);
+    const dispatch = useDispatch();
+    
+    //Get All Cranes
+    const { getCranes } = bindActionCreators(getCranesActionCreators, dispatch);
+    const { cranedata }: getCranesState = useSelector(
+        (state: RootState) => state.getCranes
+    );
 
-  React.useEffect(() => {
-    getCranes();
-    setCranesData(data);
-  }, []);
+    const [craneOptions, setCraneOptions] = useState<CraneOptionsTypes[]>([])
+    const tempCraneOptions: CraneOptionsTypes[] = []
 
-  
-  console.log("CraneDa", cranesData);
+    //Get All Lifts
+    const { getLift } = bindActionCreators(getLiftActionCreators, dispatch);
+    const { liftdata }: getLiftState = useSelector(
+        (state: RootState) => state.getLifts
+    );
+    
+    const [liftOptions, setLiftOptions] = useState<LiftOptionsTypes[]>([])
+    const tempLiftOptions: LiftOptionsTypes[] = []
+    
+    //Request Booking
+    const { requestNew } = bindActionCreators(bookingsActionCreators, dispatch);
+    const { data }: RequestNewState = useSelector(
+        (state: RootState) => state.newRequest
+    );
 
-  const initialValues: RequestNewFormFields = { contractor: "", crane: "" };
-  const crane: GSelectOption[] = [
-    { key: "zone1", value: "Zone1" },
-    { key: "zone2", value: "Zone2" },
-    { key: "zone3", value: "Zone3" },
-  ];
 
-  const activity: GSelectOption[] = [
-    { key: "activity1", value: "activity1" },
-    { key: "activity2", value: "activity2" },
-    { key: "activity3", value: "activity3" },
-  ];
+    React.useEffect(() => {
+        getCranes();
+        getLift();
+        console.log(localStorage.getItem("userId"));
+        
+    }, []);
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: requestNewValidationSchema,
-    validateOnChange: false,
-    onSubmit: (data) => {
-      handleSubmit(data);
-      console.log("submitData", data);
-    },
-  });
+    React.useEffect(() => {
+        (cranedata || []).map((getCrane: GetAllCranesDataTypes) => {
+            
+            if (getCrane) {
+                let temp = { "_id": getCrane['_id'], "value": getCrane['name'], "key": getCrane['name'] }
+                tempCraneOptions.push(temp)               
+            }
+        })
+        setCraneOptions(prev => tempCraneOptions)    
+    }, [cranedata])
 
-  return (
-    <GDialog title="Request Booking" open={open} showDialog={showDialog}>
-      <form
-        id="request-new-form"
-        className="groundup-form"
-        onSubmit={formik.handleSubmit}
-      >
-        <GFormDatePicker<RequestNewFormFields>
-          formik={formik}
-          id="date"
-          label="Date"
-        />
-        <GFormInput<RequestNewFormFields>
-          formik={formik}
-          id="contractor"
-          label="Contractor"
-        />
-        <GFormSelect<RequestNewFormFields>
-          formik={formik}
-          id="crane"
-          label="Crane"
-          options={crane}
-        />
-        <GFormSelect<RequestNewFormFields>
-          formik={formik}
-          id="activity_type"
-          label="Activity Type"
-          options={activity}
-        />
-        <Grid xs={12} container>
-          <Grid xs={4}>
-            <GFormDatePicker<RequestNewFormFields>
-              formik={formik}
-              id="startTime"
-              label="Time Start"
-              timeonly={true}
-            />
-          </Grid>
-          <Grid xs={4}>
-            <GFormDatePicker<RequestNewFormFields>
-              formik={formik}
-              id="endTime"
-              label="End Start"
-              timeonly={true}
-            />
-          </Grid>
-        </Grid>
-      </form>
-    </GDialog>
-  );
+    React.useEffect(() => {
+        (liftdata || []).map((getLift: GetAllLiftsDataTypes) => {
+            if (getLift) {
+                let temp = { "_id": getLift['_id'], "value": getLift['name'], "key": getLift['name'] }
+                tempLiftOptions.push(temp)               
+            }
+        })
+        setLiftOptions(prev => tempLiftOptions) 
+    }, [liftdata])
+
+
+    const initialValues: RequestNewFormFields = { contractor: "", crane: "" };
+    const crane: GSelectOption[] = craneOptions
+
+    const activity: GSelectOption[] = liftOptions
+
+    const formik = useFormik({
+        initialValues: initialValues,
+        validationSchema: requestNewValidationSchema,
+        validateOnChange: false,        
+        onSubmit: (data) => {
+            handleSubmit(data);
+            // requestNew(J.crane_id,localStorage.getItem("userId")?.toString() ,J.start_time,J.end_time,J.model_no,J.zone,J.status,J.status_note,J.lifttype_id)
+            console.log("submitData", data);
+        },
+    });
+
+    return (
+        <GDialog title="Request Booking" open={open} showDialog={showDialog}>
+            <form
+                id="request-new-form"
+                className="groundup-form"
+                onSubmit={formik.handleSubmit}
+            >
+                <GFormDatePicker<RequestNewFormFields>
+                    formik={formik}
+                    id="date"
+                    label="Date"
+                />
+                <GFormInput<RequestNewFormFields>
+                    formik={formik}
+                    id="contractor"
+                    label="Contractor"
+                />
+                <GFormSelect<RequestNewFormFields>
+                    formik={formik}
+                    id="crane"
+                    label="Crane"
+                    options={crane}
+                />
+                <GFormSelect<RequestNewFormFields>
+                    formik={formik}
+                    id="activity_type"
+                    label="Activity Type"
+                    options={activity}
+                />
+                <Grid xs={12} container>
+                    <Grid xs={4}>
+                        <GFormDatePicker<RequestNewFormFields>
+                            formik={formik}
+                            id="startTime"
+                            label="Time Start"
+                            timeonly={true}
+                        />
+                    </Grid>
+                    <Grid xs={4}>
+                        <GFormDatePicker<RequestNewFormFields>
+                            formik={formik}
+                            id="endTime"
+                            label="End Start"
+                            timeonly={true}
+                        />
+                    </Grid>
+                </Grid>
+            </form>
+        </GDialog>
+    );
 }
