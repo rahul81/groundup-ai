@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { RootState } from "../../../store/reducers";
 import { getCranesActionCreators } from "../../../store/action-creators";
-import { getCranesState } from "../../../store/reducers/getCranesReducer";
+import { getCranesState } from "../../../store/reducers/cranesReducer";
 import { getLiftActionCreators } from "../../../store/action-creators";
 import { getLiftState } from "../../../store/reducers/liftReducer";
 import { bookingsActionCreators } from '../../../store/action-creators'
@@ -38,6 +38,10 @@ import { RequestNewState } from '../../../store/reducers/bookings'
 interface RequestNewFormFields {
     contractor: string;
     crane: string;
+    date: Date;
+    activity_type: string;
+    start_time: Date;
+    end_time: Date;
 }
 
 interface RequestNewProps {
@@ -74,7 +78,7 @@ const J = {
 	"start_time": "2021-12-31T04:42:18.017Z",
 	"end_time": "2021-12-31T05:17:18.017Z",
 	"model_no": 1900,
-	"zone": "Zone-6",
+	// "zone": "Zone-6",
 	"status": "Completed",
 	"status_note": "Lazy",
     "lifttype_id": "61cd390b92e11106d4ed402e"
@@ -108,16 +112,11 @@ export default function RequestNew({
     
     //Request Booking
     const { requestNew } = bindActionCreators(bookingsActionCreators, dispatch);
-    const { data }: RequestNewState = useSelector(
-        (state: RootState) => state.newRequest
-    );
 
 
     React.useEffect(() => {
         getCranes();
-        getLift();
-        console.log(localStorage.getItem("userId"));
-        
+        getLift();        
     }, []);
 
     React.useEffect(() => {
@@ -141,8 +140,10 @@ export default function RequestNew({
         setLiftOptions(prev => tempLiftOptions) 
     }, [liftdata])
 
+    const [liftTypeId, setLiftTypeId] = useState('');
+    const [craneId, setCraneId] = useState('');
 
-    const initialValues: RequestNewFormFields = { contractor: "", crane: "" };
+    const initialValues: RequestNewFormFields = { date: new Date(), contractor: '', crane:'', activity_type: '', start_time: new Date(), end_time: new Date()};
     const crane: GSelectOption[] = craneOptions
 
     const activity: GSelectOption[] = liftOptions
@@ -151,10 +152,20 @@ export default function RequestNew({
         initialValues: initialValues,
         validationSchema: requestNewValidationSchema,
         validateOnChange: false,        
-        onSubmit: (data) => {
-            handleSubmit(data);
-            // requestNew(J.crane_id,localStorage.getItem("userId")?.toString() ,J.start_time,J.end_time,J.model_no,J.zone,J.status,J.status_note,J.lifttype_id)
-            console.log("submitData", data);
+        onSubmit: () => {
+
+            const { start_time, end_time } = formik.values;
+
+            const reqBody = {
+                crane_id:craneId,
+                user_id:localStorage.getItem("userId")?.toString() || '',
+                start_time:start_time.toISOString(),
+                end_time:end_time.toISOString(),
+                lifttype_id: liftTypeId,
+                status: 'Pending',
+            }
+            // console.log("req >> ", reqBody);
+            requestNew(reqBody)            
         },
     });
 
@@ -180,18 +191,20 @@ export default function RequestNew({
                     id="crane"
                     label="Crane"
                     options={crane}
+                    setCbValue={setCraneId}
                 />
                 <GFormSelect<RequestNewFormFields>
                     formik={formik}
                     id="activity_type"
                     label="Activity Type"
                     options={activity}
+                    setCbValue={setLiftTypeId}
                 />
                 <Grid xs={12} container>
                     <Grid xs={4}>
                         <GFormDatePicker<RequestNewFormFields>
                             formik={formik}
-                            id="startTime"
+                            id="start_time"
                             label="Time Start"
                             timeonly={true}
                         />
@@ -199,7 +212,7 @@ export default function RequestNew({
                     <Grid xs={4}>
                         <GFormDatePicker<RequestNewFormFields>
                             formik={formik}
-                            id="endTime"
+                            id="end_time"
                             label="End Start"
                             timeonly={true}
                         />

@@ -21,10 +21,23 @@ export const getBookings = (): AppThunk<void> => {
     }
 }
 
-export const requestNew = (crane_id: string, user_id: string, start_time: string, end_time: string, model_no: number, zone: string, status: string, status_note: string, lifttype_id: string): AppThunk<void> => {
+interface reqBody {
+     crane_id: string
+     user_id: string 
+     start_time: string 
+     end_time: string
+     model_no?: number 
+     status: string
+     status_note?: string
+     lifttype_id: string
+}
+export const requestNew = (reqBody: reqBody): AppThunk<void> => {
+
+    const { crane_id, user_id, start_time, end_time, model_no = 1900, status, status_note = 'Lazy', lifttype_id } = reqBody
+
     return async (dispatch: Dispatch<Action>) => {
 
-        return await axios.post(REQUEST_NEW, { crane_id, user_id, start_time, end_time, model_no, zone, status, status_note, lifttype_id })
+        return await axios.post(REQUEST_NEW, { crane_id, user_id, start_time, end_time, model_no, status, status_note, lifttype_id })
             .then(response => {
                 const { data: { data = [] } = {} } = response || {};
                 dispatch(requestNewSuccess(data));

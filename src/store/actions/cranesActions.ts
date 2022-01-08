@@ -1,4 +1,4 @@
-import { GetCraneActionTypes } from '../action-types/getCraneActionTypes'
+import { GetCraneActionTypes } from '../action-types/craneActionTypes'
 
 interface GetCranesAction {
     type: GetCraneActionTypes.ALL_CRANES,

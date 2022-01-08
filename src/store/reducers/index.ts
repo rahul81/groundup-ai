@@ -3,7 +3,7 @@ import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } fr
 import { bookingReducer , requestNewReducer} from "./bookings";
 import loginReducer from "./loginReducer";
 import roleReducer from "./roleReducer";
-import getCranesReducer from "./getCranesReducer";
+import getCranesReducer from "./cranesReducer";
 import liftReducer from './liftReducer'
 import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
 

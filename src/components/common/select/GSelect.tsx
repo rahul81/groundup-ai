@@ -5,6 +5,7 @@ import './g-select.scss'
 export interface GSelectOption{
     key:string;
     value:string;
+    _id?: string;
 }
 
 interface GFormSelectProps<T extends FormikValues>{
@@ -12,6 +13,7 @@ interface GFormSelectProps<T extends FormikValues>{
     id:string;
     label?:string;
     options: GSelectOption[];
+    setCbValue?: React.Dispatch<React.SetStateAction<string>>
 }
 
 interface GSelectProps{
@@ -23,7 +25,7 @@ interface GSelectProps{
     onChange:(value:string)=>void;
 }
 
-export function GFormSelect<T extends FormikValues>({formik, id, label, options}:GFormSelectProps<T>) {
+export function GFormSelect<T extends FormikValues>({formik, id, label, options, setCbValue=() => ({})}:GFormSelectProps<T>) {
     const {setFieldValue} = formik;
     return (
         <div className="custom-select">
@@ -32,6 +34,13 @@ export function GFormSelect<T extends FormikValues>({formik, id, label, options}
                 select
                 value={formik.values[id]}
                 onChange={(e)=>{
+
+                    options.forEach(opt => { if (opt.value === e.target.value) {
+
+                        opt._id && setCbValue(opt._id)
+
+                    }})
+
                     setFieldValue(id, e.target.value, true);
                 }}
                 error={formik.touched[id] && Boolean(formik.errors[id])}

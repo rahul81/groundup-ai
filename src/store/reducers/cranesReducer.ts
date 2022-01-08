@@ -1,6 +1,5 @@
-import { GetCraneActionTypes } from '../action-types/getCraneActionTypes';
-import {Action } from '../actions/getCranesActions';
-
+import { GetCraneActionTypes } from '../action-types/craneActionTypes';
+import { Action } from '../actions/cranesActions';
 
 export interface getCranesState {
     cranedata: [],

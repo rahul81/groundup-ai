@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { Action, getCranesSuccess, getCranesFailed } from '../actions/getCranesActions';
+import { Action, getCranesSuccess, getCranesFailed } from '../actions/cranesActions';
 import axios from 'axios';
 import { GET_ALL_CRANES } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
