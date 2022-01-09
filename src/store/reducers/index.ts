@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } from "./userReducer";
 import bookingReducer from "./bookings";
 import loginReducer from "./loginReducer";
-import roleReducer from "./roleReducer";
+import roleReducer, { createRoleReducer, deleteRoleReducer, updateRoleReducer } from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
 import priviledgesReducer from "./priviledgesReducer";
 import activityReducer, { createActivityReducer, deleteActivityReducer, updateActivityReducer } from "./activityReducer";
@@ -12,6 +12,9 @@ const reducers = combineReducers({
     login : loginReducer,
 
     role : roleReducer,
+    createRole : createRoleReducer,
+    deleteRole : deleteRoleReducer,
+    updateRole : updateRoleReducer,
 
     bookings: bookingReducer,
 

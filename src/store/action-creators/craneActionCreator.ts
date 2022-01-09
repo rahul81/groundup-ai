@@ -20,22 +20,26 @@ export const fetchCrane = (): AppThunk<void> => {
     }
 }
 
-export const createNewCrane = ( available_start_time: string, available_end_time: string, weekdays : weekDays[]): AppThunk<void> => {
+export const createNewCrane = (available_start_time: string, available_end_time: string, weekdays: weekDays[]): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(createCrane());
-        return await axios.post(CREATE_CRANE, { model_no: "1000", available_start_time, available_end_time,weekdays })
+        return await axios.post(CREATE_CRANE, { model_no: "1000", available_start_time, available_end_time, weekdays })
             .then(response => {
                 dispatch(createCraneSuccess());
             }).catch(error => {
-                dispatch(createCraneFailed(error.message));
+                dispatch(createCraneFailed('Something went wrong'));
+                console.log(error.message)
+                console.log(error.success)
             });
     }
 }
 
-export const updateCrane = (id: number, model_no: string, available_start_time: string, available_end_time: string, weekdays: []): AppThunk<void> => {
+export const updateCrane = (id: number, available_start_time: string, available_end_time: string, weekdays?: []): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(EditCraneAction());
-        return await axios.put(EDIT_CRANE + id, { model_no, available_start_time, available_end_time, weekdays })
+        return await axios.put(EDIT_CRANE + id, {
+            available_start_time, available_end_time, weekdays: ["Thursday", "Friday", "Monday", "Sunday"]
+        })
             .then(response => {
                 dispatch(EditCraneSuccessAction());
             }).catch(error => {
