@@ -5,19 +5,21 @@ import GToggleButtonGroup, { GToggleButtonOption } from '../../../common/toggle-
 import './status-filter.scss'
 
 export default function StatusFilter() {
-    const [formats, setFormats] = React.useState<string[]>(()=>[]);
+    const [formats, setFormats] = React.useState<string[]>(() => []);
     const options: GToggleButtonOption[] = [
-        {value:"all", label:"All"},
-        {value:"pending", label:"Pending"},
-        {value:"scheduling", label:"Scheduling"},
-        {value:"inprogress", label:"In Progress"},
-        {value:"rejected", label:"Rejected"},
-        {value:"rescheduled", label:"Rescheduled"}
+        { value: "all", label: "All" },
+        { value: "pending", label: "Pending" },
+        { value: "scheduling", label: "Scheduling" },
+        { value: "inprogress", label: "In Progress" },
+        { value: "rejected", label: "Rejected" },
+        { value: "rescheduled", label: "Rescheduled" }
     ];
+
+    console.log("formats", formats)
 
     return (
         <>
-            <GToggleButtonGroup formats={formats} setFormats={setFormats} options={options}/>
+            <GToggleButtonGroup formats={formats} setFormats={setFormats} options={options} />
         </>
     )
 }
