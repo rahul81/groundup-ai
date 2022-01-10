@@ -14,8 +14,6 @@ interface GetRoleSuccess {
     payload: []
 }
 
-export type Action = GetRoleAction | GetRoleFailed | GetRoleSuccess;
-
 export const fetchRole = (): GetRoleAction => {
     return {
         type: RolesActionTypes.GET_ROLES
@@ -35,3 +33,107 @@ export const fetchRoleSuccess = (roles: []): GetRoleSuccess => {
         payload: roles
     }
 }
+
+// Create Role
+
+interface CreateRoleAction {
+    type: RolesActionTypes.CREATE_ROLE,
+}
+
+interface CreateRoleFailed {
+    type: RolesActionTypes.CREATE_ROLE_FAILED,
+    payload: string
+}
+
+interface CreateRoleSuccess {
+    type: RolesActionTypes.CREATE_ROLE_SUCCESS
+}
+
+export const createRole = (): CreateRoleAction => {
+    return {
+        type: RolesActionTypes.CREATE_ROLE
+    }
+}
+
+export const createRoleFailed = (message: string): CreateRoleFailed => {
+    return {
+        type: RolesActionTypes.CREATE_ROLE_FAILED,
+        payload: message
+    }
+}
+
+export const createRoleSuccess = (): CreateRoleSuccess => {
+    return {
+        type: RolesActionTypes.CREATE_ROLE_SUCCESS
+    }
+}
+
+// delete role
+
+interface DeleteRoleAction {
+    type: RolesActionTypes.DELETE_ROLE,
+}
+
+interface DeleteRoleFailed {
+    type: RolesActionTypes.DELETE_ROLE_FAILED,
+    payload: string
+}
+
+interface DeleteRoleSuccess {
+    type: RolesActionTypes.DELETE_ROLE_SUCCESS
+}
+
+export const deleteRole = (): DeleteRoleAction => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE
+    }
+}
+
+export const deleteRoleFailed = (message: string): DeleteRoleFailed => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE_FAILED,
+        payload: message
+    }
+}
+
+export const deleteRoleSuccess = (): DeleteRoleSuccess => {
+    return {
+        type: RolesActionTypes.DELETE_ROLE_SUCCESS
+    }
+}
+
+// edit role
+
+interface EditRoleAction {
+    type: RolesActionTypes.UPDATE_ROLE,
+}
+
+interface EditRoleFailed {
+    type: RolesActionTypes.UPDATEE_ROLE_FAILED,
+    payload: string
+}
+
+interface EditRoleSuccess {
+    type: RolesActionTypes.UPDATE_ROLE_SUCCESS
+}
+
+export const editRole = (): EditRoleAction => {
+    return {
+        type: RolesActionTypes.UPDATE_ROLE
+    }
+}
+
+export const editRoleFailed = (message: string): EditRoleFailed => {
+    return {
+        type: RolesActionTypes.UPDATEE_ROLE_FAILED,
+        payload: message
+    }
+}
+
+export const editRoleSuccess = (): EditRoleSuccess => {
+    return {
+        type: RolesActionTypes.UPDATE_ROLE_SUCCESS
+    }
+}
+
+export type Action = EditRoleSuccess | EditRoleFailed | EditRoleAction | DeleteRoleSuccess | DeleteRoleFailed | DeleteRoleAction | CreateRoleAction | CreateRoleFailed | CreateRoleSuccess | GetRoleAction | GetRoleFailed | GetRoleSuccess;

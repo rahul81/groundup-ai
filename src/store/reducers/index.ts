@@ -2,29 +2,48 @@ import { combineReducers } from "redux";
 import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } from "./userReducer";
 import { bookingReducer , requestNewReducer} from "./bookings";
 import loginReducer from "./loginReducer";
-import roleReducer from "./roleReducer";
-import getCranesReducer from "./cranesReducer";
-import liftReducer from './liftReducer'
-import companyReducer, { createCompanyReducer, deleteCompanyReducer } from "./companyReducer";
+import roleReducer, { createRoleReducer, deleteRoleReducer, updateRoleReducer } from "./roleReducer";
+import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
+import priviledgesReducer from "./priviledgesReducer";
+import activityReducer, { createActivityReducer, deleteActivityReducer, updateActivityReducer } from "./activityReducer";
+import craneReducer, { createCraneReducer, deleteCraneReducer, editCraneReducer } from "./craneReducer";
+import notificationReducer from "./notificationReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
 
     role : roleReducer,
+    createRole : createRoleReducer,
+    deleteRole : deleteRoleReducer,
+    updateRole : updateRoleReducer,
 
     bookings: bookingReducer,
     newRequest: requestNewReducer,
-    getCranes: getCranesReducer,
-    getLifts: liftReducer,
+    // getCranes: getCranesReducer,
+    // getLifts: liftReducer,
 
     user : userReducer,
     createUser : createUserReducer,
     removeUser : deleteUserReducer,
     editUser : editUserReducer,
 
+    priviledges : priviledgesReducer,
+
     company : companyReducer,
     createCompany : createCompanyReducer,
-    deleteCompany : deleteCompanyReducer
+    deleteCompany : deleteCompanyReducer,
+    editcompany : editCompanyReducer,
+
+    activity: activityReducer,
+    createActivity : createActivityReducer,
+    updateActivity : updateActivityReducer,
+    deleteActivity : deleteActivityReducer,
+    
+    notification: notificationReducer,
+    crane : craneReducer,
+    createCrane : createCraneReducer,
+    editCrane : editCraneReducer,
+    deleteCrane : deleteCraneReducer
 
 });
 

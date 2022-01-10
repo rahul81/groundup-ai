@@ -14,7 +14,7 @@ export default function MaintenanceManagement() {
     }
     return (
         <Box className="crane-booking-management-view">
-            <Typography className="heading" variant="h5" component="h2">Maintenance Management</Typography>
+            <Typography className="heading" variant="h5" component="h2">Maintenance Management  [ W.I.P ]</Typography>
             <Divider/>
             <GButton title='Add Schedule' size='small' className='maintenance-management-btn add-button' onClick={()=>setOpen(true)}/>
             <AddSchedule open={open} showDialog={handleShowDialog} handleSubmit={()=>{setOpen(false)}}/>

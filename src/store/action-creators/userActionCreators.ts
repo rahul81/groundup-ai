@@ -25,8 +25,8 @@ export const createNewUser = (email: string, password: string, name: string, rol
         return await axios.post(CREATE_USER, { email, name, password, company, role })
             .then(response => {
                 dispatch(createUserSuccess());
-            }).catch(error => {
-                dispatch(createUserFailed(error));
+            }).catch(response => {
+                console.log('response')
             });
     }
 }
@@ -43,10 +43,10 @@ export const removeUser = (userId: number): AppThunk<void> => {
     }
 }
 
-export const updateUser = (userId: number, email: string, name: string): AppThunk<void> => {
+export const updateUser = (userId: number, email: string, name: string, role: string ): AppThunk<void> => {
     return async (dispatch: Dispatch<Action>) => {
         dispatch(editUser());
-        return await axios.put(UPDATE_USER + userId, { email, name })
+        return await axios.put(UPDATE_USER + userId, { email, name, role })
             .then(response => {
                 dispatch(editUserSuccess());
             }).catch(error => {

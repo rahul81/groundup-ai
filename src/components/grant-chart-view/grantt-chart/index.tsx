@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers';
 import ChartRow from './ChartRow';
 import { GranttChartData } from './interface';
-import GToast from '../../common/toast/GToast';
 
 const totalMinutesInaDay: number = 1440;
 
@@ -60,7 +59,7 @@ const GranttChart = ({
         const dateMatched = selected ? (startDate &&
             startDate.getDate() == selected.getDate() &&
             startDate.getMonth() == selected.getMonth() &&
-            startDate.getFullYear() == selected.getFullYear()) : true;
+            startDate.getFullYear() == selected.getFullYear()) : false;
         const craneMatched = selectedCrane ? selectedCrane === craneName : true;
         if (
             dateMatched && craneMatched
@@ -199,7 +198,7 @@ const GranttChart = ({
     const leftColumns: string[] = ["Crane", "Location"];
     return <>
         {reduxState.loading === true ? (<LinearProgress />)
-            : reduxState.loading === false && reduxState.error !== '' ? <GToast severity="error" message={reduxState.error} open={toastOpen} notificationToggleState={() => { setToastOpen(false) }} /> :
+            : reduxState.loading === false && reduxState.error !== '' ? null :
                 <>
                     <Typography variant="h4" className="grantt-chart-heading">All Cranes</Typography>
                     <div className="grantt-chart-header-container">

@@ -28,12 +28,10 @@ import GFormDatePicker from "../../common/date-picker/GDatePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { RootState } from "../../../store/reducers";
-import { getCranesActionCreators } from "../../../store/action-creators";
-import { getCranesState } from "../../../store/reducers/cranesReducer";
-import { getLiftActionCreators } from "../../../store/action-creators";
-import { getLiftState } from "../../../store/reducers/liftReducer";
+import { activityActionCreator, craneActionCreator } from "../../../store/action-creators";
 import { bookingsActionCreators } from '../../../store/action-creators'
-import { RequestNewState } from '../../../store/reducers/bookings'
+import { GetCraneState } from "../../../store/reducers/craneReducer";
+import { GetActivityState } from "../../../store/reducers/activityReducer";
 
 interface RequestNewFormFields {
     contractor: string;
@@ -93,18 +91,18 @@ export default function RequestNew({
     const dispatch = useDispatch();
     
     //Get All Cranes
-    const { getCranes } = bindActionCreators(getCranesActionCreators, dispatch);
-    const { cranedata }: getCranesState = useSelector(
-        (state: RootState) => state.getCranes
+    const { fetchCrane } = bindActionCreators(craneActionCreator, dispatch);
+    const { cranes }: GetCraneState = useSelector(
+        (state: RootState) => state.crane
     );
 
     const [craneOptions, setCraneOptions] = useState<CraneOptionsTypes[]>([])
     const tempCraneOptions: CraneOptionsTypes[] = []
 
     //Get All Lifts
-    const { getLift } = bindActionCreators(getLiftActionCreators, dispatch);
-    const { liftdata }: getLiftState = useSelector(
-        (state: RootState) => state.getLifts
+    const { fetchLiftTypes } = bindActionCreators(activityActionCreator, dispatch);
+    const { liftTypes }: GetActivityState = useSelector(
+        (state: RootState) => state.activity
     );
     
     const [liftOptions, setLiftOptions] = useState<LiftOptionsTypes[]>([])
@@ -115,12 +113,12 @@ export default function RequestNew({
 
 
     React.useEffect(() => {
-        getCranes();
-        getLift();        
+        fetchCrane();
+        fetchLiftTypes();        
     }, []);
 
     React.useEffect(() => {
-        (cranedata || []).map((getCrane: GetAllCranesDataTypes) => {
+        (cranes || []).map((getCrane: GetAllCranesDataTypes) => {
             
             if (getCrane) {
                 let temp = { "_id": getCrane['_id'], "value": getCrane['name'], "key": getCrane['name'] }
@@ -128,20 +126,18 @@ export default function RequestNew({
             }
         })
         setCraneOptions(prev => tempCraneOptions)    
-    }, [cranedata])
+    }, [cranes])
 
     React.useEffect(() => {
-        (liftdata || []).map((getLift: GetAllLiftsDataTypes) => {
+        (liftTypes || []).map((getLift: GetAllLiftsDataTypes) => {
             if (getLift) {
                 let temp = { "_id": getLift['_id'], "value": getLift['name'], "key": getLift['name'] }
                 tempLiftOptions.push(temp)               
             }
         })
         setLiftOptions(prev => tempLiftOptions) 
-    }, [liftdata])
+    }, [liftTypes])
 
-    const [liftTypeId, setLiftTypeId] = useState('');
-    const [craneId, setCraneId] = useState('');
 
     const initialValues: RequestNewFormFields = { date: new Date(), contractor: '', crane:'', activity_type: '', start_time: new Date(), end_time: new Date()};
     const crane: GSelectOption[] = craneOptions
@@ -154,7 +150,14 @@ export default function RequestNew({
         validateOnChange: false,        
         onSubmit: () => {
 
-            const { start_time, end_time } = formik.values;
+            const { start_time, end_time, crane, activity_type} = formik.values;
+
+
+            let craneId = ''
+            let liftTypeId = ''
+
+            craneOptions.forEach(option => option.value === crane ? craneId = option._id : '')
+            liftOptions.forEach(option => option.value === activity_type ? liftTypeId = option._id : '')
 
             const reqBody = {
                 crane_id:craneId,
@@ -191,14 +194,12 @@ export default function RequestNew({
                     id="crane"
                     label="Crane"
                     options={crane}
-                    setCbValue={setCraneId}
                 />
                 <GFormSelect<RequestNewFormFields>
                     formik={formik}
                     id="activity_type"
                     label="Activity Type"
                     options={activity}
-                    setCbValue={setLiftTypeId}
                 />
                 <Grid xs={12} container>
                     <Grid xs={4}>

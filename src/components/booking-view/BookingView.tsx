@@ -19,57 +19,59 @@ import { tConvert, dateFormator } from '../../../src/util/utility'
 
 
 interface BookingManagementRowsTypes {
-    date: string;
-    timeStart: string;
-    timeEnd: string;
-    zone: string;
-    crane: {name: string};
-    taskType: string,
-    status: JSX.Element,
+  date: string;
+  timeStart: string;
+  timeEnd: string;
+  zone: string;
+  crane: { name: string };
+  taskType: string,
+  status: JSX.Element,
 }
 
 interface Column {
-    id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
-    label: string;
-    minWidth?: number;
-    align?: "right" | "left";
-    format?: (value: number) => string;
-  }
-  
-  const columns: Column[] = [
-    { id: "date", label: "Date", minWidth:120 },
-    { id: "timeStart", label: "Time Start", align: "left"},
-    {
-      id: "timeEnd",
-      label: "Time End",
-      align: "left",
-    },
-    {
-      id: "zone",
-      label: "Zone",
-      align: "left",
-    },
-    {
-      id: "crane",
-      label: "Crane",
-      align: "left",
-    },
-    {
-      id: "taskType",
-      label: "Task Type",
-      align: "left",
-    },
-    {
-      id: "status",
-      label: "Status",
-      align: "left",
-    },
-  
-  ];
+  id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
+  label: string;
+  minWidth?: number;
+  align?: "right" | "left";
+  format?: (value: number) => string;
+}
+
+const columns: Column[] = [
+  { id: "date", label: "Date", minWidth: 120 },
+  { id: "timeStart", label: "Time Start", align: "left" },
+  {
+    id: "timeEnd",
+    label: "Time End",
+    align: "left",
+  },
+  {
+    id: "zone",
+    label: "Zone",
+    align: "left",
+  },
+  {
+    id: "crane",
+    label: "Crane",
+    align: "left",
+  },
+  {
+    id: "taskType",
+    label: "Task Type",
+    align: "left",
+  },
+  {
+    id: "status",
+    label: "Status",
+    align: "left",
+  },
+
+];
 
 export default function BookingView() {
     const [selectData, setSelectData] = useState<any>(null);
     const [open, setOpen] = useState(false);
+    const [crane, setCrane] = useState('')
+    const [date, setDate] = useState<Date | null>(null);
 
     const history = useHistory();
     const { search } = useLocation();
@@ -120,6 +122,19 @@ export default function BookingView() {
         getBookings()        
     }, [])
 
+    const filterData = (formattedData: any) => {
+      const startDate = new Date(formattedData.date);
+      const craneMatched = crane ? formattedData.crane === crane : true;
+      const selectedDay: any = date && new Date(date);
+      const dateMatched = (startDate && selectedDay) ?
+        (startDate.getDate() == selectedDay.getDate() &&
+          startDate.getMonth() == selectedDay.getMonth() &&
+          startDate.getFullYear() == selectedDay.getFullYear()) : true;
+      if (dateMatched && craneMatched)
+        return true;
+      return false;
+    }
+
     React.useEffect(() => {
         
         (data || []).map((dataOne, index) => {
@@ -140,38 +155,59 @@ export default function BookingView() {
         setBookingManagementRows(tempBookingManagementRows)
     }, [data])
 
-    const handleShowDialog = (status: boolean) => {
-        setOpen(status);
+
+  React.useEffect(() => {
+    (data || []).map((dataOne, index) => {
+      let formattedData = formatData(
+        dataOne['start_time'],
+        dataOne['end_time'],
+        dataOne['zone'],
+        dataOne['crane_id'] && dataOne['crane_id']['name'],
+        dataOne['tasktype'],
+        dataOne['status'],
+      );
+
+      const filterFlag = filterData(formattedData);
+      if (filterFlag)
+        tempBookingManagementRows.push(formattedData)
+
+    });
+
+    setBookingManagementRows(tempBookingManagementRows)
+  }, [data, date, crane])
+
+  const handleShowDialog = (status: boolean) => {
+    setOpen(status);
+  }
+
+  const handleSelectData = (selectData: any) => {
+    setSelectData(selectData);
+    history.push(HOME_BOOKING_REVIEW);
+  }
+
+  React.useEffect(() => {
+    let query = new URLSearchParams(search);
+    if (query && query.get('from') === 'chart') {
+      setOpen(true);
     }
+  }, [])
 
-    const handleSelectData = (selectData: any) => {
-        setSelectData(selectData);
-        history.push(HOME_BOOKING_REVIEW);
-    }
-
-    React.useEffect(() => {
-        let query = new URLSearchParams(search);
-        if (query && query.get('from') === 'chart') {
-            setOpen(true);
-        }
-    }, [])
-
-    return (
-        <Box className="page-container">
-            <Box sx={{ display: 'flex' }} mb={1}>
-                <Typography variant="h5" component="h2" className='heading-text'>
-                    Crane Bookings
-                </Typography>
-                <GButton title="Request New" startIcon={<AddIcon />} onClick={() => setOpen(true)} />
-            </Box>
-            <Filters />
-            <Box>
-                <Box>
-                    <GTable rowClicked={(selectData: any) => handleSelectData(selectData)} rows={bookingManagementRows} columns={columns} />
-                    <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
-                </Box>
-            </Box>
+  return (
+    <Box className="page-container">
+      <Box sx={{ display: 'flex' }} mb={1}>
+        <Typography variant="h5" component="h2" className='heading-text'>
+          Crane Bookings
+        </Typography>
+        <GButton title="Request New" startIcon={<AddIcon />} onClick={() => setOpen(true)} />
+      </Box>
+      <Filters date={date} setDate={setDate} crane={crane} setCrane={setCrane} />
+      <Box>
+        <Box>
+          <GTable rowClicked={(selectData: any) => handleSelectData(selectData)} rows={bookingManagementRows} columns={columns} />
+          <RequestNew open={open} showDialog={handleShowDialog} handleSubmit={() => { setOpen(false) }} />
         </Box>
-    )
+      </Box>
+    </Box>
+  )
 }
 
