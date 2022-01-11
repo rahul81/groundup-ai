@@ -60,7 +60,7 @@ export default function GFormDatePicker<T extends FormikValues>({formik, id, lab
                 {!timeonly && (!formik.values[id] || !(formik.values[id] && dateDelete)) && <EventIcon className="form-date-icon" onClick={() => handleClickDatepickerIcon()}/>}
                 {formik.values[id] && dateDelete && <HighlightOffIcon className="form-date-icon" onClick={() => setFieldValue(id, null, true)}/>}
             </Box>
-            {formik.errors[id] && 
+            {formik.touched && formik.errors[id] && 
                 <Typography variant="error" component="div">
                     {formik.errors[id]}
                 </Typography>

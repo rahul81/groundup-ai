@@ -21,7 +21,11 @@ export const CREATE_COMPANY = '/company/create';
 export const DELETE_COMPANY = '/company/delete/';
 export const UPDATE_COMPANY = '/company/update/';
 
+// Crane Booking
 export const BOOKINGS = '/bookings';
+export const REQUEST_NEW = '/booking/create'
+export const GET_ALL_CRANES = '/cranes'  //navin
+export const GET_ALL_LIFT = '/lifttypes' // navin
 
 // LiftType == Activity
 export const GET_LIFTTYPES = '/lifttypes';

@@ -28,16 +28,6 @@ interface BookingManagementRowsTypes {
   status: JSX.Element,
 }
 
-interface Data {
-  DateString: string;
-  TimeStart: string;
-  TimeEnd: string;
-  Zone: string;
-  Crane: { name: string };
-  TaskType: string;
-  Status: JSX.Element;
-}
-
 interface Column {
   id: "date" | "timeStart" | "timeEnd" | "zone" | "crane" | "taskType" | "status";
   label: string;
@@ -78,66 +68,93 @@ const columns: Column[] = [
 ];
 
 export default function BookingView() {
-  const [selectData, setSelectData] = useState<any>(null);
-  const [open, setOpen] = useState(false);
-  const [crane, setCrane] = useState('')
-  const [date, setDate] = useState<Date | null>(null);
+    const [selectData, setSelectData] = useState<any>(null);
+    const [open, setOpen] = useState(false);
+    const [crane, setCrane] = useState('')
+    const [date, setDate] = useState<Date | null>(null);
 
-  const history = useHistory();
-  const { search } = useLocation();
+    const history = useHistory();
+    const { search } = useLocation();
 
-  const dispatch = useDispatch();
-  const { getBookings } = bindActionCreators(bookingsActionCreators, dispatch)
-  const { data, loading, error }: BookingsState = useSelector((state: RootState) => state.bookings);
+    const dispatch = useDispatch();
+    const { getBookings } = bindActionCreators(bookingsActionCreators, dispatch)
+    const { data, loading, error }: BookingsState = useSelector((state: RootState) => state.bookings);
 
-  const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes[]>([]);
-  const tempBookingManagementRows: BookingManagementRowsTypes[] = []
+    const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes []>([]);
+    const tempBookingManagementRows: BookingManagementRowsTypes[] = []
 
-  function formatData(
-    TimeStart: string,
-    TimeEnd: string,
-    Zone: string,
-    Crane: { name: string },
-    TaskType: string,
-    Status: string
-  ): BookingManagementRowsTypes {
-    const date = dateFormator(TimeStart.substring(0, 10).split("-").join(" "))
-    const timeStart = tConvert(TimeStart.substring(11, 16));
-    const timeEnd = tConvert(TimeEnd.substring(11, 16));
-    const zone = Zone;
-    const crane = Crane;
-    const taskType = TaskType;
-    const status = <GButton title='Pending' size='small' color='secondary' sx={{ width: '100%', backgroundColor: 'secondary.dark', textTransform: 'capitalize' }} />
+    function Button (Status: string):JSX.Element {
 
-    // if(Status.toLowerCase() == "rejected"){
-    //   return <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
-    // } else if (Status.toLowerCase() == "pending") {
-    //   return  <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
-    // } else if (Status.toLowerCase() == "unscheduled") {
-    //   <GButton  title='Unscheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
-    // } else {
-    //   return <GButton  title={Status} size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
-    // }
+      let button;
 
-    return { date, timeStart, timeEnd, zone, crane, taskType, status };
-  }
+      if(Status.toLowerCase() == "rejected"){
+        button = <GButton  title='Rejected' color='error' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+      } else if (Status.toLowerCase() == "pending") {
+        button = <GButton  title='Pending' size='small' color='secondary' sx={{width:'100%', backgroundColor:'secondary.dark', textTransform:'capitalize'}} />
+      } else if (Status.toLowerCase() == "scheduled") {
+        button = <GButton  title='Scheduled' color='primary' size='small' sx={{width:'100%', textTransform:'capitalize'}} />
+      } else {
+        button = <GButton  title={Status} size='small' color='primary' sx={{width:'100%', textTransform:'capitalize'}} />
+      }
+      return button
+    }
 
-  React.useEffect(() => {
-    getBookings()
-  }, [])
+    function formatData(
+      TimeStart: string,
+      TimeEnd: string,
+      Zone: string,
+      Crane: { name: string },
+      TaskType: string,
+      Status: string
+    ): BookingManagementRowsTypes {
+      const date = dateFormator(TimeStart.substring(0, 10).split("-").join(" "))
+      const timeStart = tConvert(TimeStart.substring(11, 16));
+      const timeEnd = tConvert(TimeEnd.substring(11, 16));
+      const zone = Zone;
+      const crane = Crane;
+      const taskType = TaskType;
+      const status = Button(Status)
 
-  const filterData = (formattedData: any) => {
-    const startDate = new Date(formattedData.date);
-    const craneMatched = crane ? formattedData.crane === crane : true;
-    const selectedDay: any = date && new Date(date);
-    const dateMatched = (startDate && selectedDay) ?
-      (startDate.getDate() == selectedDay.getDate() &&
-        startDate.getMonth() == selectedDay.getMonth() &&
-        startDate.getFullYear() == selectedDay.getFullYear()) : true;
-    if (dateMatched && craneMatched)
-      return true;
-    return false;
-  }
+      return { date, timeStart, timeEnd, zone, crane, taskType, status };
+    }
+
+    React.useEffect(() => {
+        getBookings()        
+    }, [])
+
+    const filterData = (formattedData: any) => {
+      const startDate = new Date(formattedData.date);
+      const craneMatched = crane ? formattedData.crane === crane : true;
+      const selectedDay: any = date && new Date(date);
+      const dateMatched = (startDate && selectedDay) ?
+        (startDate.getDate() == selectedDay.getDate() &&
+          startDate.getMonth() == selectedDay.getMonth() &&
+          startDate.getFullYear() == selectedDay.getFullYear()) : true;
+      if (dateMatched && craneMatched)
+        return true;
+      return false;
+    }
+
+    React.useEffect(() => {
+        
+        (data || []).map((dataOne, index) => {
+          // if(dataOne['start_time'] != null && dataOne['end_time'] != null && dataOne['zone'] != null && dataOne['crane_id']['name'] != null && dataOne['tasktype'] != null && dataOne['status'] != null){
+          if(dataOne['crane_id'] != null){
+          let formattedData = data && formatData(
+              dataOne['start_time'], 
+              dataOne['end_time'],
+              dataOne['zone'],
+              dataOne['crane_id']['name'],
+              dataOne['tasktype'],
+              dataOne['status'],
+              )
+            tempBookingManagementRows.push(formattedData)
+          }    
+        })
+
+        setBookingManagementRows(tempBookingManagementRows)
+    }, [data])
+
 
   React.useEffect(() => {
     (data || []).map((dataOne, index) => {

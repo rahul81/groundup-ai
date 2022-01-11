@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import userReducer, { createUserReducer, deleteUserReducer, editUserReducer } from "./userReducer";
-import bookingReducer from "./bookings";
+import { bookingReducer , requestNewReducer} from "./bookings";
 import loginReducer from "./loginReducer";
 import roleReducer, { createRoleReducer, deleteRoleReducer, updateRoleReducer } from "./roleReducer";
 import companyReducer, { createCompanyReducer, deleteCompanyReducer, editCompanyReducer } from "./companyReducer";
@@ -18,6 +18,9 @@ const reducers = combineReducers({
     updateRole : updateRoleReducer,
 
     bookings: bookingReducer,
+    newRequest: requestNewReducer,
+    // getCranes: getCranesReducer,
+    // getLifts: liftReducer,
 
     user : userReducer,
     createUser : createUserReducer,
