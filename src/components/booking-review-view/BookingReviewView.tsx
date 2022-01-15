@@ -11,7 +11,9 @@ import GStatus, { GStatusSteps } from "../common/status/Status";
 import { GFormInput } from "../common/input/GInput";
 import { bookingReviewValidationSchema } from "./BookingReviewFormValidations";
 import GFormDatePicker from "../common/date-picker/GDatePicker";
-import {GTextarea} from "../common/textarea/GTextarea";
+import { GTextarea } from "../common/textarea/GTextarea";
+import GTable from "../common/table/GTable";
+import { StatusData } from "../../mockData/StatusHeaderData";
 
 const status: GStatusSteps[] = [
   {
@@ -36,6 +38,76 @@ const status: GStatusSteps[] = [
   },
 ];
 
+interface Column {
+  id:
+    | "timeStart"
+    | "timeEnd"
+    | "duration"
+    | "material_identified"
+    | "status"
+    | "footage";
+  label: string;
+  minWidth?: number;
+  align?: "right" | "left";
+  format?: (value: number) => string;
+}
+
+const columns: Column[] = [
+  {
+    id: "timeStart",
+    label: "Time Start",
+    align: "left",
+  },
+  {
+    id: "timeEnd",
+    label: "Time End",
+    align: "left",
+  },
+  {
+    id: "duration",
+    label: "Duration",
+    align: "left",
+  },
+  {
+    id: "material_identified",
+    label: "Material Identified",
+    align: "left",
+  },
+  {
+    id: "status",
+    label: "Status",
+    align: "left",
+  },
+  {
+    id: "footage",
+    label: "Footage",
+    align: "left",
+  },
+];
+
+interface rowTypes {
+  timeStart: string;
+  timeEnd: string;
+  duration: string;
+  material_identified: string;
+  status: string;
+  footage: string;
+}
+
+const rows: rowTypes[] = [
+  // {
+  //   timeStart: "12 Jun 2022",
+  //   timeEnd: "12 Jun 2022",
+  //   duration: "10 Hours",
+  //   material_identified: "Rock",
+  //   status: "Pending",
+  //   footage: "Road",
+  // },
+];
+
+const date = StatusData.find((item) => item.label == "Date");
+console.log("Date", date);
+
 interface BookingReviewFormType {
   location: string;
   crane: string;
@@ -43,19 +115,79 @@ interface BookingReviewFormType {
   description: string;
   start_time: Date;
   end_time: Date;
+
+  add_comment: string;
 }
+
+const data = {
+  "date": "2021 Dec 04",
+  "timeStart": "6:17 PM",
+  "timeEnd": "7:17 PM",
+  "zone": "Danger zone",
+  "crane": "George's Crane",
+  "taskType": "Pulling",
+  "status": {
+      "key": null,
+      "ref": null,
+      "props": {
+          "title": "Rejected",
+          "color": "error",
+          "size": "small",
+          "sx": {
+              "width": "100%",
+              "textTransform": "capitalize"
+          }
+      },
+      "_owner": null,
+      "_store": {}
+  }
+}
+
+const statusData = [
+  {
+      label:'Date',
+      value: data.date
+  },
+  {
+      label:'Time Start',
+      value: data.timeStart
+  },
+  {
+      label:'Time End',
+      value: data.timeEnd
+  },
+  {
+      label:'Zone',
+      value: data.zone
+  },
+  {
+      label:'Crane',
+      value: data.crane
+  },
+  {
+      label:'Task Type',
+      value: data.taskType
+  },
+  {
+      label:'Status',
+      value: data.status.props.title
+  }
+]
 
 export default function BookingReviewView() {
   const history = useHistory();
 
   const initialValues: BookingReviewFormType = {
     location: "",
-    crane: "scas",
+    crane: "",
     activity_type: "",
     description: "",
     start_time: new Date(),
     end_time: new Date(),
+    add_comment: "",
   };
+
+  console.log("Status", StatusData);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -131,9 +263,30 @@ export default function BookingReviewView() {
                 />
               </Grid>
             </Grid>
+          </form>
+        </GPane>
 
+        <GPane label="Schedule">
+          <GTable rows={rows} columns={columns} />
+        </GPane>
+
+        {/* <GPane label="Activity"></GPane> */}
+
+        <GPane label="Add Comment">
+          <form
+            id="request-new-form"
+            className="groundup-form"
+            onSubmit={formik.handleSubmit}
+          >
+            <GTextarea<BookingReviewFormType>
+              formik={formik}
+              id="add_comment"
+              label="Write Comment below"
+              fullWidth={true}
+              // rows={3}
+            />
             <GButton
-              title="Add Activity"
+              title="Comment"
               size="small"
               style={{ display: "block", margin: "10px 0" }}
             />
