@@ -72,6 +72,7 @@ export default function BookingView() {
     const [open, setOpen] = useState(false);
     const [crane, setCrane] = useState('')
     const [date, setDate] = useState<Date | null>(null);
+    const [formats, setFormats] = useState<string[]>(()=>[])
 
     const history = useHistory();
     const { search } = useLocation();
@@ -81,7 +82,7 @@ export default function BookingView() {
     const { data, loading, error }: BookingsState = useSelector((state: RootState) => state.bookings);
 
     const [bookingManagementRows, setBookingManagementRows] = useState<BookingManagementRowsTypes []>([]);
-    const tempBookingManagementRows: BookingManagementRowsTypes[] = []
+    let tempBookingManagementRows: BookingManagementRowsTypes[] = []
 
     function Button (Status: string):JSX.Element {
 
@@ -124,22 +125,77 @@ export default function BookingView() {
 
     const filterData = (formattedData: any) => {
       const startDate = new Date(formattedData.date);
-      const craneMatched = crane ? formattedData.crane === crane : true;
-      const selectedDay: any = date && new Date(date);
-      const dateMatched = (startDate && selectedDay) ?
-        (startDate.getDate() == selectedDay.getDate() &&
-          startDate.getMonth() == selectedDay.getMonth() &&
-          startDate.getFullYear() == selectedDay.getFullYear()) : true;
-      if (dateMatched && craneMatched)
-        return true;
-      return false;
+
+      const { status } = formattedData;
+      const { props } = status;
+      const { title='' } = props;
+
+      if (date && (startDate?.toString() === date?.toString())) {
+        if (crane && (crane === formattedData.crane)) {
+
+          if (formats.includes(title.toLowerCase())) {
+            console.log("date crane and status filter > ", title, ' > ', formattedData )
+            tempBookingManagementRows.push(formattedData)
+          } else if (formats.length === 0) {
+            console.log("with date and crane >> ", formattedData)
+            tempBookingManagementRows.push(formattedData)
+          }
+        } else if (!crane) {
+
+            if (formats.includes(title.toLowerCase())) {
+              console.log("with date and status filter >> ", formattedData)
+              tempBookingManagementRows.push(formattedData)
+            }
+            else if (formats.length === 0) {
+              console.log("only date >> ", formattedData)
+              tempBookingManagementRows.push(formattedData)
+          }
+
+        }
+      } 
+      else if (!date && crane && (crane === formattedData.crane)) {
+
+        if (formats.includes(title.toLowerCase())) {
+          console.log("With crane and status filter >> ", formattedData)
+          tempBookingManagementRows.push(formattedData)
+        } else if (formats.length === 0) {
+          console.log("Only crane >> ", formattedData)
+          tempBookingManagementRows.push(formattedData)
+        }
+      }
+      else if (!date && !crane && formats.length > 0) {
+
+        if (formats.includes(title.toLowerCase())){
+          console.log("Status filter only >> ", formattedData)
+          tempBookingManagementRows.push(formattedData)
+        }
+
+      }
+      else if (!date && !crane) {
+        console.log("All data >> ", formattedData)
+        tempBookingManagementRows.push(formattedData)
+
+      }
+  
+
+    }
+
+    const filterByStatus = (formattedData: any) => {
+      const { status } = formattedData;
+
+      if (formats.includes(status)) {
+        console.log("row >> " + status + ": " + formattedData)
+        tempBookingManagementRows.push(formattedData)
+      }
+
     }
 
     React.useEffect(() => {
-        
+        tempBookingManagementRows = [];
+
         (data || []).map((dataOne, index) => {
           // if(dataOne['start_time'] != null && dataOne['end_time'] != null && dataOne['zone'] != null && dataOne['crane_id']['name'] != null && dataOne['tasktype'] != null && dataOne['status'] != null){
-          if(dataOne['crane_id'] != null){
+          if(dataOne['crane_id'] != null && dataOne['user_id'] !== null){
           let formattedData = data && formatData(
               dataOne['start_time'], 
               dataOne['end_time'],
@@ -157,7 +213,10 @@ export default function BookingView() {
 
 
   React.useEffect(() => {
+    tempBookingManagementRows = [];
     (data || []).map((dataOne, index) => {
+
+      if(dataOne['crane_id'] !== null && dataOne['user_id'] !== null) {
       let formattedData = formatData(
         dataOne['start_time'],
         dataOne['end_time'],
@@ -167,14 +226,13 @@ export default function BookingView() {
         dataOne['status'],
       );
 
-      const filterFlag = filterData(formattedData);
-      if (filterFlag)
-        tempBookingManagementRows.push(formattedData)
+      filterData(formattedData);
 
-    });
+      setBookingManagementRows(tempBookingManagementRows)
 
-    setBookingManagementRows(tempBookingManagementRows)
-  }, [data, date, crane])
+    }});
+
+  }, [data, date, crane, formats])
 
   const handleShowDialog = (status: boolean) => {
     setOpen(status);
@@ -200,7 +258,7 @@ export default function BookingView() {
         </Typography>
         <GButton title="Request New" startIcon={<AddIcon />} onClick={() => setOpen(true)} />
       </Box>
-      <Filters date={date} setDate={setDate} crane={crane} setCrane={setCrane} />
+      <Filters date={date} setDate={setDate} crane={crane} setCrane={setCrane} formats={formats} setFormats={setFormats}/>
       <Box>
         <Box>
           <GTable rowClicked={(selectData: any) => handleSelectData(selectData)} rows={bookingManagementRows} columns={columns} />

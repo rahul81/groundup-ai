@@ -1,11 +1,20 @@
 import { ToggleButtonGroup, ToggleButton } from '@mui/material'
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import GToggleButtonGroup, { GToggleButtonOption } from '../../../common/toggle-group/GToggleButtonGroup';
 
 import './status-filter.scss'
 
-export default function StatusFilter() {
-    const [formats, setFormats] = React.useState<string[]>(() => []);
+
+interface StatusFilterProps {
+    formats: Array<string>,
+    setFormats: React.Dispatch<SetStateAction<string[]>>
+}
+
+
+export default function StatusFilter(props: StatusFilterProps) {
+
+    const {formats, setFormats} = props;
+
     const options: GToggleButtonOption[] = [
         { value: "all", label: "All" },
         { value: "pending", label: "Pending" },

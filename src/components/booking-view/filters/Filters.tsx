@@ -7,7 +7,9 @@ export default function Filters({
     date,
     setDate,
     crane,
-    setCrane
+    setCrane,
+    formats, 
+    setFormats
 }: any) {
     return (
         <>
@@ -15,7 +17,7 @@ export default function Filters({
                 <CriteriaFilter date={date} setDate={setDate} crane={crane} setCrane={setCrane} />
             </Box>
             <Box sx={{ display: 'flex' }}>
-                <StatusFilter />
+                <StatusFilter formats={formats} setFormats={setFormats}/>
             </Box>
         </>
     )
