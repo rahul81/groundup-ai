@@ -24,7 +24,7 @@ export default function StatusFilter(props: StatusFilterProps) {
         { value: "rescheduled", label: "Rescheduled" }
     ];
 
-    console.log("formats", formats)
+    // console.log("formats", formats)
 
     return (
         <>

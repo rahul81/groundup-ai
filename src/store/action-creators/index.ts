@@ -9,4 +9,4 @@ export * as getLiftActionCreators from './liftActionCreators'; //
 export * as  activityActionCreator from './activityActionCreator';
 export * as  craneActionCreator from './craneActionCreator';
 export * as notificationActionCreator from './notificationActionCreator';
-
+export * as bookingReviewActionCreator from './bookingReviewActionCreator'
