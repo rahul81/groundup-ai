@@ -13,7 +13,7 @@ interface GFormInputProps<T extends FormikValues> {
 export function GTextarea<T extends FormikValues>({ formik, id, label, fullWidth = false, rows = 2 }: GFormInputProps<T>) {
     return (
         <div className="custom-textarea">
-            <InputLabel id={id} style={{marginBottom: "10px"}}>{label}</InputLabel>
+            <InputLabel id={id} className="input-Label" >{label}</InputLabel>
             <TextField
                 hiddenLabel fullWidth={fullWidth}
                 multiline

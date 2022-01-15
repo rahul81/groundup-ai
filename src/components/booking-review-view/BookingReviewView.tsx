@@ -155,8 +155,6 @@ export default function BookingReviewView() {
         statusItem["variant"] = "outlined"
       }
     })
-    console.log("status",status);
-    console.log("dataReview",data);
   },[data])
   
 
