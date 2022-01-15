@@ -39,7 +39,7 @@ interface GFormStatusProps<T extends FormikValues> {
 function GStatus({ title, steps }: GStatusProps) {
     return (
         <Box className="booking-status">
-            {title && <Typography className="caption" >{title}</Typography>}
+            {title && <Typography className="caption" variant="caption" >{title}</Typography>}
 
             <Box className="booking-status-buttons">
                 {(steps).map((item, index) =>

@@ -1,0 +1,4 @@
+export enum BookingsReviewActionTypes {
+    BOOKINGS_REVIEW = "BOOKINGS_REVIEW",
+    BOOKINGS_REVIEW_FAILED = "BOOKINGS_REVIEW_FAILED"
+}

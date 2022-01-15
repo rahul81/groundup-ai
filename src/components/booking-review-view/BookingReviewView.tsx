@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Button, Link, Typography } from "@mui/material";
 import { HOME_BOOKING } from "../../constants/ContextPaths";
@@ -14,12 +14,15 @@ import GFormDatePicker from "../common/date-picker/GDatePicker";
 import { GTextarea } from "../common/textarea/GTextarea";
 import GTable from "../common/table/GTable";
 import { StatusData } from "../../mockData/StatusHeaderData";
+import { useSelector } from "react-redux";
+import { BookingReviewState } from "../../store/reducers/bookingReviewReducer";
+import { RootState } from "../../store/reducers";
 
 const status: GStatusSteps[] = [
   {
-    color: "primary",
     key: "Pending",
     value: "Pending",
+    variant: "outlined"
   },
   {
     key: "Scheduled",
@@ -36,6 +39,11 @@ const status: GStatusSteps[] = [
     value: "Completed",
     variant: "outlined",
   },
+  {
+    key: "Rejected",
+    value: "Rejected",
+    variant: "outlined",
+  }
 ];
 
 interface Column {
@@ -106,7 +114,7 @@ const rows: rowTypes[] = [
 ];
 
 const date = StatusData.find((item) => item.label == "Date");
-console.log("Date", date);
+// console.log("Date", date);
 
 interface BookingReviewFormType {
   location: string;
@@ -119,63 +127,41 @@ interface BookingReviewFormType {
   add_comment: string;
 }
 
-const data = {
-  "date": "2021 Dec 04",
-  "timeStart": "6:17 PM",
-  "timeEnd": "7:17 PM",
-  "zone": "Danger zone",
-  "crane": "George's Crane",
-  "taskType": "Pulling",
-  "status": {
-      "key": null,
-      "ref": null,
-      "props": {
-          "title": "Rejected",
-          "color": "error",
-          "size": "small",
-          "sx": {
-              "width": "100%",
-              "textTransform": "capitalize"
-          }
-      },
-      "_owner": null,
-      "_store": {}
-  }
-}
-
-const statusData = [
-  {
-      label:'Date',
-      value: data.date
-  },
-  {
-      label:'Time Start',
-      value: data.timeStart
-  },
-  {
-      label:'Time End',
-      value: data.timeEnd
-  },
-  {
-      label:'Zone',
-      value: data.zone
-  },
-  {
-      label:'Crane',
-      value: data.crane
-  },
-  {
-      label:'Task Type',
-      value: data.taskType
-  },
-  {
-      label:'Status',
-      value: data.status.props.title
-  }
-]
 
 export default function BookingReviewView() {
   const history = useHistory();
+
+  const { data, error }: BookingReviewState = useSelector(
+    (state: RootState) => state.bookingReview
+  );
+
+  React.useEffect(() => {
+
+    status.map(statusItem => {
+      if(data.status.props.title === statusItem.value){
+
+        if(data.status.props.title === "Rejected"){
+          statusItem["color"] = "error"
+          delete statusItem.variant
+        } 
+        else{
+          statusItem["color"] = "primary"
+          delete statusItem.variant
+        }
+        
+      } 
+      else {
+        delete statusItem.color
+        statusItem["variant"] = "outlined"
+      }
+    })
+    console.log("status",status);
+    console.log("dataReview",data);
+  },[data])
+  
+
+  
+  
 
   const initialValues: BookingReviewFormType = {
     location: "",
@@ -186,8 +172,6 @@ export default function BookingReviewView() {
     end_time: new Date(),
     add_comment: "",
   };
-
-  console.log("Status", StatusData);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -210,7 +194,9 @@ export default function BookingReviewView() {
           <Typography variant="subtitle2">&lt; Back</Typography>
         </Link>
       </Box>
+      <br />
       <StatusHeader />
+      <br />
       <GStatus title="Status" steps={status} />
       <br />
       <Box>
@@ -265,13 +251,15 @@ export default function BookingReviewView() {
             </Grid>
           </form>
         </GPane>
-
+        <br />
         <GPane label="Schedule">
           <GTable rows={rows} columns={columns} />
         </GPane>
 
-        {/* <GPane label="Activity"></GPane> */}
+        {/* <GPane label="Activity">
 
+        </GPane> */}
+        <br />
         <GPane label="Add Comment">
           <form
             id="request-new-form"
