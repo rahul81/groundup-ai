@@ -8,7 +8,7 @@ import priviledgesReducer from "./priviledgesReducer";
 import activityReducer, { createActivityReducer, deleteActivityReducer, updateActivityReducer } from "./activityReducer";
 import craneReducer, { createCraneReducer, deleteCraneReducer, editCraneReducer } from "./craneReducer";
 import notificationReducer from "./notificationReducer";
-import {bookingReviewReducer} from "./bookingReviewReducer";
+import {bookingReviewReducer, updateBookingReducer} from "./bookingReviewReducer";
 
 const reducers = combineReducers({
     login : loginReducer,
@@ -21,6 +21,7 @@ const reducers = combineReducers({
     bookings: bookingReducer,
     newRequest: requestNewReducer,
     bookingReview: bookingReviewReducer,
+    bookingUpdates: updateBookingReducer,
     // getCranes: getCranesReducer,
     // getLifts: liftReducer,
 

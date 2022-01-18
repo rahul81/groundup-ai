@@ -26,6 +26,7 @@ export const BOOKINGS = '/bookings';
 export const REQUEST_NEW = '/booking/create'
 export const GET_ALL_CRANES = '/cranes'  //navin
 export const GET_ALL_LIFT = '/lifttypes' // navin
+export const UPDATE_BOOKING = '/booking/update/'
 
 // LiftType == Activity
 export const GET_LIFTTYPES = '/lifttypes';
