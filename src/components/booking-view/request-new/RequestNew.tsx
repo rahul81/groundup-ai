@@ -152,13 +152,28 @@ export default function RequestNew({
 
   const dateFormat = (selectedDate : string, time: Date) => {
     let second = ""
-    if(time.getSeconds() == 0){
+    let minutes = ""
+    let hours = ""
+    if(time.getSeconds() === 0){
       second = "00"
     }
     else{
       second = time.getSeconds().toString()
     }
-    return selectedDate + "T" + time.getHours() + ":" + time.getMinutes() + ":" + second + "." + time.getMilliseconds() + "Z"
+
+    if (time.getMinutes() === 0){
+      minutes = "00"
+    } else{
+      minutes = time.getMinutes().toString()
+    }
+
+    if (time.getHours() === 0){
+      hours = "00"
+    } else{
+      hours = time.getHours().toString()
+    }
+
+    return selectedDate + "T" + hours + ":" + minutes + ":" + second + "." + time.getMilliseconds() + "Z"
   }
 
   const formik = useFormik({
