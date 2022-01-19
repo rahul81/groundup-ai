@@ -18,7 +18,7 @@ export default function StatusFilter(props: StatusFilterProps) {
     const options: GToggleButtonOption[] = [
         { value: "all", label: "All" },
         { value: "pending", label: "Pending" },
-        { value: "scheduling", label: "Scheduling" },
+        { value: "scheduled", label: "Scheduled" },
         { value: "inprogress", label: "In Progress" },
         { value: "rejected", label: "Rejected" },
         { value: "rescheduled", label: "Rescheduled" }

@@ -1,33 +1,52 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import GButton from "../button/GButton";
 import "./StatusHeader.scss";
 // import { StatusData } from "../../../mockData/StatusHeaderData";
 import GButtonGroup from "../buttonGroup/GButtonGroup";
-import { useSelector } from "react-redux";
-import { BookingReviewState } from "../../../store/reducers/bookingReviewReducer";
+import { bookingReviewActionCreator } from "../../../store/action-creators";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { useHistory } from "react-router-dom";
+import { UpdateBookingsState } from "../../../store/reducers/bookingReviewReducer";
 import { RootState } from "../../../store/reducers";
+import { HOME_BOOKING } from "../../../constants/ContextPaths";
+import { updateBookingSuccess } from "../../../store/actions/bookingReviewAction";
 
 interface StatusHeader {
     ButtonTitle?: string;
     ButtonGroupTitle?: string;
     options?: Array<any>;
+    data: {
+        id: string;
+        date: string;
+        status: { props: { title: string} }
+        timeStart: string;
+        timeEnd: string;
+        zone: string | '';
+        crane: string;
+        taskType: string;
+    }
 }
 
-interface BookingReviewData {
-    crane: string,
-    date: string,
-    status: React.ElementType,
-    tastType: string,
-    timeStart: string,
-    timeEnd: string,
-    zone: string
-}
 
 export default function StatusHeader(props: StatusHeader) {
-    const { data, error }: BookingReviewState = useSelector(
-        (state: RootState) => state.bookingReview
-    );
+
+    const history = useHistory();
+
+
+    //API CALLS
+    const dispatch = useDispatch()
+    const { updateBookingStatus } = bindActionCreators(bookingReviewActionCreator, dispatch)
+    const { data : bookingUpdatedata , error } : UpdateBookingsState = useSelector((state: RootState) => state.bookingUpdates)
+    const { success } = bookingUpdatedata;
+
+    //DATA destructuring
+
+    const { data } = props; 
+    const { id } = data;
+
+    const status = data.status.props.title;
 
     let StatusData = [
         {
@@ -77,6 +96,22 @@ export default function StatusHeader(props: StatusHeader) {
 
     const { palette } = theme;
 
+    // Submit actions
+
+    const handleApprove = () => {
+        // Updating booking status from 'pending' to 'scheduled' on click of Approve
+        updateBookingStatus({id, status: 'Scheduled'}) 
+    }
+
+
+    useEffect(() => {
+        if (success) {
+            history.push(HOME_BOOKING)
+            // clean up function to reset booking update reducer message state to false
+            dispatch(updateBookingSuccess({message:'Reset after successful update', success:false}))
+        }
+    }, [success])
+
     return (
         <Box
             className="status-header-container"
@@ -94,12 +129,13 @@ export default function StatusHeader(props: StatusHeader) {
                     ))}
             </Box>
             <Box className="status-button-container">
-                {true && (
+                {status.toLowerCase() === 'pending' && (
                     <GButton
                         title={ButtonTitle}
                         className="status-approve-btn"
                         size="small"
                         color="success"
+                        onClick={handleApprove}
                     />
                 )}
                 <GButtonGroup

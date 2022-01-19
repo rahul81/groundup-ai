@@ -127,7 +127,6 @@ interface BookingReviewFormType {
   add_comment: string;
 }
 
-
 export default function BookingReviewView() {
   const history = useHistory();
 
@@ -193,7 +192,7 @@ export default function BookingReviewView() {
         </Link>
       </Box>
       <br />
-      <StatusHeader />
+      <StatusHeader data={data}/>
       <br />
       <GStatus title="Status" steps={status} />
       <br />
