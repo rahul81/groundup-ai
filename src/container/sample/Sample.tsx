@@ -7,7 +7,7 @@ export default function Sample() {
     return (
         <div>
 
-            <StatusHeader/>
+            {/* <StatusHeader/> */}
             
         </div>
     )

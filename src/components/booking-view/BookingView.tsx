@@ -18,6 +18,7 @@ import { BookingsState } from "../../store/reducers/bookings";
 import { tConvert, dateFormator } from "../../../src/util/utility";
 
 interface BookingManagementRowsTypes {
+  id: string;
   date: string;
   timeStart: string;
   timeEnd: string;
@@ -144,6 +145,7 @@ export default function BookingView() {
   }
 
   function formatData(
+    id: string,
     TimeStart: string,
     TimeEnd: string,
     Zone: string,
@@ -159,7 +161,7 @@ export default function BookingView() {
     const taskType = TaskType;
     const status = Button(Status);
 
-    return { date, timeStart, timeEnd, zone, crane, taskType, status };
+    return { id, date, timeStart, timeEnd, zone, crane, taskType, status };
   }
 
   React.useEffect(() => {
@@ -233,6 +235,7 @@ export default function BookingView() {
         let formattedData =
           data &&
           formatData(
+            dataOne["_id"],
             dataOne["start_time"],
             dataOne["end_time"],
             dataOne["zone"],
@@ -252,6 +255,7 @@ export default function BookingView() {
     (data || []).map((dataOne, index) => {
       if (dataOne["crane_id"] !== null && dataOne["user_id"] !== null) {
         let formattedData = formatData(
+          dataOne['_id'],
           dataOne["start_time"],
           dataOne["end_time"],
           dataOne["zone"],
