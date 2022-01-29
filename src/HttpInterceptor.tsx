@@ -2,7 +2,8 @@ import axios from 'axios';
 import { LOGIN_USER } from './constants/Api';
 
 export default function HttpInterceptor() {
-    const BASE_URL = 'http://13.212.88.14:3000/api/v1'
+    const BASE_URL = process.env.REACT_APP_BASE_URL || ''
+    console.log("BASE URL: ", BASE_URL)
     // For GET requests
     axios.interceptors.request.use(request => {
             // Add configurations here
