@@ -35,6 +35,7 @@ import {
 import { bookingsActionCreators } from "../../../store/action-creators";
 import { GetCraneState } from "../../../store/reducers/craneReducer";
 import { GetActivityState } from "../../../store/reducers/activityReducer";
+import { number } from "yup/lib/locale";
 
 interface RequestNewFormFields {
   contractor: string;
@@ -149,13 +150,40 @@ export default function RequestNew({
 
   const activity: GSelectOption[] = liftOptions;
 
+  const dateFormat = (selectedDate : string, time: Date) => {
+    let second = ""
+    let minutes = ""
+    let hours = ""
+    if(time.getSeconds() === 0){
+      second = "00"
+    }
+    else{
+      second = time.getSeconds().toString()
+    }
+
+    if (time.getMinutes() === 0){
+      minutes = "00"
+    } else{
+      minutes = time.getMinutes().toString()
+    }
+
+    if (time.getHours() === 0){
+      hours = "00"
+    } else{
+      hours = time.getHours().toString()
+    }
+
+    return selectedDate + "T" + hours + ":" + minutes + ":" + second + "." + time.getMilliseconds() + "Z"
+  }
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: requestNewValidationSchema,
     validateOnChange: false,
     onSubmit: () => {
-      const { start_time, end_time, crane, activity_type } = formik.values;
-
+      const { date, start_time, end_time, crane, activity_type } = formik.values;
+      const selectedDate = date.toISOString().substr(0,10)
+  
       let craneId = "";
       let liftTypeId = "";
 
@@ -169,11 +197,12 @@ export default function RequestNew({
       const reqBody = {
         crane_id: craneId,
         user_id: localStorage.getItem("userId")?.toString() || "",
-        start_time: start_time.toISOString(),
-        end_time: end_time.toISOString(),
+        start_time: dateFormat(selectedDate, start_time),
+        end_time: dateFormat(selectedDate, end_time),
         lifttype_id: liftTypeId,
         status: "Pending",
       };
+
       requestNew(reqBody);
     },
   });
