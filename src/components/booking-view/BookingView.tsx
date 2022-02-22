@@ -122,10 +122,10 @@ export default function BookingView() {
           }}
         />
       );
-    } else if (Status.toLowerCase() == "scheduled") {
+    } else if (Status.toLowerCase() == "scheduled" || Status.toLowerCase() == "rescheduled") {
       button = (
         <GButton
-          title="Scheduled"
+          title={Status}
           color="primary"
           size="small"
           sx={{ width: "100%", textTransform: "capitalize" }}
