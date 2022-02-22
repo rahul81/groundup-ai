@@ -30,6 +30,11 @@ const status: GStatusSteps[] = [
     variant: "outlined",
   },
   {
+    key: "Rescheduled",
+    value: "Rescheduled",
+    variant: "outlined",
+  },
+  {
     key: "In-Progress",
     value: "In-Progress",
     variant: "outlined",
@@ -137,9 +142,9 @@ export default function BookingReviewView() {
   React.useEffect(() => {
 
     status.map(statusItem => {
-      if(data.status.props.title === statusItem.value){
+      if(data.status.props.title.toLocaleLowerCase() === statusItem.value.toLocaleLowerCase()){
 
-        if(data.status.props.title === "Rejected"){
+        if(data.status.props.title.toLocaleLowerCase() === "rejected"){
           statusItem["color"] = "error"
           delete statusItem.variant
         } 
