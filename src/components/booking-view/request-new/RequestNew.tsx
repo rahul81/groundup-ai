@@ -54,6 +54,7 @@ interface RequestNewProps {
 
 interface GetAllCranesDataTypes {
   _id: string;
+  available: boolean;
   name: string;
 }
 
@@ -113,12 +114,14 @@ export default function RequestNew({
   React.useEffect(() => {
     (cranes || []).map((getCrane: GetAllCranesDataTypes) => {
       if (getCrane) {
-        let temp = {
-          _id: getCrane["_id"],
-          value: getCrane["name"],
-          key: getCrane["name"],
-        };
-        tempCraneOptions.push(temp);
+        if (getCrane['available']){
+          let temp = {
+            _id: getCrane["_id"],
+            value: getCrane["name"],
+            key: getCrane["name"],
+          };
+          tempCraneOptions.push(temp);
+        }
       }
     });
     setCraneOptions((prev) => tempCraneOptions);
