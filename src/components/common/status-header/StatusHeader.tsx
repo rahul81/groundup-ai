@@ -79,7 +79,7 @@ export default function StatusHeader(props: StatusHeader) {
 
     const options = [
         {
-            label: "Reshcedule Booking",
+            label: "Reschedule Booking",
             href: "#",
         },
         {
@@ -101,6 +101,16 @@ export default function StatusHeader(props: StatusHeader) {
     const handleApprove = () => {
         // Updating booking status from 'pending' to 'scheduled' on click of Approve
         updateBookingStatus({id, status: 'Scheduled'}) 
+    }
+
+    const handleStatus = (args: string) => {
+
+        if (args.indexOf('Reschedule') !== -1) {
+            updateBookingStatus({id, status:'Rescheduled'})
+        } else if(args.indexOf('Reject') !== -1) {
+            updateBookingStatus({id, status: 'Rejected'})
+        }
+
     }
 
 
@@ -143,6 +153,7 @@ export default function StatusHeader(props: StatusHeader) {
                     options={options}
                     className={{ buttonClassName: "gButtonGroup" }}
                     btnStyle={{ backgroundColor: palette.primary.main, color: "white" }}
+                    onClick={handleStatus}
                 />
             </Box>
         </Box>

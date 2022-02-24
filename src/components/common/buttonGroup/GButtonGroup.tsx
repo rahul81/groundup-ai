@@ -7,12 +7,13 @@ interface GButtonGroup {
     id?: string;
     options?: Array<any>;
     title?: string;
-    btnStyle? : object
+    btnStyle? : object;
+    onClick?: (args: any) => void;
 }
 
 export default function GButtonGroup(props: GButtonGroup) {
 
-    const { className={} , id='', options=[], title='', btnStyle={} } = props;
+    const { className={} , id='', options=[], title='', btnStyle={}, onClick = () => ({}) } = props;
     const { buttonClassName = '', listClassName = '', optionClassName = '' } = className;
 
     return (
@@ -24,7 +25,7 @@ export default function GButtonGroup(props: GButtonGroup) {
                 {
                     options && options.map(
                         ({ label, href }) => 
-                        <li><a className={clsx("dropdown-item", optionClassName) }href={href}>{label}</a></li>)
+                        <li onClick={() => onClick(label)} ><a  className={clsx("dropdown-item", optionClassName) }href={href}>{label}</a></li>)
                 }
             </ul>
         </Box>

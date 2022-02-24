@@ -18,38 +18,8 @@ import { useSelector } from "react-redux";
 import { BookingReviewState } from "../../store/reducers/bookingReviewReducer";
 import { RootState } from "../../store/reducers";
 
-const status: GStatusSteps[] = [
-  {
-    key: "Pending",
-    value: "Pending",
-    variant: "outlined"
-  },
-  {
-    key: "Scheduled",
-    value: "Scheduled",
-    variant: "outlined",
-  },
-  {
-    key: "Rescheduled",
-    value: "Rescheduled",
-    variant: "outlined",
-  },
-  {
-    key: "In-Progress",
-    value: "In-Progress",
-    variant: "outlined",
-  },
-  {
-    key: "Completed",
-    value: "Completed",
-    variant: "outlined",
-  },
-  {
-    key: "Rejected",
-    value: "Rejected",
-    variant: "outlined",
-  }
-];
+var status: GStatusSteps[] = [];
+
 
 interface Column {
   id:
@@ -141,24 +111,45 @@ export default function BookingReviewView() {
 
   React.useEffect(() => {
 
-    status.map(statusItem => {
-      if(data.status.props.title.toLocaleLowerCase() === statusItem.value.toLocaleLowerCase()){
+    status = []
 
-        if(data.status.props.title.toLocaleLowerCase() === "rejected"){
-          statusItem["color"] = "error"
-          delete statusItem.variant
+    if (['pending', 'completed','scheduled', 'rescheduled','in-progress'].includes(data.status.props.title.toLocaleLowerCase())){
+
+      let statusArray = ['Pending','Scheduled','In-Progress','Completed']
+
+      statusArray.forEach(statusItem => {
+
+        if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
+
+          status.push({key:statusItem,value:statusItem,color:'primary'})
+          
         } 
-        else{
-          statusItem["color"] = "primary"
-          delete statusItem.variant
+        else if (data.status.props.title.toLocaleLowerCase() === 'rescheduled' && statusItem === 'Scheduled'){
+          status.push({key:'Rescheduled',value:'Rescheduled',color:'primary'})
         }
-        
-      } 
-      else {
-        delete statusItem.color
-        statusItem["variant"] = "outlined"
-      }
-    })
+        else {
+          
+          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+        }
+      })
+
+    } else if (['rejected'].includes(data.status.props.title.toLocaleLowerCase())){
+
+      let statusArray = ['Pending','Scheduled','In-Progress','Rejected']
+      
+      statusArray.forEach(statusItem => {
+
+        if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
+
+          status.push({key:statusItem,value:statusItem,color:'error'})
+          
+        }else{
+          
+          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+        }
+      })
+    }
+
   },[data])
   
 
