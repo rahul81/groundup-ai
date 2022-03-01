@@ -10,7 +10,7 @@ import Settings from './container/settings/Settings';
 import Sample from './container/sample/Sample';
 import HttpInterceptor from './HttpInterceptor';
 import { getToken, onMessageListener } from './firebase';
-import { notificationActionCreator } from './store/action-creators';
+import { notificationActionCreator, userActionCreators } from './store/action-creators';
 import { bindActionCreators } from 'redux';
 import { NotificationState } from './store/reducers/notificationReducer'
 import { useDispatch } from 'react-redux';
@@ -20,13 +20,19 @@ import { setTimeout } from 'timers';
 function App() {
   const dispatch = useDispatch();
   const { setNotification } = bindActionCreators(notificationActionCreator, dispatch)
-
+  const { updateDeviceToken } = bindActionCreators(userActionCreators, dispatch)
+  
   const [refresh, setRefresh] = useState(false);
 
   //Get Notifications using firebase - cloud messaging API
 
   useEffect(() => {
-    getToken();
+    getToken().then((deviceToken) => {
+      if(deviceToken){
+        const userId = localStorage.getItem('userId') || ''
+        updateDeviceToken(userId, deviceToken)
+      }
+    });
   }, [])
   // getToken();
   onMessageListener().then(payload => {
