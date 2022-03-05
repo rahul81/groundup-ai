@@ -31,7 +31,7 @@ interface reqBody {
      status_note?: string
      lifttype_id: string
 }
-export const requestNew = (reqBody: reqBody): AppThunk<void> => {
+export const requestNew = (reqBody: reqBody): any => {
 
     const { crane_id, user_id, start_time, end_time, model_no = 1900, status, status_note = 'Lazy', lifttype_id } = reqBody
 
@@ -41,8 +41,10 @@ export const requestNew = (reqBody: reqBody): AppThunk<void> => {
             .then(response => {
                 const { data: { data = [] } = {} } = response || {};
                 dispatch(requestNewSuccess(data));
+                return response
             }).catch(error => {
                 dispatch(requestNewFailed(error.message));
+                return error;
             });
     }
 }

@@ -50,6 +50,7 @@ interface RequestNewProps {
   open: boolean;
   showDialog: (status: boolean) => void;
   handleSubmit: (data: any) => void;
+  formValues?: RequestNewFormFields;
 }
 
 interface GetAllCranesDataTypes {
@@ -79,6 +80,7 @@ export default function RequestNew({
   open,
   showDialog,
   handleSubmit,
+  formValues
 }: RequestNewProps) {
   const dispatch = useDispatch();
 
@@ -104,7 +106,8 @@ export default function RequestNew({
   const tempLiftOptions: LiftOptionsTypes[] = [];
 
   //Request Booking
-  const { requestNew } = bindActionCreators(bookingsActionCreators, dispatch);
+  const { requestNew, getBookings } = bindActionCreators(bookingsActionCreators, dispatch);
+
 
   React.useEffect(() => {
     fetchCrane();
@@ -141,14 +144,31 @@ export default function RequestNew({
     setLiftOptions((prev) => tempLiftOptions);
   }, [liftTypes]);
 
-  const initialValues: RequestNewFormFields = {
-    date: new Date(),
-    contractor: "",
-    crane: "",
-    activity_type: "",
-    start_time: new Date(),
-    end_time: new Date(),
-  };
+  const initialValues: RequestNewFormFields = (function getValues(){
+
+    if (!formValues){
+      return {
+        date: new Date(),
+        contractor: "",
+        crane: "",
+        activity_type: "",
+        start_time: new Date(),
+        end_time: new Date(),
+      };
+    } else {
+      console.log("FORM VALUES >> ", formValues);
+      return {
+        date: formValues.date,
+        contractor: formValues.contractor,
+        crane: formValues.crane,
+        activity_type: formValues.activity_type,
+        start_time: formValues.start_time,
+        end_time: formValues.end_time,
+      };
+    }
+
+  })();
+
   const crane: GSelectOption[] = craneOptions;
 
   const activity: GSelectOption[] = liftOptions;
@@ -184,6 +204,8 @@ export default function RequestNew({
     validationSchema: requestNewValidationSchema,
     validateOnChange: false,
     onSubmit: () => {
+
+      console.log("SUBMITTING")
       const { date, start_time, end_time, crane, activity_type } = formik.values;
       const selectedDate = date.toISOString().substr(0,10)
   
@@ -205,10 +227,22 @@ export default function RequestNew({
         lifttype_id: liftTypeId,
         status: "Pending",
       };
-
-      requestNew(reqBody);
-    },
+      if ( date.toLocaleDateString() === new Date().toLocaleDateString() && start_time < new Date()) {
+        alert("Start time is less than present time")
+      } else if (start_time > end_time) {
+        alert("Start time is greater than end time")
+      } else {
+        requestNew(reqBody).then((response:any) => {
+          handleSubmit(false);
+          getBookings();
+        }).catch((error:any)=>{
+          //TODO error to display
+        });
+      }
+      },
   });
+
+  console.log("FORMIK req new >> ", formik)
 
   return (
     <GDialog title="Request Booking" open={open} showDialog={showDialog}>

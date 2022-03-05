@@ -240,7 +240,7 @@ export default function BookingView() {
             dataOne["end_time"],
             dataOne["zone"],
             dataOne["crane_id"]["name"],
-            dataOne["tasktype"],
+            dataOne["lifttype_id"][0] ? dataOne["lifttype_id"][0]['name'] : '',
             dataOne["status"]
           );
         tempBookingManagementRows.push(formattedData);
@@ -260,7 +260,7 @@ export default function BookingView() {
           dataOne["end_time"],
           dataOne["zone"],
           dataOne["crane_id"] && dataOne["crane_id"]["name"],
-          dataOne["tasktype"],
+          dataOne["lifttype_id"][0] ? dataOne["lifttype_id"][0]['name'] : '',
           dataOne["status"]
         );
 

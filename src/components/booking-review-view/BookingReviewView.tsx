@@ -17,6 +17,7 @@ import { StatusData } from "../../mockData/StatusHeaderData";
 import { useSelector } from "react-redux";
 import { BookingReviewState } from "../../store/reducers/bookingReviewReducer";
 import { RootState } from "../../store/reducers";
+import RequestNew from "../booking-view/request-new/RequestNew";
 
 var status: GStatusSteps[] = [];
 
@@ -153,10 +154,13 @@ export default function BookingReviewView() {
   },[data])
   
 
-  
+  const [open, setOpen] = useState(false);
+  const handleShowDialog = (status: boolean) => {
+    setOpen(status);
+  };
   
 
-  const initialValues: BookingReviewFormType = {
+  const initialValuesReview: BookingReviewFormType = {
     location: "",
     crane: "",
     activity_type: "",
@@ -166,12 +170,14 @@ export default function BookingReviewView() {
     add_comment: "",
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: bookingReviewValidationSchema,
+  const formikReview = useFormik({
+    initialValues: initialValuesReview,
+    // validationSchema: ,
     validateOnChange: false,
     onSubmit: () => {},
   });
+
+  // console.log("DATA >> ", data)
 
   return (
     <>
@@ -188,37 +194,37 @@ export default function BookingReviewView() {
         </Link>
       </Box>
       <br />
-      <StatusHeader data={data}/>
+      <StatusHeader data={data} handleShowDialog={handleShowDialog}/>
       <br />
       <GStatus title="Status" steps={status} />
       <br />
       <Box>
         <GPane label="Booking Details">
-          <form
-            id="request-new-form"
+          <div
+            id="booking-review-form"
             className="groundup-form"
-            onSubmit={formik.handleSubmit}
+            onSubmit={() => {}}
           >
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="location"
               label="Location"
             />
 
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="crane"
               label="Crane"
             />
 
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="activity_type"
               label="Activity Type"
             />
 
             <GTextarea<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="description"
               label="Description"
               fullWidth={true}
@@ -227,7 +233,7 @@ export default function BookingReviewView() {
             <Grid xs={8} container>
               <Grid xs={3}>
                 <GFormDatePicker<BookingReviewFormType>
-                  formik={formik}
+                  formik={formikReview}
                   id="start_time"
                   label="Time Start"
                   timeonly={true}
@@ -235,32 +241,32 @@ export default function BookingReviewView() {
               </Grid>
               <Grid xs={3}>
                 <GFormDatePicker<BookingReviewFormType>
-                  formik={formik}
+                  formik={formikReview}
                   id="end_time"
                   label="End Start"
                   timeonly={true}
                 />
               </Grid>
             </Grid>
-          </form>
+          </div>
         </GPane>
         <br />
         <GPane label="Schedule">
           <GTable rows={rows} columns={columns} />
         </GPane>
 
-        {/* <GPane label="Activity">
+        <GPane label="Activity">
 
-        </GPane> */}
+        </GPane>
         <br />
         <GPane label="Add Comment">
           <form
-            id="request-new-form"
+            id="review-comment-form"
             className="groundup-form"
-            onSubmit={formik.handleSubmit}
+            onSubmit={() => {}}
           >
             <GTextarea<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="add_comment"
               label="Write Comment below"
               fullWidth={true}
@@ -273,6 +279,23 @@ export default function BookingReviewView() {
             />
           </form>
         </GPane>
+        </Box>
+      <Box> 
+      <RequestNew
+            open={open}
+            showDialog={handleShowDialog}
+            handleSubmit={() => {
+              setOpen(false);
+            }}
+            formValues={{
+              date: new Date(data.date),
+              contractor: "",
+              crane: data.crane,
+              activity_type: data.taskType,
+              start_time: new Date(data.date + " "+ data.timeStart),
+              end_time: new Date(data.date + " "+  data.timeEnd),
+            }}
+            />
       </Box>
     </>
   );
