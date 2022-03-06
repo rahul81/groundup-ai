@@ -17,6 +17,7 @@ interface StatusHeader {
     ButtonTitle?: string;
     ButtonGroupTitle?: string;
     options?: Array<any>;
+    handleShowDialog?: (data:boolean) => void;
     data: {
         id: string;
         date: string;
@@ -43,7 +44,7 @@ export default function StatusHeader(props: StatusHeader) {
 
     //DATA destructuring
 
-    const { data } = props; 
+    const { data, handleShowDialog = () => {} } = props; 
     const { id } = data;
 
     const status = data.status.props.title;
@@ -79,7 +80,7 @@ export default function StatusHeader(props: StatusHeader) {
 
     const options = [
         {
-            label: "Reschedule Booking",
+            label: data.status.props.title.toLowerCase() === 'pending' ? "Update Booking" : ("scheduled".indexOf(data.status.props.title.toLowerCase()) !== -1 || "rescheduled".indexOf(data.status.props.title.toLowerCase()) !== -1)  ? 'Reschedule Booking' : '',
             href: "#",
         },
         {
@@ -105,8 +106,9 @@ export default function StatusHeader(props: StatusHeader) {
 
     const handleStatus = (args: string) => {
 
-        if (args.indexOf('Reschedule') !== -1) {
-            updateBookingStatus({id, status:'Rescheduled'})
+        if (args.indexOf('Reschedule') !== -1 || args.indexOf('Update') !== -1) {
+            // updateBookingStatus({id, status:'Rescheduled'})
+            handleShowDialog(true)
         } else if(args.indexOf('Reject') !== -1) {
             updateBookingStatus({id, status: 'Rejected'})
         }

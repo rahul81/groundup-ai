@@ -52,6 +52,7 @@ export default function GFormDatePicker<T extends FormikValues>({formik, id, lab
                     {...timeProps}
                     selected={formik.values[id]}
                     ref={datepickerRef}
+                    minDate={new Date()}
                     onChange={(value)=>{
                         setFieldValue(id, value, true);
                     }}
