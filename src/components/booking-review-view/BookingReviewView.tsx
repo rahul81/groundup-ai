@@ -17,8 +17,9 @@ import { StatusData } from "../../mockData/StatusHeaderData";
 import { useSelector } from "react-redux";
 import { BookingReviewState } from "../../store/reducers/bookingReviewReducer";
 import { RootState } from "../../store/reducers";
+import RequestNew from "../booking-view/request-new/RequestNew";
 
-var status: GStatusSteps[] = [];
+// var status: GStatusSteps[] = [];
 
 
 interface Column {
@@ -109,9 +110,13 @@ export default function BookingReviewView() {
     (state: RootState) => state.bookingReview
   );
 
+  const [status, setStatus] = useState<GStatusSteps[]>([]);
+
   React.useEffect(() => {
 
-    status = []
+    setStatus([])
+
+    let tempStatus: GStatusSteps[] = []
 
     if (['pending', 'completed','scheduled', 'rescheduled','in-progress'].includes(data.status.props.title.toLocaleLowerCase())){
 
@@ -121,15 +126,15 @@ export default function BookingReviewView() {
 
         if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
 
-          status.push({key:statusItem,value:statusItem,color:'primary'})
+          tempStatus.push({key:statusItem,value:statusItem,color:'primary'})
           
         } 
         else if (data.status.props.title.toLocaleLowerCase() === 'rescheduled' && statusItem === 'Scheduled'){
-          status.push({key:'Rescheduled',value:'Rescheduled',color:'primary'})
+          tempStatus.push({key:'Rescheduled',value:'Rescheduled',color:'primary'})
         }
         else {
           
-          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+          tempStatus.push({key:statusItem,value:statusItem,variant:'outlined'})
         }
       })
 
@@ -141,22 +146,27 @@ export default function BookingReviewView() {
 
         if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
 
-          status.push({key:statusItem,value:statusItem,color:'error'})
+          tempStatus.push({key:statusItem,value:statusItem,color:'error'})
           
         }else{
           
-          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+          tempStatus.push({key:statusItem,value:statusItem,variant:'outlined'})
         }
       })
     }
 
+    setStatus(tempStatus)
+
   },[data])
   
 
-  
+  const [open, setOpen] = useState(false);
+  const handleShowDialog = (status: boolean) => {
+    setOpen(status);
+  };
   
 
-  const initialValues: BookingReviewFormType = {
+  const initialValuesReview: BookingReviewFormType = {
     location: "",
     crane: "",
     activity_type: "",
@@ -166,12 +176,14 @@ export default function BookingReviewView() {
     add_comment: "",
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: bookingReviewValidationSchema,
+  const formikReview = useFormik({
+    initialValues: initialValuesReview,
+    // validationSchema: ,
     validateOnChange: false,
     onSubmit: () => {},
   });
+
+  // console.log("DATA >> ", data)
 
   return (
     <>
@@ -188,37 +200,37 @@ export default function BookingReviewView() {
         </Link>
       </Box>
       <br />
-      <StatusHeader data={data}/>
+      <StatusHeader data={data} handleShowDialog={handleShowDialog}/>
       <br />
       <GStatus title="Status" steps={status} />
       <br />
       <Box>
         <GPane label="Booking Details">
-          <form
-            id="request-new-form"
+          <div
+            id="booking-review-form"
             className="groundup-form"
-            onSubmit={formik.handleSubmit}
+            onSubmit={() => {}}
           >
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="location"
               label="Location"
             />
 
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="crane"
               label="Crane"
             />
 
             <GFormInput<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="activity_type"
               label="Activity Type"
             />
 
             <GTextarea<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="description"
               label="Description"
               fullWidth={true}
@@ -227,7 +239,7 @@ export default function BookingReviewView() {
             <Grid xs={8} container>
               <Grid xs={3}>
                 <GFormDatePicker<BookingReviewFormType>
-                  formik={formik}
+                  formik={formikReview}
                   id="start_time"
                   label="Time Start"
                   timeonly={true}
@@ -235,32 +247,32 @@ export default function BookingReviewView() {
               </Grid>
               <Grid xs={3}>
                 <GFormDatePicker<BookingReviewFormType>
-                  formik={formik}
+                  formik={formikReview}
                   id="end_time"
                   label="End Start"
                   timeonly={true}
                 />
               </Grid>
             </Grid>
-          </form>
+          </div>
         </GPane>
         <br />
         <GPane label="Schedule">
           <GTable rows={rows} columns={columns} />
         </GPane>
 
-        {/* <GPane label="Activity">
+        <GPane label="Activity">
 
-        </GPane> */}
+        </GPane>
         <br />
         <GPane label="Add Comment">
           <form
-            id="request-new-form"
+            id="review-comment-form"
             className="groundup-form"
-            onSubmit={formik.handleSubmit}
+            onSubmit={() => {}}
           >
             <GTextarea<BookingReviewFormType>
-              formik={formik}
+              formik={formikReview}
               id="add_comment"
               label="Write Comment below"
               fullWidth={true}
@@ -273,6 +285,25 @@ export default function BookingReviewView() {
             />
           </form>
         </GPane>
+        </Box>
+      <Box> 
+      <RequestNew
+            open={open}
+            showDialog={handleShowDialog}
+            handleSubmit={() => {
+              setOpen(false);
+            }}
+            formValues={{
+              date: new Date(data.date),
+              contractor: "",
+              crane: data.crane,
+              activity_type: data.taskType,
+              start_time: new Date(data.date + " "+ data.timeStart),
+              end_time: new Date(data.date + " "+  data.timeEnd),
+            }}
+            bookingId={data.id}
+            bookingStatus={data.status.props.title}
+            />
       </Box>
     </>
   );

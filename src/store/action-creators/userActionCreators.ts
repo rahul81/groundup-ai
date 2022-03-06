@@ -54,3 +54,14 @@ export const updateUser = (userId: number, email: string, name: string, role: st
             });
     }
 }
+
+export const updateDeviceToken = (userId:string, deviceToken:string): AppThunk<void>=> {
+    return async (dispatch: Dispatch<Action>) => {
+        return await axios.put(UPDATE_USER + userId, { deviceToken: [deviceToken] })
+        .then(response => {
+            dispatch(editUserSuccess());
+        }).catch(error => {
+            dispatch(editUserFailed(error));
+        })
+    }
+}
