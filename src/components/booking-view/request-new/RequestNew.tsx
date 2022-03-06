@@ -36,6 +36,8 @@ import { bookingsActionCreators } from "../../../store/action-creators";
 import { GetCraneState } from "../../../store/reducers/craneReducer";
 import { GetActivityState } from "../../../store/reducers/activityReducer";
 import { number } from "yup/lib/locale";
+import { HOME_BOOKING } from "../../../constants/ContextPaths";
+import { useHistory } from "react-router-dom";
 
 interface RequestNewFormFields {
   contractor: string;
@@ -51,6 +53,8 @@ interface RequestNewProps {
   showDialog: (status: boolean) => void;
   handleSubmit: (data: any) => void;
   formValues?: RequestNewFormFields;
+  bookingId?: string;
+  bookingStatus?: string;
 }
 
 interface GetAllCranesDataTypes {
@@ -80,9 +84,12 @@ export default function RequestNew({
   open,
   showDialog,
   handleSubmit,
-  formValues
+  formValues,
+  bookingId = '',
+  bookingStatus = ''
 }: RequestNewProps) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   //Get All Cranes
   const { fetchCrane } = bindActionCreators(craneActionCreator, dispatch);
@@ -205,9 +212,10 @@ export default function RequestNew({
     validateOnChange: false,
     onSubmit: () => {
 
-      console.log("SUBMITTING")
       const { date, start_time, end_time, crane, activity_type } = formik.values;
-      const selectedDate = date.toISOString().substr(0,10)
+      let dateCopy = new Date(date)
+      const tempdate = new Date(dateCopy.setHours(dateCopy.getHours() + 6))
+      const selectedDate = tempdate.toISOString().substr(0,10)
   
       let craneId = "";
       let liftTypeId = "";
@@ -219,30 +227,61 @@ export default function RequestNew({
         option.value === activity_type ? (liftTypeId = option._id) : ""
       );
 
-      const reqBody = {
-        crane_id: craneId,
-        user_id: localStorage.getItem("userId")?.toString() || "",
-        start_time: dateFormat(selectedDate, start_time),
-        end_time: dateFormat(selectedDate, end_time),
-        lifttype_id: liftTypeId,
-        status: "Pending",
-      };
-      if ( date.toLocaleDateString() === new Date().toLocaleDateString() && start_time < new Date()) {
+      
+      if ( tempdate.toLocaleDateString() === new Date().toLocaleDateString() && start_time < new Date()) {
         alert("Start time is less than present time")
       } else if (start_time > end_time) {
         alert("Start time is greater than end time")
       } else {
-        requestNew(reqBody).then((response:any) => {
-          handleSubmit(false);
-          getBookings();
-        }).catch((error:any)=>{
-          //TODO error to display
-        });
+
+        if (bookingId){
+
+          console.log("Booking status >> ", bookingStatus)
+
+          const reqBody = {
+            crane_id: craneId,
+            user_id: localStorage.getItem("userId")?.toString() || "",
+            start_time: dateFormat(selectedDate, start_time),
+            end_time: dateFormat(selectedDate, end_time),
+            lifttype_id: liftTypeId,
+            status: bookingStatus.toLowerCase() === 'pending' ? "Pending" : "Rescheduled",
+            update:true,
+            bookingId:bookingId
+          };
+
+          console.log("REQ BODY >> ", reqBody);
+
+          requestNew(reqBody).then((response:any) => {
+            handleSubmit(false);
+            history.push(HOME_BOOKING)
+          }).catch((error:any)=>{
+            //TODO error to display
+          });
+
+        } else {
+
+          const reqBody = {
+            crane_id: craneId,
+            user_id: localStorage.getItem("userId")?.toString() || "",
+            start_time: dateFormat(selectedDate, start_time),
+            end_time: dateFormat(selectedDate, end_time),
+            lifttype_id: liftTypeId,
+            status: "Pending",
+          };
+
+          console.log("New req body >> ", reqBody);
+
+          requestNew(reqBody).then((response:any) => {
+            handleSubmit(false);
+            getBookings();
+          }).catch((error:any)=>{
+            //TODO error to display
+          });
+        }
       }
       },
   });
 
-  console.log("FORMIK req new >> ", formik)
 
   return (
     <GDialog title="Request Booking" open={open} showDialog={showDialog}>

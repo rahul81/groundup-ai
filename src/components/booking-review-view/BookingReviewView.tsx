@@ -19,7 +19,7 @@ import { BookingReviewState } from "../../store/reducers/bookingReviewReducer";
 import { RootState } from "../../store/reducers";
 import RequestNew from "../booking-view/request-new/RequestNew";
 
-var status: GStatusSteps[] = [];
+// var status: GStatusSteps[] = [];
 
 
 interface Column {
@@ -110,9 +110,13 @@ export default function BookingReviewView() {
     (state: RootState) => state.bookingReview
   );
 
+  const [status, setStatus] = useState<GStatusSteps[]>([]);
+
   React.useEffect(() => {
 
-    status = []
+    setStatus([])
+
+    let tempStatus: GStatusSteps[] = []
 
     if (['pending', 'completed','scheduled', 'rescheduled','in-progress'].includes(data.status.props.title.toLocaleLowerCase())){
 
@@ -122,15 +126,15 @@ export default function BookingReviewView() {
 
         if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
 
-          status.push({key:statusItem,value:statusItem,color:'primary'})
+          tempStatus.push({key:statusItem,value:statusItem,color:'primary'})
           
         } 
         else if (data.status.props.title.toLocaleLowerCase() === 'rescheduled' && statusItem === 'Scheduled'){
-          status.push({key:'Rescheduled',value:'Rescheduled',color:'primary'})
+          tempStatus.push({key:'Rescheduled',value:'Rescheduled',color:'primary'})
         }
         else {
           
-          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+          tempStatus.push({key:statusItem,value:statusItem,variant:'outlined'})
         }
       })
 
@@ -142,14 +146,16 @@ export default function BookingReviewView() {
 
         if (data.status.props.title.toLocaleLowerCase() === statusItem.toLocaleLowerCase()){
 
-          status.push({key:statusItem,value:statusItem,color:'error'})
+          tempStatus.push({key:statusItem,value:statusItem,color:'error'})
           
         }else{
           
-          status.push({key:statusItem,value:statusItem,variant:'outlined'})
+          tempStatus.push({key:statusItem,value:statusItem,variant:'outlined'})
         }
       })
     }
+
+    setStatus(tempStatus)
 
   },[data])
   
@@ -295,6 +301,8 @@ export default function BookingReviewView() {
               start_time: new Date(data.date + " "+ data.timeStart),
               end_time: new Date(data.date + " "+  data.timeEnd),
             }}
+            bookingId={data.id}
+            bookingStatus={data.status.props.title}
             />
       </Box>
     </>

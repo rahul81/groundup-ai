@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { Action, bookingsSuccess, bookingsFailed, requestNewSuccess, requestNewFailed } from '../actions/bookingsAction';
 import axios from 'axios';
-import { BOOKINGS, REQUEST_NEW } from '../../constants/Api';
+import { BOOKINGS, REQUEST_NEW, UPDATE_BOOKING } from '../../constants/Api';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../reducers';
 
@@ -30,14 +30,19 @@ interface reqBody {
      status: string
      status_note?: string
      lifttype_id: string
+     update?: boolean,
+     bookingId?: string
 }
 export const requestNew = (reqBody: reqBody): any => {
 
-    const { crane_id, user_id, start_time, end_time, model_no = 1900, status, status_note = 'Lazy', lifttype_id } = reqBody
+    const { crane_id, user_id, start_time, end_time, model_no = 1900, status, status_note = 'Lazy', lifttype_id,  update=false, bookingId='' } = reqBody
+
+    const URL = update ? UPDATE_BOOKING + bookingId : REQUEST_NEW
+
 
     return async (dispatch: Dispatch<Action>) => {
 
-        return await axios.post(REQUEST_NEW, { crane_id, user_id, start_time, end_time, model_no, status, status_note, lifttype_id })
+        return await axios({method: update ? 'put':'post', url:URL, data:{ crane_id, user_id, start_time, end_time, model_no, status, status_note, lifttype_id }})
             .then(response => {
                 const { data: { data = [] } = {} } = response || {};
                 dispatch(requestNewSuccess(data));
